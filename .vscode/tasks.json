@@ -1,0 +1,25 @@
+{
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build exercise",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-std=c++11",
+                "-o",
+                "${fileDirname}/../bin/${fileBasenameNoExtension}",
+                "${relativeFile}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+              }
+        }
+    ]
+}
