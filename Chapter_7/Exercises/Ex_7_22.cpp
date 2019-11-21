@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     for (size_t r_start{0}; r_start < NUM_ROWS; r_start++) {
 
-        for (size_t c_start{0}; c_start < 1; c_start++) {
+        for (size_t c_start{0}; c_start < NUM_COLUMNS; c_start++) {
 
             currentRow = r_start;
             currentColumn = c_start;
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 /* flushBoard: set chess board to all zeroes */
 void flushBoard(std::array<std::array<uint8_t, NUM_COLUMNS>, NUM_ROWS> &board) {
     for (std::array<uint8_t, NUM_COLUMNS>& row : board)
-        for(uint8_t space : row)
+        for(uint8_t& space : row)
             space = 0;
 }
 
