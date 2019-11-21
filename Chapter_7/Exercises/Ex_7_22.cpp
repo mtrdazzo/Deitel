@@ -19,8 +19,10 @@ typedef std::array<uint8_t, NUM_COLUMNS> t_column;
 typedef std::array<t_column, NUM_ROWS> t_board;
 void flushBoard(t_board &);
 void printBoard(t_board &);
+bool onBoard(uint8_t, uint8_t);
 bool checkSpace(uint8_t, uint8_t, t_board&);
-void updateAvailability(t_board&, t_board&);
+void initAvailability(t_board &avail);
+void updateAvailability(uint8_t, uint8_t, t_board&);
 void printAvailability(t_board&);
 
 const std::array<int8_t, NUM_MOVES> vertical{2,1,-1,-2,-2,-1,1,2};
@@ -50,11 +52,12 @@ int main(int argc, char **argv) {
             moveNumber = 1;
 
             flushBoard(chess_board);
+            initAvailability(availability);
             std::cout << "Starting at: (" << static_cast<int>(r_start+1)
                       << ", " << static_cast<int>(c_start+1) << ")" << std::endl;
 
             chess_board[currentRow][currentColumn] = moveNumber;
-            updateAvailability(availability, chess_board);
+            updateAvailability(currentRow, currentColumn, availability);
 
             while (moveNumber < NUM_ROWS * NUM_COLUMNS) {
 
@@ -74,7 +77,7 @@ int main(int argc, char **argv) {
                 currentColumn += horizontal[lowestIndex];
                 ++moveNumber;
                 chess_board[currentRow][currentColumn] = moveNumber;
-                updateAvailability(availability, chess_board);
+                updateAvailability(currentRow, currentColumn, availability);
             }
             printBoard(chess_board);
         }
@@ -90,22 +93,18 @@ void flushBoard(t_board &board) {
 }
 
 /* updateAvailability: update availability array */
-void updateAvailability(t_board& avail, t_board& board) {
+void updateAvailability(uint8_t row, uint8_t column, t_board& avail) {
+    avail[row][column] = 0;
+    uint8_t newRow;
+    uint8_t newColumn;
+    for(uint8_t index{0}; index < NUM_MOVES; index++) {
+        newRow = row + vertical[index];
+        newColumn = column + horizontal[index];
 
-    for(size_t i{0}; i < NUM_ROWS; i++)
-        for(size_t j{0}; j < NUM_COLUMNS; j++)
-            avail[i][j] = 0;
-
-    for(size_t i{0}; i < NUM_ROWS; i++)
-        for(size_t j{0}; j < NUM_COLUMNS; j++) {
-            if (!checkSpace(i, j, board)) {
-                avail[i][j] = 0;
-                continue;
-            }
-            for (size_t k{0}; k < NUM_MOVES; k++)
-                if (checkSpace(i + horizontal[k], j + vertical[k], board))
-                    ++avail[i + horizontal[k]][j + vertical[k]];
-        }
+        if (onBoard(newRow, newColumn) && avail[newRow][newColumn])
+            --avail[newRow][newColumn];
+    }
+}
 
 /* initAvailability: initialize availability array */
 void initAvailability(t_board &avail) {
@@ -146,13 +145,12 @@ void printBoard(t_board& board) {
     std::cout << std::endl;
 }
 
+/* onBoard: check if space is on the chess board */
+bool onBoard(uint8_t row, uint8_t column) {
+    return ( row >= 0 && row < NUM_COLUMNS && column >= 0 && column < NUM_ROWS );
+}
+
 /* checkSpace: check if chessBoard space at (row, column) is valid */
-bool checkSpace(uint8_t row,
-                uint8_t column,
-                t_board &board) {
-    return (row >= 0 &&
-            row < NUM_COLUMNS &&
-            column >= 0 &&
-            column < NUM_ROWS &&
-            !board[row][column]);
+bool checkSpace(uint8_t row, uint8_t column, t_board &board) {
+    return onBoard(row, column) && !board[row][column];
 }
