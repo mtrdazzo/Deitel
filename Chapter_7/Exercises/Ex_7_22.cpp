@@ -106,6 +106,17 @@ void updateAvailability(t_board& avail, t_board& board) {
                 if (checkSpace(i + horizontal[k], j + vertical[k], board))
                     ++avail[i + horizontal[k]][j + vertical[k]];
         }
+
+/* initAvailability: initialize availability array */
+void initAvailability(t_board &avail) {
+
+    flushBoard(avail);
+
+    for(size_t row{0}; row < NUM_ROWS; row++)
+        for(size_t col{0}; col < NUM_COLUMNS; col++)
+            for (size_t move{0}; move < NUM_MOVES; move++)
+                if (onBoard(row + horizontal[move], col + vertical[move]))
+                    ++avail[row + horizontal[move]][col + vertical[move]];
 }
 
 /* printAvailability: print availability board */
