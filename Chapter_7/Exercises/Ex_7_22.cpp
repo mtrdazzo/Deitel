@@ -9,16 +9,15 @@
 #include <array>
 #include <iomanip>
 #include <cstdlib>
-using namespace std;
 
 #define NUM_ROWS    0x08
 #define NUM_COLUMNS 0x08
 #define NUM_MOVES   0x08
 
-array<array<int8_t, NUM_COLUMNS>, NUM_ROWS> chess_board{ 0 };
-array<array<uint8_t, NUM_COLUMNS>, NUM_ROWS> availability{0};
-const array<int8_t, NUM_MOVES> vertical{2,1,-1,-2,-2,-1,1,2};
-const array<int8_t, NUM_MOVES> horizontal{-1,-2,-2,-1,1,2,2,1};
+std::array<std::array<int8_t, NUM_COLUMNS>, NUM_ROWS> chess_board{ 0 };
+std::array<std::array<uint8_t, NUM_COLUMNS>, NUM_ROWS> availability{0};
+const std::array<int8_t, NUM_MOVES> vertical{2,1,-1,-2,-2,-1,1,2};
+const std::array<int8_t, NUM_MOVES> horizontal{-1,-2,-2,-1,1,2,2,1};
 
 void printBoard(void);
 bool checkSpace(uint8_t, uint8_t);
@@ -45,7 +44,7 @@ int main(int argc, char **argv) {
             currentColumn = c_start;
             moveNumber = 1;
 
-            cout << "Starting at: (" << static_cast<int>(r_start+1) << ", " << static_cast<int>(c_start+1) << ")" << endl;
+            std::cout << "Starting at: (" << static_cast<int>(r_start+1) << ", " << static_cast<int>(c_start+1) << ")" << std::endl;
 
             for (uint8_t row{0}; row < NUM_ROWS; row++)
                 for (uint8_t column{0}; column < NUM_COLUMNS; column++)
@@ -103,27 +102,27 @@ void updateAvailability(void) {
 void printAvailability(void) {
     for(size_t i{0}; i < NUM_ROWS; i++) {
         for(size_t j{0}; j < NUM_COLUMNS; j++)
-            cout << static_cast<int>(availability[i][j]) << " ";
-        cout << endl;
+            std::cout << static_cast<int>(availability[i][j]) << " ";
+        std::cout << std::endl;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /* printBoard: print the chess board */
 void printBoard(void) {
 
-    cout << "  ";
+    std::cout << "  ";
     for (int column{0}; column < NUM_COLUMNS; column++)
-        cout << setw(2) << column + 1 << " ";
-    cout << endl;
+        std::cout << std::setw(2) << column + 1 << " ";
+    std::cout << std::endl;
 
     for(uint8_t row{0}; row < chess_board.size(); row++) {
-        cout << static_cast<int>(row+1) << " ";
+        std::cout << static_cast<int>(row+1) << " ";
         for (uint8_t column{0}; column < NUM_ROWS; column++)
-            cout << setw(2) << static_cast<int>(chess_board[row][column]) << " ";
-        cout << endl;
+            std::cout << std::setw(2) << static_cast<int>(chess_board[row][column]) << " ";
+        std::cout << std::endl;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /* checkSpace: check if chessBoard space at (row, column) is valid */
