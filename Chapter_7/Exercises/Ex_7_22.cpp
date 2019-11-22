@@ -8,88 +8,46 @@
 #include <iostream>
 #include <array>
 #include <iomanip>
-#include <cstdlib>
-
-#define NUM_ROWS         0x08
-#define NUM_COLUMNS      0x08
-#define NUM_MOVES        0x08
-#define MAX_AVAILABILITY 0x08
-
-typedef std::array<uint8_t, NUM_COLUMNS> t_column;
-typedef std::array<t_column, NUM_ROWS> t_board;
-void flushBoard(t_board &);
-void printBoard(t_board &);
-bool onBoard(uint8_t, uint8_t);
-bool checkSpace(uint8_t, uint8_t, t_board&);
-void initAvailability(t_board &avail);
-void updateAvailability(uint8_t, uint8_t, t_board&);
-void printAvailability(t_board&);
+#include "Ex_7_22.h"
 
 const std::array<int8_t, NUM_MOVES> vertical{2,1,-1,-2,-2,-1,1,2};
 const std::array<int8_t, NUM_MOVES> horizontal{-1,-2,-2,-1,1,2,2,1};
 
-int main(int argc, char **argv) {
+/* knightsTour: Run the knight around the chessboard starting at (currentRow, currentColumn) */
+t_board knightsTour(uint8_t currentRow, uint8_t currentColumn) {
 
-    uint8_t moveNumber;
+    uint8_t moveNumber{1};
     uint8_t newRow;
     uint8_t newColumn;
-    uint8_t currentRow;
-    uint8_t currentColumn;
     int8_t lowestAvailability;
     int8_t lowestIndex;
-
     t_board chess_board{0};
     t_board availability{0};
 
-    srand(static_cast<unsigned int>(time(0)));
+    initAvailability(availability);
+    chess_board[currentRow][currentColumn] = moveNumber;
+    updateAvailability(currentRow, currentColumn, availability);
 
-    for (size_t r_start{0}; r_start < NUM_ROWS; r_start++) {
+    while (moveNumber < BOARD_SPACES) {
 
-        for (size_t c_start{0}; c_start < NUM_COLUMNS; c_start++) {
+        lowestAvailability = MAX_AVAILABILITY;
+        lowestIndex = -1;
 
-            currentRow = r_start;
-            currentColumn = c_start;
-            moveNumber = 1;
-
-            flushBoard(chess_board);
-            initAvailability(availability);
-            std::cout << "Starting at: (" << static_cast<int>(r_start+1)
-                      << ", " << static_cast<int>(c_start+1) << ")" << std::endl;
-
-            chess_board[currentRow][currentColumn] = moveNumber;
-            updateAvailability(currentRow, currentColumn, availability);
-
-            while (moveNumber < NUM_ROWS * NUM_COLUMNS) {
-
-                lowestAvailability = MAX_AVAILABILITY;
-                lowestIndex = -1;
-
-                for (size_t move{0}; move < NUM_MOVES; ++move) {
-                    newRow = currentRow + vertical[move];
-                    newColumn = currentColumn + horizontal[move];
-                    if (checkSpace(newRow, newColumn, chess_board) && (availability[newRow][newColumn] < lowestAvailability)) {
-                        lowestAvailability = availability[newRow][newColumn];
-                        lowestIndex = move;
-                    }
-                }
-
-                currentRow += vertical[lowestIndex];
-                currentColumn += horizontal[lowestIndex];
-                ++moveNumber;
-                chess_board[currentRow][currentColumn] = moveNumber;
-                updateAvailability(currentRow, currentColumn, availability);
+        for (size_t move{0}; move < NUM_MOVES; ++move) {
+            newRow = currentRow + vertical[move];
+            newColumn = currentColumn + horizontal[move];
+            if (checkSpace(newRow, newColumn, chess_board) && (availability[newRow][newColumn] < lowestAvailability)) {
+                lowestAvailability = availability[newRow][newColumn];
+                lowestIndex = move;
             }
-            printBoard(chess_board);
         }
-    }
-    return EXIT_SUCCESS;
-}
 
-/* flushBoard: set chess board to all zeroes */
-void flushBoard(t_board &board) {
-    for (std::array<uint8_t, NUM_COLUMNS>& row : board)
-        for(uint8_t& space : row)
-            space = 0;
+        currentRow += vertical[lowestIndex];
+        currentColumn += horizontal[lowestIndex];
+        chess_board[currentRow][currentColumn] = ++moveNumber;
+        updateAvailability(currentRow, currentColumn, availability);
+    }
+    return chess_board;
 }
 
 /* updateAvailability: update availability array */
@@ -108,8 +66,6 @@ void updateAvailability(uint8_t row, uint8_t column, t_board& avail) {
 
 /* initAvailability: initialize availability array */
 void initAvailability(t_board &avail) {
-
-    flushBoard(avail);
 
     for(size_t row{0}; row < NUM_ROWS; row++)
         for(size_t col{0}; col < NUM_COLUMNS; col++)
@@ -130,7 +86,6 @@ void printAvailability(t_board& avail) {
 
 /* printBoard: print the chess board */
 void printBoard(t_board& board) {
-
     std::cout << "  ";
     for (int column{0}; column < NUM_COLUMNS; column++)
         std::cout << std::setw(2) << column + 1 << " ";
