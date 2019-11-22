@@ -1,7 +1,8 @@
 /*
  * Exercise 7-22 Knight's Tour
  *
- * Write a program to move the knight around the chessboard. Run the program.
+ * Write a program to move the knight around an empty chessboard and touch each of
+ * the 64 squares once and only once.
  *
  */
 
