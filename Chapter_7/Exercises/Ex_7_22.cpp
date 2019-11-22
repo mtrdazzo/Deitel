@@ -11,10 +11,20 @@
 #include <iomanip>
 #include "Ex_7_22.h"
 
-const std::array<int8_t, NUM_MOVES> vertical{2,1,-1,-2,-2,-1,1,2};
-const std::array<int8_t, NUM_MOVES> horizontal{-1,-2,-2,-1,1,2,2,1};
+/* arrays of possible move combinations by a knight */
+t_move vertical{2,1,-1,-2,-2,-1,1,2};
+t_move horizontal{-1,-2,-2,-1,1,2,2,1};
 
-/* knightsTour: Run the knight around the chessboard starting at (currentRow, currentColumn) */
+/**
+ * Move the knight around the chess board.
+ *
+ * Moves a knight starting at currentRow and currentColumn around the chess board
+ * touching each of the 64 squares once and only once.
+ *
+ * @param currentRow    Starting row on chess board [1,8]
+ * @param currentColumn Starting column on chess board [1,8]
+ * @return 8 x 8 array of knight's moves from 1 to 64 at each position on the chess boards
+ */
 t_board knightsTour(uint8_t currentRow, uint8_t currentColumn) {
 
     uint8_t moveNumber{1};
@@ -25,15 +35,21 @@ t_board knightsTour(uint8_t currentRow, uint8_t currentColumn) {
     t_board chess_board{0};
     t_board availability{0};
 
+    /* starting row or column out of bounds */
+    if (currentRow < 1 || currentRow > NUM_ROWS || currentColumn < 1 || currentColumn > NUM_COLUMNS)
+        return chess_board;
+
     initAvailability(availability);
-    chess_board[currentRow][currentColumn] = moveNumber;
+    /* convert row and column to index values */
+    chess_board[--currentRow][--currentColumn] = moveNumber;
     updateAvailability(currentRow, currentColumn, availability);
 
     while (moveNumber < BOARD_SPACES) {
 
-        lowestAvailability = MAX_AVAILABILITY;
+        lowestAvailability = MAX_AVAILABILITY + 1;
         lowestIndex = -1;
 
+        /* find valid move to space with lowest availability */
         for (size_t move{0}; move < NUM_MOVES; ++move) {
             newRow = currentRow + vertical[move];
             newColumn = currentColumn + horizontal[move];
@@ -43,6 +59,7 @@ t_board knightsTour(uint8_t currentRow, uint8_t currentColumn) {
             }
         }
 
+        /* move knight to new position, update availability */
         currentRow += vertical[lowestIndex];
         currentColumn += horizontal[lowestIndex];
         chess_board[currentRow][currentColumn] = ++moveNumber;
@@ -51,8 +68,19 @@ t_board knightsTour(uint8_t currentRow, uint8_t currentColumn) {
     return chess_board;
 }
 
-/* updateAvailability: update availability array */
+/**
+ * Update the availability of the chess board.
+ *
+ * After a knight moves to space (row, column) the spcaes which could previously access
+ * this spaces must be updated.
+ *
+ * @param row    Row of knight chess board
+ * @param column Column of knight chess board
+ * @param avail  2D (8 x 8) array representing the availability of each square on the chess board
+ * @return void
+ */
 void updateAvailability(uint8_t row, uint8_t column, t_board& avail) {
+
     avail[row][column] = 0;
     uint8_t newRow;
     uint8_t newColumn;
@@ -65,7 +93,14 @@ void updateAvailability(uint8_t row, uint8_t column, t_board& avail) {
     }
 }
 
-/* initAvailability: initialize availability array */
+/**
+ * Initialize the availability of the chess board.
+ *
+ * Initialize the avialability array of a blank chess board.
+ *
+ * @param avail  2D (8 x 8) array representing the availability of each square on the chess board
+ * @return void
+ */
 void initAvailability(t_board &avail) {
 
     for(size_t row{0}; row < NUM_ROWS; row++)
@@ -75,17 +110,14 @@ void initAvailability(t_board &avail) {
                     ++avail[row + horizontal[move]][col + vertical[move]];
 }
 
-/* printAvailability: print availability board */
-void printAvailability(t_board& avail) {
-    for(size_t i{0}; i < NUM_ROWS; i++) {
-        for(size_t j{0}; j < NUM_COLUMNS; j++)
-            std::cout << static_cast<int>(avail[i][j]) << " ";
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
-
-/* printBoard: print the chess board */
+/**
+ * Print the values of the chess board.
+ *
+ * Print the values of array of a chess board (availability of knight locations).
+ *
+ * @param board  2D (8 x 8) array representing a chess board
+ * @return void
+ */
 void printBoard(t_board& board) {
     std::cout << "  ";
     for (int column{0}; column < NUM_COLUMNS; column++)
@@ -101,12 +133,27 @@ void printBoard(t_board& board) {
     std::cout << std::endl;
 }
 
-/* onBoard: check if space is on the chess board */
+/**
+ * Check if (row, column) is a space on the board.
+ *
+ * @param row    Row array index of the chess board
+ * @param column Column array index of the chess board
+ * @return true if (row, column) is a valid space on the chess board, otherwise false
+ */
 bool onBoard(uint8_t row, uint8_t column) {
-    return ( row >= 0 && row < NUM_COLUMNS && column >= 0 && column < NUM_ROWS );
+
+    return ( row >= 0 && row < NUM_COLUMNS &&
+             column >= 0 && column < NUM_ROWS );
 }
 
-/* checkSpace: check if chessBoard space at (row, column) is valid */
+/**
+ * Check if a Knight can be placed at (row, column) on the chess board.
+ *
+ * @param row    Row array index of the chess board
+ * @param column Column array index of the chess board
+ * @return true if a knight can be placed at (row, column) on the chess board, otherwise false
+ */
 bool checkSpace(uint8_t row, uint8_t column, t_board &board) {
+
     return onBoard(row, column) && !board[row][column];
 }
