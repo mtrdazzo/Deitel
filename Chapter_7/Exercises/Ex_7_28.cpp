@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <array>
+#include "Ex_7_28.h"
 
 /* isPalindrome: recursive solution to check if a string str is a palindrome */
 bool isPalindrome(std::string &str, size_t b_index, size_t e_index) {
