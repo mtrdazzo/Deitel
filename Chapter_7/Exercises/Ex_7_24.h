@@ -13,6 +13,5 @@ t_board eightQueens(const uint8_t, const uint8_t);
 void placeQueen(const uint8_t, const uint8_t, t_board&);
 void updateBoard(t_board&);
 bool findSmallestValue(uint8_t *, uint8_t *, t_board&);
-void flushBoard(t_board&);
 
 #endif /* EX_7_24_H */

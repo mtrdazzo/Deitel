@@ -14,6 +14,14 @@
 #include <iomanip>
 #include "Ex_7_24.h"
 
+/**
+ * Print the values of the chess board.
+ *
+ * Print the values of array of a chess board (availability or queen locations).
+ *
+ * @param board  2D (8 x 8) array representing a chess board
+ * @return void
+ */
 void printBoard(const t_board &board) {
     std::cout << '\n';
     for (uint8_t row{0}; row < BOARD_SIZE; row++) {
@@ -23,11 +31,26 @@ void printBoard(const t_board &board) {
     }
 }
 
+/**
+ * Check if (row, column) is a space on the board.
+ *
+ * @param row    Row array index of the chess board
+ * @param column Column array index of the chess board
+ * @return true if (row, column) is a queen can be placed on the chess board, otherwise false
+ */
 bool isOnBoard(const uint8_t r, const uint8_t c) {
     return (r >= 0 && r < BOARD_SIZE) &&
            (c >=0 && c < BOARD_SIZE);
 }
 
+/**
+ * Find the square that has the smallest effect on the spaces on the board.
+ *
+ * @param row    Row of knight chess board
+ * @param column Column of knight chess board
+ * @param board  2D (8 x 8) array representing the availability of each square on the chess board
+ * @return void
+ */
 bool findSmallestSquare(uint8_t *r_small, uint8_t *c_small, t_board& board) {
 
     uint8_t smallestValue = BOARD_SIZE * BOARD_SIZE;
@@ -43,19 +66,27 @@ bool findSmallestSquare(uint8_t *r_small, uint8_t *c_small, t_board& board) {
     return smallestValue < BOARD_SIZE * BOARD_SIZE;
 }
 
-void flushBoard(t_board& board) {
-    for (uint8_t row{0}; row < BOARD_SIZE; row++)
-        for (uint8_t column{0}; column < BOARD_SIZE; column++)
-            board[row][column] = 0;
-}
-
+/**
+ * Place up to 8 queens on the chess board.
+ *
+ * Place eight queens on an empty chessboard so that no
+ * queen is "attacking" any other, i.e., no two queens are in the same row,
+ * the same column, or along the same diagonal.
+ *
+ * @param r_start Starting row on chess board [1,8]
+ * @param c_start Starting column on chess board [1,8]
+ * @return 8 x 8 array of knight's moves from 1 to 64 at each position on the chess boards
+ */
 t_board eightQueens(uint8_t r_start, uint8_t c_start) {
+
+    if (!isOnBoard(r_start, c_start))
+        return;
 
     uint8_t queens_placed{0};
     t_board queen_board{0};
     t_board square_values{0};
-    uint8_t r_current{r_start};
-    uint8_t c_current{c_start};
+    uint8_t r_current{r_start-1}; /* convert to index */
+    uint8_t c_current{c_start-1}; /* convert to index */
 
     updateBoard(square_values);
 
@@ -70,6 +101,14 @@ t_board eightQueens(uint8_t r_start, uint8_t c_start) {
     return queen_board;
 }
 
+/**
+ * Place a queen on the chess board.
+ *
+ * @param row    Row of queen position chess board
+ * @param column Column of queen position chess board
+ * @param board  2D (8 x 8) array representing the availability of each square on the chess board
+ * @return void
+ */
 void placeQueen(const uint8_t row, const uint8_t column, t_board& board) {
 
     /* Get all spaces in same row */
@@ -99,6 +138,12 @@ void placeQueen(const uint8_t row, const uint8_t column, t_board& board) {
         board[row_diag][col_diag] = -1;
 }
 
+/**
+ * Update the availability of the chess board.
+ *
+ * @param board  2D (8 x 8) array representing the availability of each square on the chess board
+ * @return void
+ */
 void updateBoard(t_board& board) {
 
     uint8_t space_counter;
