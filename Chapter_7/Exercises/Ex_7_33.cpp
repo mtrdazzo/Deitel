@@ -25,7 +25,17 @@
 #include <array>
 #include "Ex_7_33.h"
 
-uint16_t moves;
+uint16_t moves = 0xFFFF;
+
+const char *strings[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+
+bool moveNeg90Degrees(t_maze &maze, s_location* cur_pos, Direction *cur_dir);
+bool move90Degrees(t_maze &maze, s_location* cur_pos, Direction *cur_dir);
+Direction rotate90Degrees(Direction cur_dir);
+bool moveFoward(t_maze &maze, s_location* cur_pos, Direction cur_dir);
+
+const std::array<int, (int)Direction::NUM_DIRECTIONS> r_moves {-1, 0, 1, 0};
+const std::array<int, (int)Direction::NUM_DIRECTIONS> c_moves {0, 1, 0, -1};
 
 int main(int argc, char **argv) {
 
@@ -50,6 +60,58 @@ int main(int argc, char **argv) {
 
 }
 
+bool moveNeg90Degrees(t_maze &maze, s_location* cur_pos, Direction *cur_dir) {
+
+    int rotated_dir = (static_cast<int>(rotate90Degrees(*cur_dir)) + 2) % static_cast<int>(Direction::NUM_DIRECTIONS);
+    bool canMove;
+
+    canMove = (maze[cur_pos->row + r_moves[rotated_dir]][cur_pos->column + c_moves[rotated_dir]] == '.');
+
+    if (canMove) {
+        cur_pos->row += r_moves[rotated_dir];
+        cur_pos->column += c_moves[rotated_dir];
+        *cur_dir = static_cast<Direction>(rotated_dir);
+    }
+
+    return canMove;
+}
+
+bool move90Degrees(t_maze &maze, s_location* cur_pos, Direction *cur_dir) {
+
+    int rotated_dir = static_cast<int>(rotate90Degrees(*cur_dir));
+    bool canMove;
+
+    canMove = (maze[cur_pos->row + r_moves[rotated_dir]][cur_pos->column + c_moves[rotated_dir]] == '.');
+
+    if (canMove) {
+        cur_pos->row += r_moves[rotated_dir];
+        cur_pos->column += c_moves[rotated_dir];
+        *cur_dir = static_cast<Direction>(rotated_dir);
+    }
+
+    return canMove;
+}
+
+bool moveFoward(t_maze &maze, s_location* cur_pos, Direction cur_dir) {
+    bool canMove{false};
+
+    canMove = (maze[cur_pos->row + r_moves[(int)cur_dir]][cur_pos->column + c_moves[(int)cur_dir]] == '.');
+
+    if (canMove) {
+        cur_pos->row += r_moves[(int)cur_dir];
+        cur_pos->column += c_moves[(int)cur_dir];
+        std::cout << (int)cur_pos->row << (int)cur_pos->column << std::endl;
+    }
+
+    return canMove;
+
+}
+
+Direction rotate90Degrees(Direction cur_dir) {
+    return static_cast<Direction>((static_cast<int>(cur_dir) + 1)
+            % static_cast<int>(Direction::NUM_DIRECTIONS));
+}
+
 /**
  * Attempts to locate the exit from the input maze using a recursive solution.
  * It will place the character X in each square on the path and will display
@@ -62,15 +124,15 @@ int main(int argc, char **argv) {
 void mazeTraverse(t_maze & maze, s_location& pos) {
 
     static uint16_t moveNum{0};
-    static Direction current_direction{Direction::WEST};
+    static Direction current_direction{Direction::SOUTH};
     bool has_moved{false};
-
-    if (moves > 0 && moveNum > moves) {
-        return;
-    }
 
     std::cout << "Move Number: " << int(moveNum) << std::endl;
     printMaze(maze, pos);
+
+    if (moveNum >= moves) {
+        return;
+    }
 
     if (moveNum > 1 && hasExited(pos)) {
         std::cout << "Out of the maze!" << std::endl;
@@ -78,113 +140,25 @@ void mazeTraverse(t_maze & maze, s_location& pos) {
     }
 
     while (!has_moved) {
-        switch(current_direction) {
-            case Direction::NORTH:
-                if (maze[pos.row][pos.column+1] == '#') {
-                    if (maze[pos.row-1][pos.column] == '.') {
-                        --pos.row;
-                    }
-                    else if (maze[pos.row][pos.column-1]){
-                        --pos.column;
-                        current_direction = Direction::WEST;
-                    }
-                    has_moved = true;
-                }
-                else if (maze[pos.row][pos.column+1] == '.') {
-                    ++pos.column;
-                    has_moved = true;
-                    current_direction = Direction::EAST;
-                }
-                else if (maze[pos.row-1][pos.column] == '.') {
-                    current_direction = Direction::NORTH;
-                    --pos.row;
-                    has_moved = true;
-                }
-                else
-                    current_direction = Direction::SOUTH;
-                break;
-            case Direction::EAST:
-                if (maze[pos.row+1][pos.column] == '#') {
-                    if (maze[pos.row][pos.column+1] == '.') {
-                        ++pos.column;
-                    }
-                    else if (maze[pos.row-1][pos.column] == '.') {
-                        current_direction = Direction::NORTH;
-                        --pos.row;
-                    }
-                    has_moved = true;
-                }
-                else if (maze[pos.row+1][pos.column] == '.') {
-                    ++pos.row;
-                    has_moved = true;
-                    current_direction = Direction::SOUTH;
-                }
-                else if (maze[pos.row][pos.column+1] == '.') {
-                    current_direction = Direction::EAST;
-                    ++pos.column;
-                    has_moved = true;
-                }
-                else
-                    current_direction = Direction::WEST;
-                break;
-            case Direction::SOUTH:
-                if (maze[pos.row][pos.column-1] == '#') {
-                    if (maze[pos.row+1][pos.column] == '.') {
-                        ++pos.row;
-                    }
-                    else if (maze[pos.row][pos.column+1] == '.'){
-                        current_direction = Direction::EAST;
-                        ++pos.column;
-                    }
-                    has_moved = true;
-                }
-                else if (maze[pos.row][pos.column-1] == '.') {
-                    current_direction = Direction::WEST;
-                    --pos.column;
-                    has_moved = true;
-                }
-                else if (maze[pos.row+1][pos.column] == '.') {
-                    current_direction = Direction::SOUTH;
-                    ++pos.row;
-                    has_moved = true;
-                }
-                else
-                    current_direction = Direction::NORTH;
-                break;
-            case Direction::WEST:
-                if (maze[pos.row-1][pos.column] == '#') {
-                    if (maze[pos.row][pos.column-1] == '.') {
-                        --pos.column;
-                    has_moved = true;
-
-                    }
-                    else if (maze[pos.row+1][pos.column] == '.')
-                    {
-                        ++pos.row;
-                        current_direction = Direction::SOUTH;
-                        has_moved = true;
-                    }
-                    else {
-                        current_direction = Direction::EAST;
-                    }
-                }
-                else if (maze[pos.row-1][pos.column] == '.') {
-                    --pos.row;
-                    current_direction = Direction::NORTH;
-                    has_moved = true;
-                }
-                else if (maze[pos.row][pos.column-1] == '.') {
-                    current_direction = Direction::WEST;
-                    --pos.column;
-                    has_moved = true;
-                }
-                else
-                    current_direction = Direction::EAST;
-                break;
-            default:
-                exit(1); // should never enter
+        if (move90Degrees(maze, &pos, &current_direction)) {
+            has_moved = true;
+            std::cout << "Moving 90 Degrees: " << strings[(int)(current_direction)] << std::endl;
+        }
+        else if (moveFoward(maze, &pos, current_direction)) {
+            std::cout << "Moving Forward: " << strings[(int)(current_direction)] << std::endl;
+            has_moved = true;
+        }
+        else if (moveNeg90Degrees(maze, &pos, &current_direction)) {
+            std::cout << "Moving -90 Degrees: " << strings[(int)(current_direction)] << std::endl;
+            has_moved = true;
+        }
+        else
+        {
+            current_direction = rotate90Degrees(current_direction);
+            std::cout << "Rotating 90 degrees to: " << strings[(int)(current_direction)] << std::endl;
         }
     }
+
     moveNum++;
     mazeTraverse(maze, pos);
 }

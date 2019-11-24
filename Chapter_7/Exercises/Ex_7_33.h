@@ -14,11 +14,12 @@ struct s_location {
 };
 
 /* current direction enum */
-enum class Direction {
+enum class Direction : const int {
     NORTH = 0,
     EAST,
     SOUTH,
-    WEST
+    WEST,
+    NUM_DIRECTIONS
 };
 
 /* Function prototypes */
