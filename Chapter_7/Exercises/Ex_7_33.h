@@ -25,7 +25,6 @@ enum class Direction : const int {
 /* Function prototypes */
 void mazeTraverse(t_maze&, s_location&);
 void printMaze(const t_maze&, const s_location&);
-bool hasExited(const s_location&);
-bool inMaze(const s_location&);
+bool exitedMaze(const s_location&);
 
 #endif /* _EX_7_33_H */
