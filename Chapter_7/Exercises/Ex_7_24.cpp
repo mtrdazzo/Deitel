@@ -79,14 +79,14 @@ bool findSmallestSquare(uint8_t *r_small, uint8_t *c_small, t_board& board) {
  */
 t_board eightQueens(uint8_t r_start, uint8_t c_start) {
 
-    if (!isOnBoard(r_start, c_start))
-        return;
-
     uint8_t queens_placed{0};
     t_board queen_board{0};
     t_board square_values{0};
-    uint8_t r_current{r_start-1}; /* convert to index */
-    uint8_t c_current{c_start-1}; /* convert to index */
+    uint8_t r_current{uint8_t(r_start-1)}; /* convert to index */
+    uint8_t c_current{uint8_t(c_start-1)}; /* convert to index */
+
+    if (!isOnBoard(r_start, c_start))
+        return queen_board;
 
     updateBoard(square_values);
 
