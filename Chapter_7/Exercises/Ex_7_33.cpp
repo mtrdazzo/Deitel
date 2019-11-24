@@ -76,13 +76,13 @@ void mazeTraverse(t_maze & maze, s_location& pos) {
         return;
     }
 
-    if (moveNum > 1 && hasExited(pos)) {
-        printMaze(maze, pos);
-        return;
-    }
-
     std::cout << "Move Number: " << int(moveNum) << std::endl;
     printMaze(maze, pos);
+
+    if (moveNum > 1 && hasExited(pos)) {
+        std::cout << "Out of the maze!" << std::endl;
+        return;
+    }
 
     while (!has_moved) {
         switch(current_direction) {
