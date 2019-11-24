@@ -35,3 +35,18 @@ typedef std::array<std::array<char, GRID_LENGTH>, GRID_LENGTH> t_maze;
 void mazeTraverse(t_maze & maze) {
 
 }
+
+/**
+ *
+ * Print the values of array of the maze.
+ *
+ * @param maze  2D (12 x 12) array representing a maze.
+ * @return void
+ */
+void printMaze(const t_maze &maze) {
+    for (auto& row : maze) {
+        for (char space : row)
+            std::cout << static_cast<int>(space) << " ";
+        std::cout << std::endl;
+    }
+}
