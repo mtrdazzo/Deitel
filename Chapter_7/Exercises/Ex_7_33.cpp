@@ -14,6 +14,11 @@
  * the maze, it should place the character X in each square in the path. The function should
  * display the maze after each move so the user can watch as the maze is solved.
  *
+ * Usage:
+ *
+ * ./a.out                    Run until out of maze
+ * ./a.out <NUMBER_OF_TURNS>  Rum until NUMBER_OF_TURNS
+ *
  */
 
 #include <iostream>
@@ -28,7 +33,7 @@ int main(int argc, char **argv) {
                            '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#',
                            '.', '.', '#', '.', '#', '.', '#', '#', '#', '#', '.', '#',
                            '#', '#', '#', '.', '#', '.', '.', '.', '.', '#', '.', '#',
-                           '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '.',
+                           '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '#',
                            '#', '#', '#', '#', '.', '#', '.', '#', '.', '#', '.', '#',
                            '#', '.', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
                            '#', '#', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
@@ -80,7 +85,6 @@ void mazeTraverse(t_maze & maze, s_location& pos) {
     printMaze(maze, pos);
 
     while (!has_moved) {
-        std::cout << (int)(current_direction) << std::endl;
         switch(current_direction) {
             case Direction::NORTH:
                 if (maze[pos.row][pos.column+1] == '#') {
@@ -189,7 +193,6 @@ void mazeTraverse(t_maze & maze, s_location& pos) {
         }
     }
     moveNum++;
-    std::cout << (int)(current_direction) << std::endl;
 
     mazeTraverse(maze, pos);
 }
