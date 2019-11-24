@@ -13,6 +13,14 @@ struct s_location {
     char column;
 };
 
+/* current direction enum */
+enum class Direction {
+    NORTH = 0,
+    EAST,
+    SOUTH,
+    WEST
+};
+
 /* Function prototypes */
 void mazeTraverse(t_maze&, s_location&);
 void printMaze(const t_maze&, const s_location&);

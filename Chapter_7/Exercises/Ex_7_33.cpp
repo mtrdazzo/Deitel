@@ -50,13 +50,6 @@ int main(int argc, char **argv) {
 
 }
 
-enum class Direction {
-    NORTH = 0,
-    EAST,
-    SOUTH,
-    WEST
-};
-
 /**
  * Attempts to locate the exit from the input maze using a recursive solution.
  * It will place the character X in each square on the path and will display
@@ -193,7 +186,6 @@ void mazeTraverse(t_maze & maze, s_location& pos) {
         }
     }
     moveNum++;
-
     mazeTraverse(maze, pos);
 }
 
