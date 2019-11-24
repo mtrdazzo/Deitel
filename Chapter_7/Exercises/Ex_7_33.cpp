@@ -23,6 +23,11 @@
 
 typedef std::array<std::array<char, GRID_LENGTH>, GRID_LENGTH> t_maze;
 
+struct location {
+    char row;
+    char column;
+};
+
 /**
  * Attempts to locate the exit from the input maze using a recursive solution.
  * It will place the character X in each square on the path and will display
@@ -32,7 +37,7 @@ typedef std::array<std::array<char, GRID_LENGTH>, GRID_LENGTH> t_maze;
  *              traveled spaced.
  * @return void
  */
-void mazeTraverse(t_maze & maze) {
+void mazeTraverse(t_maze & maze, location& pos) {
 
 }
 
