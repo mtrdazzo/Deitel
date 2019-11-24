@@ -22,9 +22,17 @@ enum class Direction : const int {
     NUM_DIRECTIONS
 };
 
+/* Moves for NORTH, EAST, SOUTH, WEST */
+typedef const std::array<int, (int)Direction::NUM_DIRECTIONS> t_aMoveTypes;
+
 /* Function prototypes */
 void mazeTraverse(t_maze&, s_location&);
 void printMaze(const t_maze&, const s_location&);
 bool exitedMaze(const s_location&);
+bool moveNumberDegrees(const t_maze&, s_location&, Direction&);
+bool move270Degrees(const t_maze&, s_location&, Direction&);
+bool move90Degrees(const t_maze&, s_location&, Direction&);
+bool moveCurrentDirection(const t_maze&, s_location&, Direction&);
+Direction rotate90Degrees(const Direction);
 
 #endif /* _EX_7_33_H */

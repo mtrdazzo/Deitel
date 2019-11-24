@@ -14,45 +14,15 @@
  * the maze, it should place the character X in each square in the path. The function should
  * display the maze after each move so the user can watch as the maze is solved.
  *
- * Usage:
- *
- * ./a.out                    Run until out of maze
- * ./a.out <NUMBER_OF_TURNS>  Rum until NUMBER_OF_TURNS
- *
  */
 
 #include <iostream>
 #include <array>
 #include "Ex_7_33.h"
 
-bool moveNumberDegrees(const t_maze&, s_location&, Direction&);
-bool move270Degrees(const t_maze&, s_location&, Direction&);
-bool move90Degrees(const t_maze&, s_location&, Direction&);
-bool moveCurrentDirection(const t_maze&, s_location&, Direction&);
-Direction rotate90Degrees(const Direction);
-
-const std::array<int, (int)Direction::NUM_DIRECTIONS> r_moves {-1, 0, 1, 0};
-const std::array<int, (int)Direction::NUM_DIRECTIONS> c_moves {0, 1, 0, -1};
-
-int main(int argc, char **argv) {
-
-     t_maze sample_maze = {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
-                           '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#',
-                           '.', '.', '#', '.', '#', '.', '#', '#', '#', '#', '.', '.',
-                           '#', '#', '#', '.', '#', '.', '.', '.', '.', '#', '.', '#',
-                           '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '#',
-                           '#', '#', '#', '#', '.', '#', '.', '#', '.', '#', '.', '#',
-                           '#', '.', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
-                           '#', '#', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
-                           '#', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '#',
-                           '#', '#', '#', '#', '#', '#', '.', '#', '#', '#', '.', '#',
-                           '#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#',
-                           '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'};
-       s_location locale{2, 0};
-
-     mazeTraverse(sample_maze, locale);
-
-}
+/* Respective Row and Column moves for NORTH, EAST, SOUTH, and WEST directions */
+t_aMoveTypes r_moves {-1, 0, 1, 0};
+t_aMoveTypes c_moves {0, 1, 0, -1};
 
 /**
  * Attempts to locate the exit from the input maze using a recursive solution.
@@ -120,7 +90,16 @@ void printMaze(const t_maze &maze, const s_location& current) {
     }
     std::cout << '\n';
 }
-
+/**
+ *
+ * Attempts to rotate the current direction by a number of degrees and move to that space.
+ *
+ * @param maze        12 x 12 grid of values that represent open and closed spaces in the maze.
+ * @param degrees     Number of degrees to rotate direction
+ * @param current_pos Current position (row, column) in the maze
+ * @param current_dir Current direction (NORTH, SOUTH, EAST, WEST)
+ * @return true if space is open, false otherwise
+ */
 bool moveNumberDegrees(const t_maze &maze, const int degrees, s_location& current_pos, Direction& current_dir) {
 
     int rotated_row{0};
@@ -147,21 +126,56 @@ bool moveNumberDegrees(const t_maze &maze, const int degrees, s_location& curren
     }
 }
 
-Direction rotate90Degrees(const Direction cur_dir) {
-    return static_cast<Direction>((static_cast<int>(cur_dir) + 1)
+/**
+ *
+ * Return the rotated direction of the input direction by 90 degrees.
+ *
+ * @param  current_direction  Current direction of movement in the maze.
+ * @return The current direction rotated by 90 degrees.
+ */
+Direction rotate90Degrees(const Direction current_direction) {
+    return static_cast<Direction>((static_cast<int>(current_direction) + 1)
             % static_cast<int>(Direction::NUM_DIRECTIONS));
 }
 
+/**
+ *
+ * Attempts to rotate the current direction by 90 degrees and move to that space. If valid,
+ * the current positiona nd current direction pointer values will be updated.
+ *
+ * @param maze        12 x 12 grid of values that represent open and closed spaces in the maze.
+ * @param current_pos Current position (row, column) in the maze
+ * @param current_dir Current direction (NORTH, SOUTH, EAST, WEST)
+ * @return true if space is open, false otherwise
+ */
 bool move90Degrees(const t_maze &maze, s_location& current_pos, Direction& current_dir) {
 
     return moveNumberDegrees(maze, 90, current_pos, current_dir);
 }
 
+/**
+ * Attempts to rotate the current direction by 270 degrees and move to that space. If valid,
+ * the current positiona nd current direction pointer values will be updated.
+ *
+ * @param maze        12 x 12 grid of values that represent open and closed spaces in the maze.
+ * @param current_pos Current position (row, column) in the maze
+ * @param current_dir Current direction (NORTH, SOUTH, EAST, WEST)
+ * @return true if space is open, false otherwise
+ */
 bool move270Degrees(const t_maze &maze, s_location& current_pos, Direction& current_dir) {
 
     return moveNumberDegrees(maze, 270, current_pos, current_dir);
 }
 
+/**
+ * Attempts to rotate the current direction by 0 degrees and move to that space. If valid,
+ * the current positiona nd current direction pointer values will be updated.
+ *
+ * @param maze        12 x 12 grid of values that represent open and closed spaces in the maze.
+ * @param current_pos Current position (row, column) in the maze
+ * @param current_dir Current direction (NORTH, SOUTH, EAST, WEST)
+ * @return true if space is open, false otherwise
+ */
 bool moveCurrentDirection(const t_maze &maze, s_location& current_pos, Direction& current_dir) {
 
     return moveNumberDegrees(maze, 0, current_pos, current_dir);
