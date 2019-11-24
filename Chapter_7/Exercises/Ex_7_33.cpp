@@ -18,14 +18,38 @@
 
 #include <iostream>
 #include <array>
+#include "Ex_7_33.h"
 
-#define GRID_LENGTH 12
+uint16_t moves;
 
-typedef std::array<std::array<char, GRID_LENGTH>, GRID_LENGTH> t_maze;
+int main(int argc, char **argv) {
 
-struct location {
-    char row;
-    char column;
+     t_maze sample_maze = {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
+                           '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#',
+                           '.', '.', '#', '.', '#', '.', '#', '#', '#', '#', '.', '#',
+                           '#', '#', '#', '.', '#', '.', '.', '.', '.', '#', '.', '#',
+                           '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '.',
+                           '#', '#', '#', '#', '.', '#', '.', '#', '.', '#', '.', '#',
+                           '#', '.', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
+                           '#', '#', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#',
+                           '#', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '#',
+                           '#', '#', '#', '#', '#', '#', '.', '#', '#', '#', '.', '#',
+                           '#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#',
+                           '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'};
+       s_location locale{2, 0};
+
+    if (argc > 1)
+        moves = std::atoi(*++argv);
+
+     mazeTraverse(sample_maze, locale);
+
+}
+
+enum class Direction {
+    NORTH = 0,
+    EAST,
+    SOUTH,
+    WEST
 };
 
 /**
@@ -37,8 +61,149 @@ struct location {
  *              traveled spaced.
  * @return void
  */
-void mazeTraverse(t_maze & maze, location& pos) {
+void mazeTraverse(t_maze & maze, s_location& pos) {
 
+    static uint16_t moveNum{0};
+    static Direction current_direction{Direction::WEST};
+    bool has_moved{false};
+
+    if (moves > 0 && moveNum > moves) {
+        return;
+    }
+
+    if (moveNum > 1 && hasExited(pos)) {
+        printMaze(maze, pos);
+        return;
+    }
+
+    std::cout << "Move Number: " << int(moveNum) << std::endl;
+    printMaze(maze, pos);
+
+    while (!has_moved) {
+        std::cout << (int)(current_direction) << std::endl;
+        switch(current_direction) {
+            case Direction::NORTH:
+                if (maze[pos.row][pos.column+1] == '#') {
+                    if (maze[pos.row-1][pos.column] == '.') {
+                        --pos.row;
+                    }
+                    else if (maze[pos.row][pos.column-1]){
+                        --pos.column;
+                        current_direction = Direction::WEST;
+                    }
+                    has_moved = true;
+                }
+                else if (maze[pos.row][pos.column+1] == '.') {
+                    ++pos.column;
+                    has_moved = true;
+                    current_direction = Direction::EAST;
+                }
+                else if (maze[pos.row-1][pos.column] == '.') {
+                    current_direction = Direction::NORTH;
+                    --pos.row;
+                    has_moved = true;
+                }
+                else
+                    current_direction = Direction::SOUTH;
+                break;
+            case Direction::EAST:
+                if (maze[pos.row+1][pos.column] == '#') {
+                    if (maze[pos.row][pos.column+1] == '.') {
+                        ++pos.column;
+                    }
+                    else if (maze[pos.row-1][pos.column] == '.') {
+                        current_direction = Direction::NORTH;
+                        --pos.row;
+                    }
+                    has_moved = true;
+                }
+                else if (maze[pos.row+1][pos.column] == '.') {
+                    ++pos.row;
+                    has_moved = true;
+                    current_direction = Direction::SOUTH;
+                }
+                else if (maze[pos.row][pos.column+1] == '.') {
+                    current_direction = Direction::EAST;
+                    ++pos.column;
+                    has_moved = true;
+                }
+                else
+                    current_direction = Direction::WEST;
+                break;
+            case Direction::SOUTH:
+                if (maze[pos.row][pos.column-1] == '#') {
+                    if (maze[pos.row+1][pos.column] == '.') {
+                        ++pos.row;
+                    }
+                    else if (maze[pos.row][pos.column+1] == '.'){
+                        current_direction = Direction::EAST;
+                        ++pos.column;
+                    }
+                    has_moved = true;
+                }
+                else if (maze[pos.row][pos.column-1] == '.') {
+                    current_direction = Direction::WEST;
+                    --pos.column;
+                    has_moved = true;
+                }
+                else if (maze[pos.row+1][pos.column] == '.') {
+                    current_direction = Direction::SOUTH;
+                    ++pos.row;
+                    has_moved = true;
+                }
+                else
+                    current_direction = Direction::NORTH;
+                break;
+            case Direction::WEST:
+                if (maze[pos.row-1][pos.column] == '#') {
+                    if (maze[pos.row][pos.column-1] == '.') {
+                        --pos.column;
+                    has_moved = true;
+
+                    }
+                    else if (maze[pos.row+1][pos.column] == '.')
+                    {
+                        ++pos.row;
+                        current_direction = Direction::SOUTH;
+                        has_moved = true;
+                    }
+                    else {
+                        current_direction = Direction::EAST;
+                    }
+                }
+                else if (maze[pos.row-1][pos.column] == '.') {
+                    --pos.row;
+                    current_direction = Direction::NORTH;
+                    has_moved = true;
+                }
+                else if (maze[pos.row][pos.column-1] == '.') {
+                    current_direction = Direction::WEST;
+                    --pos.column;
+                    has_moved = true;
+                }
+                else
+                    current_direction = Direction::EAST;
+                break;
+            default:
+                exit(1); // should never enter
+        }
+    }
+    moveNum++;
+    std::cout << (int)(current_direction) << std::endl;
+
+    mazeTraverse(maze, pos);
+}
+
+/**
+ *
+ * Determine if the maze has been exited.
+ *
+ * @param pos  curent position in the maze
+ * @return true if maze has been exited, else false
+ */
+bool hasExited(const s_location& pos) {
+    return (pos.column == 0 || pos.column == MAZE_SIZE - 1 ||
+            pos.row == 0 || pos.row == MAZE_SIZE - 1);
 }
 
 /**
@@ -48,10 +213,26 @@ void mazeTraverse(t_maze & maze, location& pos) {
  * @param maze  2D (12 x 12) array representing a maze.
  * @return void
  */
-void printMaze(const t_maze &maze) {
-    for (auto& row : maze) {
-        for (char space : row)
-            std::cout << static_cast<int>(space) << " ";
+void printMaze(const t_maze &maze, const s_location& current) {
+    for (uint8_t row{0}; row < MAZE_SIZE; row++) {
+        for (uint8_t column{0}; column < MAZE_SIZE; column++)
+            if (row == current.row && column == current.column)
+                std::cout << "X" << " ";
+            else
+                std::cout << maze[row][column] << " ";
+
         std::cout << std::endl;
     }
+    std::cout << '\n';
+}
+
+/**
+ * Check if (row, column) is a space on the board.
+ *
+ * @param pos position in maze
+ * @return true if is a valid position in the maze array
+ */
+bool inMaze(const s_location& pos) {
+    return (pos.row >= 0 && pos.row < MAZE_SIZE) &&
+           (pos.column >=0 && pos.column < MAZE_SIZE);
 }
