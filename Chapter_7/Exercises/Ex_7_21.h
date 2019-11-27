@@ -22,6 +22,8 @@ class Craftsworker {
 
             public:
 
+                Craftsworker::Products getProductType(void);
+
                 Slip(std::string _m_strName, Products _m_uiProductID)
                  : m_strName{_m_strName},
                    m_uiProductID{_m_uiProductID} {}
@@ -72,18 +74,6 @@ class Craftsworker {
         std::vector<Products> m_vJobs;
 
 };
-
-uint8_t getNumberOfJobs(void);
-Craftsworker::Products getProductType(void);
-
-
-uint8_t getNumberOfJobs(void) {
-
-    const static int min_jobs{0};
-    const static int max_jobs{4};
-
-    return min_jobs + rand() % max_jobs;
-}
 
 Craftsworker::Products getProductType(void) {
 

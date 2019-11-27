@@ -19,6 +19,8 @@
 #include <cstdlib>
 #include "Ex_7_21.h"
 
+uint8_t getNumberOfJobs(void);
+
 int main(int argc, char **argv) {
 
     srand(static_cast<unsigned int>(time(0)));
@@ -47,4 +49,12 @@ int main(int argc, char **argv) {
     }
 
     return EXIT_SUCCESS;
+}
+
+uint8_t getNumberOfJobs(void) {
+
+    const static int min_jobs{0};
+    const static int max_jobs{4};
+
+    return min_jobs + rand() % max_jobs;
 }
