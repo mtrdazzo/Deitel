@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <array>
-#include "Ex_7_28.h"
+#include <Ex_7_28.h>
 
 /* isPalindrome: recursive solution to check if a string str is a palindrome */
 bool isPalindrome(std::string &str, size_t b_index, size_t e_index) {
@@ -29,7 +29,7 @@ bool isPalindrome(std::string &str, size_t b_index, size_t e_index) {
     /* Skip through non alpha characters */
     while (!isalpha(str[b_index]) && b_index < e_index)
         ++b_index;
-    while (!isalpha(str[e_index-1]) && e_index - 1 >= 0)
+    while (!isalpha(str[e_index-1]) && e_index - 1 > 0)
         --e_index;
 
     /* Recursive call */
