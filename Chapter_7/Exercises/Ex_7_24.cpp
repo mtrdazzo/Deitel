@@ -39,8 +39,7 @@ void printBoard(const t_board &board) {
  * @return true if (row, column) is a queen can be placed on the chess board, otherwise false
  */
 bool isOnBoard(const uint8_t r, const uint8_t c) {
-    return (r >= 0 && r < BOARD_SIZE) &&
-           (c >=0 && c < BOARD_SIZE);
+    return (r < BOARD_SIZE && c < BOARD_SIZE);
 }
 
 /**
