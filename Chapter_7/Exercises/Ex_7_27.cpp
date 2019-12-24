@@ -26,7 +26,7 @@
 
 #define ARRAY_SIZE 1000
 
-int main(int argc, char **argv) {
+int main(void) {
 
     std::array<uint16_t, ARRAY_SIZE> prime_numbers{0};
 
