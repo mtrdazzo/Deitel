@@ -27,7 +27,7 @@ typedef const std::array<int, (int)Direction::NUM_DIRECTIONS> t_aMoveTypes;
 
 /* Function prototypes */
 void mazeTraverse(t_maze&, s_location&);
-void printMaze(const t_maze&, const s_location&);
+void printLocationInMaze(const t_maze&, const s_location&);
 bool exitedMaze(const s_location&);
 bool moveNumberDegrees(const t_maze&, s_location&, Direction&);
 bool move270Degrees(const t_maze&, s_location&, Direction&);
