@@ -9,7 +9,7 @@
  */
 
 #include <iostream>
-#include "Ex_7_32.h"
+#include <Ex_7_32.h>
 
 /**
  * Return the maximum value in an array. (Recursive edition)

@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include <array>
-#include "Ex_7_33.h"
+#include <Ex_7_33.h>
 
 /* Respective Row and Column moves for NORTH, EAST, SOUTH, and WEST directions */
 t_aMoveTypes r_moves {-1, 0, 1, 0};
@@ -33,13 +33,13 @@ t_aMoveTypes c_moves {0, 1, 0, -1};
  *              traveled spaced.
  * @return void
  */
-void mazeTraverse(t_maze & maze, s_location& pos) {
+void mazeTraverse(t_maze &maze, s_location& pos) {
 
     static uint16_t moveNum{0};
     static Direction current_direction{Direction::SOUTH};
     bool has_moved{false};
 
-    printMaze(maze, pos);
+    printLocationInMaze(maze, pos);
 
     if (moveNum && exitedMaze(pos)) {
         std::cout << "CONGRATULATIONS!!!\n";
@@ -78,7 +78,7 @@ bool exitedMaze(const s_location& pos) {
  * @param maze  2D (12 x 12) array representing a maze.
  * @return void
  */
-void printMaze(const t_maze &maze, const s_location& current) {
+void printLocationInMaze(const t_maze &maze, const s_location& current) {
     for (uint8_t row{0}; row < MAZE_SIZE; row++) {
         for (uint8_t column{0}; column < MAZE_SIZE; column++)
             if (row == current.row && column == current.column)

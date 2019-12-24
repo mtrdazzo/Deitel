@@ -15,8 +15,6 @@
 t_move vertical{2,1,-1,-2,-2,-1,1,2};
 t_move horizontal{-1,-2,-2,-1,1,2,2,1};
 
-int main() {return 0;}
-
 /**
  * Move the knight around the chess board.
  *

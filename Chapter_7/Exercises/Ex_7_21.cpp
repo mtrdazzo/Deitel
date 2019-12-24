@@ -17,11 +17,11 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "Ex_7_21.h"
+#include <Ex_7_21.h>
 
 uint8_t getNumberOfJobs(void);
 
-int main(int argc, char **argv) {
+int main() {
 
     srand(static_cast<unsigned int>(time(0)));
 

@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <array>
-#include "Ex_7_30.h"
+#include <Ex_7_30.h>
 
 /**
  * Recursively prints the elements of an array in reverse.

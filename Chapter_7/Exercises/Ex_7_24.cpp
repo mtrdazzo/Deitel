@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iomanip>
-#include "Ex_7_24.h"
+#include <Ex_7_24.h>
 
 /**
  * Print the values of the chess board.

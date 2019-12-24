@@ -10,7 +10,7 @@
  */
 
 #include <iostream>
-#include "Ex_7_31.h"
+#include <Ex_7_31.h>
 
 /**
  * Recursively prints the elements of a string in reverse.
