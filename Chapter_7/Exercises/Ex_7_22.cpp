@@ -9,7 +9,7 @@
 #include <iostream>
 #include <array>
 #include <iomanip>
-#include "Ex_7_22.h"
+#include <Ex_7_22.h>
 
 /* arrays of possible move combinations by a knight */
 t_move vertical{2,1,-1,-2,-2,-1,1,2};
