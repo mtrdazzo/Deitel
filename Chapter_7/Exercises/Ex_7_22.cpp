@@ -15,6 +15,8 @@
 t_move vertical{2,1,-1,-2,-2,-1,1,2};
 t_move horizontal{-1,-2,-2,-1,1,2,2,1};
 
+int main() {return 0;}
+
 /**
  * Move the knight around the chess board.
  *
@@ -142,8 +144,7 @@ void printBoard(t_board& board) {
  */
 bool onBoard(uint8_t row, uint8_t column) {
 
-    return ( row >= 0 && row < NUM_COLUMNS &&
-             column >= 0 && column < NUM_ROWS );
+    return ( row < NUM_COLUMNS && column < NUM_ROWS );
 }
 
 /**
