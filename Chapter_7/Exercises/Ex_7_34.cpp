@@ -2,15 +2,6 @@
 #include <ctime>
 #include <cstdlib>
 
-int main(void) {
-
-    t_maze maze;
-
-    createMaze(maze, 0, ARRAY_SIZE, 0, ARRAY_SIZE);
-
-    printMaze(maze);
-}
-
 /**
  * Create a Maze using a recursive algorithm.
  *
@@ -46,6 +37,9 @@ void createMaze(t_maze& maze, size_t min_row, size_t max_row, size_t min_col, si
         maze[random_row][max_col] = false;
 
         firstPass = false;
+
+        // std::cout << "Begining" << std::endl;
+        // printMaze(maze);
     }
 
     /* Find random row and column and create walls */
@@ -74,6 +68,8 @@ void createMaze(t_maze& maze, size_t min_row, size_t max_row, size_t min_col, si
         createVerticalWall(maze, valid_col, min_row, max_row);
     }
 
+    // std::cout << "here\n";
+    // printMaze(maze);
     /* Both vertical and horizontal walls were made */
     if (validHor && validVert) {
 

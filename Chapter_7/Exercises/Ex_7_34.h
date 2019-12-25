@@ -4,7 +4,7 @@
 #include <iostream>
 #include <array>
 
-#define ARRAY_SIZE 10
+#define ARRAY_SIZE 40
 
 typedef std::array<std::array<uint8_t, ARRAY_SIZE>, ARRAY_SIZE> t_maze;
 

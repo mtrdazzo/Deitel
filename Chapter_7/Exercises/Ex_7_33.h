@@ -1,11 +1,8 @@
 #ifndef _EX_7_33_H
 #define _EX_7_33_H
 
+#include <Ex_7_34.h>
 #include <array>
-
-/* Maze structure */
-#define MAZE_SIZE 12
-typedef std::array<std::array<char, MAZE_SIZE>, MAZE_SIZE> t_maze;
 
 /* current location structure */
 struct s_location {
@@ -34,5 +31,6 @@ bool move270Degrees(const t_maze&, s_location&, Direction&);
 bool move90Degrees(const t_maze&, s_location&, Direction&);
 bool moveCurrentDirection(const t_maze&, s_location&, Direction&);
 Direction rotate90Degrees(const Direction);
+s_location findStartingPosition(const t_maze&);
 
 #endif /* _EX_7_33_H */

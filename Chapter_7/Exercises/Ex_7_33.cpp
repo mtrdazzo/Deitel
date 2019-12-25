@@ -25,6 +25,26 @@ t_aMoveTypes r_moves {-1, 0, 1, 0};
 t_aMoveTypes c_moves {0, 1, 0, -1};
 
 /**
+ * Finds the starting location of the maze.
+ *
+ * @param maze  12 x 12 grid of values that represent open, closed, and already
+ *              traveled spaced.
+ * @return Starting location of the maze.
+ */
+s_location findStartingPosition(const t_maze& maze) {
+
+    s_location starting_location{0,0};
+
+    for (size_t row{0}; row < ARRAY_SIZE; row++)
+        if (maze[row][0] == 0) {
+            starting_location.row = row;
+            break;
+        }
+    
+    return starting_location;
+}
+
+/**
  * Attempts to locate the exit from the input maze using a recursive solution.
  * It will place the character X in each square on the path and will display
  * the maze after each move.
@@ -51,8 +71,7 @@ void mazeTraverse(t_maze &maze, s_location& pos) {
         if ((has_moved = move90Degrees(maze, pos, current_direction)));
         else if ((has_moved = moveCurrentDirection(maze, pos, current_direction)));
         else if ((has_moved = move270Degrees(maze, pos, current_direction)));
-        else
-            current_direction = rotate90Degrees(current_direction);
+        else current_direction = rotate90Degrees(current_direction);
     }
 
     moveNum++;
@@ -67,8 +86,8 @@ void mazeTraverse(t_maze &maze, s_location& pos) {
  * @return true if maze has been exited, else false
  */
 bool exitedMaze(const s_location& pos) {
-    return (pos.column == 0 || pos.column == MAZE_SIZE - 1 ||
-            pos.row == 0 || pos.row == MAZE_SIZE - 1);
+    return (pos.column == 0 || pos.column == ARRAY_SIZE - 1 ||
+            pos.row == 0 || pos.row == ARRAY_SIZE - 1);
 }
 
 /**
@@ -79,13 +98,12 @@ bool exitedMaze(const s_location& pos) {
  * @return void
  */
 void printLocationInMaze(const t_maze &maze, const s_location& current) {
-    for (uint8_t row{0}; row < MAZE_SIZE; row++) {
-        for (uint8_t column{0}; column < MAZE_SIZE; column++)
+    for (uint8_t row{0}; row < ARRAY_SIZE; row++) {
+        for (uint8_t column{0}; column < ARRAY_SIZE; column++)
             if (row == current.row && column == current.column)
                 std::cout << "X" << " ";
             else
-                std::cout << maze[row][column] << " ";
-
+                std::cout << (maze[row][column] ? "# " : ". ");
         std::cout << std::endl;
     }
     std::cout << '\n';
@@ -114,7 +132,7 @@ bool moveNumberDegrees(const t_maze &maze, const int degrees, s_location& curren
     rotated_row = current_pos.row + r_moves[rotated_index];
     rotated_col = current_pos.column + c_moves[rotated_index];
 
-    if (maze[rotated_row][rotated_col] == '.') {
+    if (maze[rotated_row][rotated_col] == 0) {
         current_pos.row = rotated_row;
         current_pos.column = rotated_col;
         current_dir = rotated_dir;
