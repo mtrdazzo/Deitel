@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <math.h>
 #include "Ex_9_5.h"
 
 /**
@@ -14,7 +15,6 @@ void Quadratic::add(Quadratic& other) {
     c += other.c;
 }
 
-
 /**
  * Subtract the parameters of another Quadratic function.
  *
@@ -26,7 +26,6 @@ void Quadratic::subtract(Quadratic& other) {
     b -= other.b;
     c -= other.c;
 }
-
 
 /**
  * Add the parameters of another Quadratic function.
@@ -41,5 +40,28 @@ std::string Quadratic::toString(void) {
     output << a << "x^2 + " << b << "x + " << c;
 
     return output.str();
+}
+
+/**
+ * Solves the quadratic equation. Displays the solutions if (b^2 - 4ac) is greater
+ * than 0. Otherwise it displays "No Real Roots."
+ *
+ * @return void
+ */
+void Quadratic::solve(void) {
+
+    double solution1{0.0};
+    double solution2{0.0};
+
+    if (b * b - 4 * a * c >= 0) {
+        solution1 = (-1 * b + sqrt(b * b - 4 * a * c)) / (2 * a);
+        solution2 = (-1 * b - sqrt(b * b - 4 * a * c)) / (2 * a);
+    
+        std::cout << "Solution 1: " << solution1 << std::endl;
+        std::cout << "Solution 2: " << solution2 << std::endl;
+    }
+    else {
+        std::cout << "No Real Roots" << std::endl;
+    }
 
 }
