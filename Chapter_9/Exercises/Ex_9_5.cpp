@@ -4,6 +4,19 @@
 #include "Ex_9_5.h"
 
 /**
+ *  Class Constructors (Delegated format)
+ */
+Quadratic::Quadratic(double a_in, double b_in, double c_in) :
+    a{a_in}, b{b_in}, c{c_in}{
+        if( a == 0 )
+            a = 1;
+    }
+
+Quadratic::Quadratic(double a_in, double b_in) : Quadratic(a_in, b_in, 0) {}
+Quadratic::Quadratic(double a_in) : Quadratic(a_in, 0, 0) {}
+Quadratic::Quadratic(void) : Quadratic(1, 0, 0) {}
+
+/**
  * Add the parameters of another Quadratic function.
  *
  * @param other   Other quadratic object to sum to current object

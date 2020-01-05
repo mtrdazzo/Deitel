@@ -40,6 +40,12 @@ class Quadratic {
 
     public:
 
+        /* Class constructor (delegated) */
+        Quadratic(double, double, double);
+        Quadratic(double, double);
+        Quadratic(double);
+        Quadratic();
+
         /* Function prototypes */
         void add(Quadratic&);
         void subtract(Quadratic&);
@@ -48,10 +54,11 @@ class Quadratic {
     
     private:
 
+        /* Private Variables */
         double a;
         double b;
         double c;
-        char variable;
+        char variable{'x'};
 
 };
 
