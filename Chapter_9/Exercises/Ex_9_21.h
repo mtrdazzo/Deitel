@@ -21,6 +21,12 @@
  * c) Provide an insertElement function that places a new integer k into a set by setting a[k] to true.
  * Provide a deleteElement member function that deletes integer m by setting a[m] to false.
  * 
+ * d) Provide a toString member function that returns a set as a string containing a list of numbers
+ * separated by spaces. Include only those elements that are present in the set (i.e., their position in
+ * the vector has a value of true). Return --- for an empty set.
+ * 
+ * e) Provide an isEqualTo member function that  determines whether two sets are equal.
+ * 
  */
 
 #ifndef EX_9_21_H
@@ -33,6 +39,7 @@ extern "C" {
 
 #include <vector>
 #include <array>
+#include <sstream>
 
 #define MAX_VECTOR_SIZE 101
 
@@ -45,7 +52,8 @@ class IntegerSet {
 
         IntegerSet unionOfSets(const IntegerSet &) const;
         IntegerSet intersectionOfSets(const IntegerSet &) const;
-        
+        std::string toString(void) const;
+
         void insertInteger(const size_t);
         void deleteInteger(const size_t);
         bool getInteger(const size_t);

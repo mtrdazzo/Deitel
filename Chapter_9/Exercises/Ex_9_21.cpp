@@ -56,3 +56,26 @@ IntegerSet IntegerSet::intersectionOfSets(const IntegerSet & other) const {
 
     return unionIntegerSet;
 }
+
+std::string IntegerSet::toString(void) const {
+
+    std::ostringstream output;
+    bool has_elements{false};
+
+    for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
+        if (setOfInts[index]) {
+            if (has_elements) {
+                output << ", " << index;
+            }
+            else
+            {
+                has_elements = true;
+                output << index;
+            }
+        }
+
+    if (has_elements)
+        return output.str();
+    else
+        return std::string("---");
+}

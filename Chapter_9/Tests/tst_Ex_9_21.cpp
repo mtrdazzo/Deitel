@@ -195,3 +195,21 @@ TEST(IntersectionOfSets, twoIntersectingNonEmptySets) {
     for (size_t index{0}; index < set2.size(); index++)
         EXPECT_TRUE(empty_set3.getInteger(set2[index]));
 }
+
+TEST(ToStringOutput, emptySet) {
+
+    IntegerSet empty_set1;
+
+    EXPECT_STRCASEEQ(empty_set1.toString().c_str(),"---");
+}
+
+TEST(ToStringOutput, nonEmptySet) {
+
+    IntegerSet set;
+
+    set.insertInteger(0);
+    set.insertInteger(100);
+    set.insertInteger(50);
+
+    EXPECT_STRCASEEQ(set.toString().c_str(), "0, 50, 100");
+}
