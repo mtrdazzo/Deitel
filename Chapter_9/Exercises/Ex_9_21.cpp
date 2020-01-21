@@ -79,3 +79,11 @@ std::string IntegerSet::toString(void) const {
     else
         return std::string("---");
 }
+
+bool IntegerSet::isEqualTo(const IntegerSet &other) const {
+
+    for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
+        if (setOfInts[index] != other.setOfInts[index])
+            return false;
+    return true;
+}

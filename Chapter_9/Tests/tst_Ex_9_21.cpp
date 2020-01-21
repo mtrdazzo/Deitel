@@ -213,3 +213,45 @@ TEST(ToStringOutput, nonEmptySet) {
 
     EXPECT_STRCASEEQ(set.toString().c_str(), "0, 50, 100");
 }
+
+TEST(IsEqualTo, nonEmptySetsEqual) {
+
+    IntegerSet set1;
+    IntegerSet set2;
+
+    std::array<size_t, 5> num_array1 = {1, 6, 10, 50, 33};
+    std::array<size_t, 5> num_array2 = {1, 6, 10, 50, 33};
+
+    for (size_t index{0}; index < num_array1.size(); index++)
+        set1.insertInteger(num_array1[index]);
+
+    for (size_t index{0}; index < num_array2.size(); index++)
+        set2.insertInteger(num_array2[index]);
+
+    EXPECT_TRUE(set1.isEqualTo(set2));
+}
+
+TEST(IsEqualTo, emptySetsEqual) {
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    EXPECT_TRUE(empty_set1.isEqualTo(empty_set2));
+}
+
+TEST(IsEqualTo, nonEmptySetsNotEqual) {
+
+    IntegerSet set1;
+    IntegerSet set2;
+
+    std::array<size_t, 5> num_array1 = {1, 6, 10, 50, 100};
+    std::array<size_t, 4> num_array2 = {1, 6, 10, 50};
+
+    for (size_t index{0}; index < num_array1.size(); index++)
+        set1.insertInteger(num_array1[index]);
+
+    for (size_t index{0}; index < num_array2.size(); index++)
+        set2.insertInteger(num_array2[index]);
+
+    EXPECT_FALSE(set1.isEqualTo(set2));
+}

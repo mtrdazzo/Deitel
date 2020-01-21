@@ -52,6 +52,7 @@ class IntegerSet {
 
         IntegerSet unionOfSets(const IntegerSet &) const;
         IntegerSet intersectionOfSets(const IntegerSet &) const;
+        bool isEqualTo(const IntegerSet &) const;
         std::string toString(void) const;
 
         void insertInteger(const size_t);
