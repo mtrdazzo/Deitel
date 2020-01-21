@@ -9,45 +9,45 @@ TEST(DefaultConstructor, AllElementsFalse) {
         EXPECT_FALSE(empty_set.getInteger(index));
 }
 
-TEST(SetInteger, setElementsTrue) {
+TEST(insertInteger, setElementsTrue) {
 
     IntegerSet empty_set;
 
-    empty_set.setInteger(0, true);
-    empty_set.setInteger(100, true);
-    empty_set.setInteger(50, true);
+    empty_set.insertInteger(0);
+    empty_set.insertInteger(100);
+    empty_set.insertInteger(50);
 
     EXPECT_TRUE(empty_set.getInteger(0));
     EXPECT_TRUE(empty_set.getInteger(100));
     EXPECT_TRUE(empty_set.getInteger(50));
 }
 
-TEST(SetInteger, setInvalidElementTrue) {
+TEST(insertInteger, setInvalidElementTrue) {
 
     IntegerSet empty_set;
 
     try {
-        empty_set.setInteger(MAX_VECTOR_SIZE, true);
+        empty_set.insertInteger(MAX_VECTOR_SIZE);
     } catch (std::invalid_argument const &err) {
         EXPECT_STRCASEEQ(err.what(), "invalid index, must be between 0 and 100 inclusive");
     } 
 }
 
-TEST(SetInteger, setElementsFalse) {
+TEST(insertInteger, setElementsFalse) {
 
     IntegerSet empty_set;
 
-    empty_set.setInteger(0, true);
-    empty_set.setInteger(100, true);
-    empty_set.setInteger(50, true);
+    empty_set.insertInteger(0);
+    empty_set.insertInteger(100);
+    empty_set.insertInteger(50);
 
     EXPECT_TRUE(empty_set.getInteger(0));
     EXPECT_TRUE(empty_set.getInteger(100));
     EXPECT_TRUE(empty_set.getInteger(50));
 
-    empty_set.setInteger(0, false);
-    empty_set.setInteger(100, false);
-    empty_set.setInteger(50, false);
+    empty_set.deleteInteger(0);
+    empty_set.deleteInteger(100);
+    empty_set.deleteInteger(50);
     
     EXPECT_FALSE(empty_set.getInteger(0));
     EXPECT_FALSE(empty_set.getInteger(100));
@@ -74,7 +74,7 @@ TEST(UnionOfSets, oneEmptySet) {
     IntegerSet empty_set2;
 
     for (size_t index{0}; index < set1.size(); index++)
-        empty_set1.setInteger(set1[index], true);
+        empty_set1.insertInteger(set1[index]);
 
     IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
 
@@ -94,10 +94,10 @@ TEST(UnionOfSets, twoNonEmptySets) {
     IntegerSet empty_set2;
 
     for (size_t index{0}; index < set1.size(); index++)
-        empty_set1.setInteger(set1[index], true);
+        empty_set1.insertInteger(set1[index]);
 
     for (size_t index{0}; index < set2.size(); index++)
-        empty_set2.setInteger(set2[index], true);
+        empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
 
@@ -128,7 +128,7 @@ TEST(IntersectionOfSets, oneNonIntersectingEmptySet) {
     IntegerSet empty_set2;
 
     for (size_t index{0}; index < set1.size(); index++)
-        empty_set1.setInteger(set1[index], true);
+        empty_set1.insertInteger(set1[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
@@ -148,10 +148,10 @@ TEST(IntersectionOfSets, twoNonIntersectingNonEmptySets) {
     IntegerSet empty_set2;
 
     for (size_t index{0}; index < set1.size(); index++)
-        empty_set1.setInteger(set1[index], true);
+        empty_set1.insertInteger(set1[index]);
 
     for (size_t index{0}; index < set2.size(); index++)
-        empty_set2.setInteger(set2[index], true);
+        empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
@@ -171,10 +171,10 @@ TEST(IntersectionOfSets, twoIntersectingNonEmptySets) {
     IntegerSet empty_set2;
 
     for (size_t index{0}; index < set1.size(); index++)
-        empty_set1.setInteger(set1[index], true);
+        empty_set1.insertInteger(set1[index]);
 
     for (size_t index{0}; index < set2.size(); index++)
-        empty_set2.setInteger(set2[index], true);
+        empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 

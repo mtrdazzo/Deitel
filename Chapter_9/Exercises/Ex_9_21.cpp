@@ -14,10 +14,16 @@ IntegerSet::IntegerSet(std::array<bool, MAX_VECTOR_SIZE> arrayOfInts) {
         setOfInts.push_back(arrayOfInts[index]);
 }
 
-void IntegerSet::setInteger(const size_t index, const bool status) {
+void IntegerSet::insertInteger(const size_t index) {
     if (index >= MAX_VECTOR_SIZE)
         throw std::invalid_argument("invalid index, must be between 0 and 100 inclusive");
-    setOfInts[index] = status;
+    setOfInts[index] = true;
+}
+
+void IntegerSet::deleteInteger(const size_t index) {
+    if (index >= MAX_VECTOR_SIZE)
+        throw std::invalid_argument("invalid index, must be between 0 and 100 inclusive");
+    setOfInts[index] = false;
 }
 
 bool IntegerSet::getInteger(const size_t index) {

@@ -18,6 +18,9 @@
  * false in either or both of the existing sets, and an element of the result is set to true if that
  * element is true in each of the existing sets).
  * 
+ * c) Provide an insertElement function that places a new integer k into a set by setting a[k] to true.
+ * Provide a deleteElement member function that deletes integer m by setting a[m] to false.
+ * 
  */
 
 #ifndef EX_9_21_H
@@ -43,7 +46,8 @@ class IntegerSet {
         IntegerSet unionOfSets(const IntegerSet &) const;
         IntegerSet intersectionOfSets(const IntegerSet &) const;
         
-        void setInteger(const size_t, const bool);
+        void insertInteger(const size_t);
+        void deleteInteger(const size_t);
         bool getInteger(const size_t);
 
     private:
