@@ -65,6 +65,26 @@ TEST(UnionOfSets, twoEmptySets) {
         EXPECT_FALSE(empty_set3.getInteger(index));
 }
 
+TEST(UnionOfSets, oneEmptySet) {
+
+    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
+    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    for (size_t index{0}; index < set1.size(); index++)
+        empty_set1.setInteger(set1[index], true);
+
+    IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
+
+    for (size_t index{0}; index < set1.size(); index++)
+        EXPECT_TRUE(empty_set3.getInteger(set1[index]));
+
+    for (size_t index{0}; index < set2.size(); index++)
+        EXPECT_FALSE(empty_set3.getInteger(set2[index]));
+}
+
 TEST(UnionOfSets, twoNonEmptySets) {
 
     std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
@@ -80,6 +100,83 @@ TEST(UnionOfSets, twoNonEmptySets) {
         empty_set2.setInteger(set2[index], true);
 
     IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
+
+    for (size_t index{0}; index < set1.size(); index++)
+        EXPECT_TRUE(empty_set3.getInteger(set1[index]));
+
+    for (size_t index{0}; index < set2.size(); index++)
+        EXPECT_TRUE(empty_set3.getInteger(set2[index]));
+}
+
+TEST(IntersectionOfSets, twoEmptySets) {
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
+
+    for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
+        EXPECT_FALSE(empty_set3.getInteger(index));
+}
+
+TEST(IntersectionOfSets, oneNonIntersectingEmptySet) {
+
+    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
+    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    for (size_t index{0}; index < set1.size(); index++)
+        empty_set1.setInteger(set1[index], true);
+
+    IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
+
+    for (size_t index{0}; index < set1.size(); index++)
+        EXPECT_FALSE(empty_set3.getInteger(set1[index]));
+
+    for (size_t index{0}; index < set2.size(); index++)
+        EXPECT_FALSE(empty_set3.getInteger(set2[index]));
+}
+
+TEST(IntersectionOfSets, twoNonIntersectingNonEmptySets) {
+
+    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
+    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    for (size_t index{0}; index < set1.size(); index++)
+        empty_set1.setInteger(set1[index], true);
+
+    for (size_t index{0}; index < set2.size(); index++)
+        empty_set2.setInteger(set2[index], true);
+
+    IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
+
+    for (size_t index{0}; index < set1.size(); index++)
+        EXPECT_FALSE(empty_set3.getInteger(set1[index]));
+
+    for (size_t index{0}; index < set2.size(); index++)
+        EXPECT_FALSE(empty_set3.getInteger(set2[index]));
+}
+
+TEST(IntersectionOfSets, twoIntersectingNonEmptySets) {
+
+    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
+    std::array<size_t, 5> set2 = {1, 6, 10, 50, 33};
+
+    IntegerSet empty_set1;
+    IntegerSet empty_set2;
+
+    for (size_t index{0}; index < set1.size(); index++)
+        empty_set1.setInteger(set1[index], true);
+
+    for (size_t index{0}; index < set2.size(); index++)
+        empty_set2.setInteger(set2[index], true);
+
+    IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
     for (size_t index{0}; index < set1.size(); index++)
         EXPECT_TRUE(empty_set3.getInteger(set1[index]));
