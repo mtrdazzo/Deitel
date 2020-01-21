@@ -9,7 +9,7 @@ TEST(DefaultConstructor, AllElementsFalse) {
         EXPECT_FALSE(empty_set.getInteger(index));
 }
 
-TEST(insertInteger, setElementsTrue) {
+TEST(insertInteger, insertValidIntegers) {
 
     IntegerSet empty_set;
 
@@ -22,7 +22,7 @@ TEST(insertInteger, setElementsTrue) {
     EXPECT_TRUE(empty_set.getInteger(50));
 }
 
-TEST(insertInteger, setInvalidElementTrue) {
+TEST(insertInteger, insertInvalidInteger) {
 
     IntegerSet empty_set;
 
@@ -33,7 +33,7 @@ TEST(insertInteger, setInvalidElementTrue) {
     } 
 }
 
-TEST(insertInteger, setElementsFalse) {
+TEST(insertInteger, deleteValidIntegers) {
 
     IntegerSet empty_set;
 
@@ -52,6 +52,17 @@ TEST(insertInteger, setElementsFalse) {
     EXPECT_FALSE(empty_set.getInteger(0));
     EXPECT_FALSE(empty_set.getInteger(100));
     EXPECT_FALSE(empty_set.getInteger(50));
+}
+
+TEST(insertInteger, deleteInvalidInteger) {
+
+    IntegerSet empty_set;
+
+    try {
+        empty_set.deleteInteger(MAX_VECTOR_SIZE);
+    } catch (std::invalid_argument const &err) {
+        EXPECT_STRCASEEQ(err.what(), "invalid index, must be between 0 and 100 inclusive");
+    } 
 }
 
 TEST(UnionOfSets, twoEmptySets) {
