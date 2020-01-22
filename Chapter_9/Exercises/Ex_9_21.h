@@ -27,6 +27,12 @@
  * 
  * e) Provide an isEqualTo member function that  determines whether two sets are equal.
  * 
+ * f) Provide an additional constructor that receives an array of integers, and uses the array to
+ * intialize a set object.
+ * 
+ * Now write a driver program to test your IntegerSet class. Intantiate several IntegerSet objects. Test
+ * that all your member functions work properly.
+ * 
  */
 
 #ifndef EX_9_21_H
@@ -48,7 +54,7 @@ class IntegerSet {
     public:
 
         explicit IntegerSet(void);
-        IntegerSet(std::array<bool, MAX_VECTOR_SIZE>);
+        IntegerSet(const uint8_t *, const size_t);
 
         IntegerSet unionOfSets(const IntegerSet &) const;
         IntegerSet intersectionOfSets(const IntegerSet &) const;

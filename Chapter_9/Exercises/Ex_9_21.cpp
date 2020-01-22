@@ -7,11 +7,13 @@ IntegerSet::IntegerSet(void) {
         setOfInts.push_back(false);
 }
 
-IntegerSet::IntegerSet(std::array<bool, MAX_VECTOR_SIZE> arrayOfInts) {
+IntegerSet::IntegerSet(const uint8_t *arrayOfInts, const size_t numInts) : IntegerSet() {
 
-    /* Initialize empty integer set */
-    for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
-        setOfInts.push_back(arrayOfInts[index]);
+    if (numInts > MAX_VECTOR_SIZE)
+        throw std::invalid_argument("invalid index, must be between 0 and 100 inclusive");
+    
+    for (size_t index{0}; index < numInts; index++)
+        insertInteger(arrayOfInts[index]);
 }
 
 void IntegerSet::insertInteger(const size_t index) {
@@ -35,26 +37,24 @@ bool IntegerSet::getInteger(const size_t index) {
 
 IntegerSet IntegerSet::unionOfSets(const IntegerSet & other) const {
 
-    std::array<bool, MAX_VECTOR_SIZE> unionArray;
+    IntegerSet unionIntegerSet;
 
     for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
-        unionArray[index] = (this->setOfInts[index] || other.setOfInts[index]) ? true : false;
-
-    IntegerSet unionIntegerSet(unionArray);
+        if (this->setOfInts[index] || other.setOfInts[index])
+            unionIntegerSet.insertInteger(index);
 
     return unionIntegerSet;
 }
 
 IntegerSet IntegerSet::intersectionOfSets(const IntegerSet & other) const {
 
-    std::array<bool, MAX_VECTOR_SIZE> unionArray;
+    IntegerSet intersectionIntegerSet;
 
     for (size_t index{0}; index < MAX_VECTOR_SIZE; index++)
-        unionArray[index] = (this->setOfInts[index] && other.setOfInts[index]) ? true : false;
+        if (this->setOfInts[index] && other.setOfInts[index])
+            intersectionIntegerSet.insertInteger(index);
 
-    IntegerSet unionIntegerSet(unionArray);
-
-    return unionIntegerSet;
+    return intersectionIntegerSet;
 }
 
 std::string IntegerSet::toString(void) const {

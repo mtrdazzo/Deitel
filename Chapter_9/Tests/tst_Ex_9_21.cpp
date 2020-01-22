@@ -78,44 +78,44 @@ TEST(UnionOfSets, twoEmptySets) {
 
 TEST(UnionOfSets, oneEmptySet) {
 
-    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+    uint8_t set1[] = {1, 6, 10, 50, 33};
+    uint8_t set2[] = {12, 100, 75, 51, 99};
 
     IntegerSet empty_set1;
     IntegerSet empty_set2;
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         empty_set1.insertInteger(set1[index]);
 
     IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         EXPECT_TRUE(empty_set3.getInteger(set1[index]));
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         EXPECT_FALSE(empty_set3.getInteger(set2[index]));
 }
 
 TEST(UnionOfSets, twoNonEmptySets) {
 
-    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> set2 = {12, 100, 75, 50, 99};
+    uint8_t set1[] = {1, 6, 10, 50, 33};
+    uint8_t set2[] = {12, 100, 75, 50, 99};
 
     IntegerSet empty_set1;
     IntegerSet empty_set2;
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         empty_set1.insertInteger(set1[index]);
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.unionOfSets(empty_set2);
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         EXPECT_TRUE(empty_set3.getInteger(set1[index]));
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         EXPECT_TRUE(empty_set3.getInteger(set2[index]));
 }
 
@@ -132,67 +132,67 @@ TEST(IntersectionOfSets, twoEmptySets) {
 
 TEST(IntersectionOfSets, oneNonIntersectingEmptySet) {
 
-    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+    uint8_t set1[] = {1, 6, 10, 50, 33};
+    uint8_t set2[] = {12, 100, 75, 51, 99};
 
     IntegerSet empty_set1;
     IntegerSet empty_set2;
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         empty_set1.insertInteger(set1[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         EXPECT_FALSE(empty_set3.getInteger(set1[index]));
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         EXPECT_FALSE(empty_set3.getInteger(set2[index]));
 }
 
 TEST(IntersectionOfSets, twoNonIntersectingNonEmptySets) {
 
-    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> set2 = {12, 100, 75, 51, 99};
+    uint8_t set1[] = {1, 6, 10, 50, 33};
+    uint8_t set2[] = {12, 100, 75, 51, 99};
 
     IntegerSet empty_set1;
     IntegerSet empty_set2;
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         empty_set1.insertInteger(set1[index]);
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         EXPECT_FALSE(empty_set3.getInteger(set1[index]));
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         EXPECT_FALSE(empty_set3.getInteger(set2[index]));
 }
 
 TEST(IntersectionOfSets, twoIntersectingNonEmptySets) {
 
-    std::array<size_t, 5> set1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> set2 = {1, 6, 10, 50, 33};
+    uint8_t set1[] = {1, 6, 10, 50, 33};
+    uint8_t set2[] = {1, 6, 10, 50, 33};
 
     IntegerSet empty_set1;
     IntegerSet empty_set2;
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         empty_set1.insertInteger(set1[index]);
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         empty_set2.insertInteger(set2[index]);
 
     IntegerSet empty_set3 = empty_set1.intersectionOfSets(empty_set2);
 
-    for (size_t index{0}; index < set1.size(); index++)
+    for (size_t index{0}; index < sizeof(set1) / sizeof(set1[0]); index++)
         EXPECT_TRUE(empty_set3.getInteger(set1[index]));
 
-    for (size_t index{0}; index < set2.size(); index++)
+    for (size_t index{0}; index < sizeof(set2) / sizeof(set2[0]); index++)
         EXPECT_TRUE(empty_set3.getInteger(set2[index]));
 }
 
@@ -219,13 +219,13 @@ TEST(IsEqualTo, nonEmptySetsEqual) {
     IntegerSet set1;
     IntegerSet set2;
 
-    std::array<size_t, 5> num_array1 = {1, 6, 10, 50, 33};
-    std::array<size_t, 5> num_array2 = {1, 6, 10, 50, 33};
+    uint8_t num_array1[] = {1, 6, 10, 50, 33};
+    uint8_t num_array2[] = {1, 6, 10, 50, 33};
 
-    for (size_t index{0}; index < num_array1.size(); index++)
+    for (size_t index{0}; index < sizeof(num_array1) / sizeof(num_array1[0]); index++)
         set1.insertInteger(num_array1[index]);
 
-    for (size_t index{0}; index < num_array2.size(); index++)
+    for (size_t index{0}; index < sizeof(num_array2) / sizeof(num_array2[0]); index++)
         set2.insertInteger(num_array2[index]);
 
     EXPECT_TRUE(set1.isEqualTo(set2));
@@ -244,13 +244,13 @@ TEST(IsEqualTo, nonEmptySetsNotEqual) {
     IntegerSet set1;
     IntegerSet set2;
 
-    std::array<size_t, 5> num_array1 = {1, 6, 10, 50, 100};
-    std::array<size_t, 4> num_array2 = {1, 6, 10, 50};
+    uint8_t num_array1[] = {1, 6, 10, 50, 100};
+    uint8_t num_array2[] = {1, 6, 10, 50};
 
-    for (size_t index{0}; index < num_array1.size(); index++)
+    for (size_t index{0}; index < sizeof(num_array1) / sizeof(num_array1[0]); index++)
         set1.insertInteger(num_array1[index]);
 
-    for (size_t index{0}; index < num_array2.size(); index++)
+    for (size_t index{0}; index < sizeof(num_array2) / sizeof(num_array2[0]); index++)
         set2.insertInteger(num_array2[index]);
 
     EXPECT_FALSE(set1.isEqualTo(set2));
