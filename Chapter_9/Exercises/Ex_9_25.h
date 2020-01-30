@@ -183,6 +183,9 @@ class PokerGame {
 
     public:
 
+        /**
+         * Players in Game
+         */
         enum e_Player {
             NO_PLAYER,
             PLAYER_1,

@@ -359,6 +359,10 @@ void PokerGame::deal() {
             m_aPlayers[playerNum].acceptCard(m_cDeck.dealCard());
 }
 
+/**
+ * @brief Determine the higher score between two hands. If the hands have the
+ *        same score, compare the highest score.
+ */
 PokerGame::e_Player PokerGame::determineWinner() const {
 
     if (m_aPlayers[0].getScore() != m_aPlayers[1].getScore())
