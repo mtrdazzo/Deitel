@@ -21,10 +21,14 @@
 #include <array>
 #include <algorithm> /* for sort function */
 #include <sstream>
+#include <iostream>
 
+#define WHAT
 #define CARDS_IN_DECK 52
-#define CARDS_IN_HAND 5
-#define NUMBER_OF_PLAYERS 2 /* requirements for only two hands */
+#define MAX_CARDS_HAND 5
+#define MAX_PLAYERS 2 /* requirements for only two hands */
+
+#define LOG(x) std::cout << x << std::endl; 
 
 /**
  * Card Class
@@ -54,7 +58,8 @@ class Card {
          * All Card Faces for each suit
          */
         enum eFaces {
-            e2 = 0,
+            eNone = 0,
+            e2,
             e3,
             e4,
             e5,
@@ -134,15 +139,16 @@ class PlayerHand {
         Card::eFaces getHighestCard() const { return m_uiHighestCard; }
 
         /* Return highest face card in hand in case of tie */
-        Card::eFaces getTieBreaker() const { return m_pCards[m_uiNumCards-1]->getFace(); }
+        Card::eFaces getTieBreaker() const { return m_uiTieBreaker; }
 
     private:
 
         void calculateScore(); /* Calculate score */
 
-        size_t m_uiNumCards{0}; /* Current number of cards in hand, maximum of CARDS_IN_HAND */
-        Card::eFaces m_uiHighestCard; /* Hightest card related to card combination */
-        std::array<Card*, CARDS_IN_HAND> m_pCards;
+        size_t m_uiNumCards{0}; /* Current number of cards in hand, maximum of MAX_CARDS_HAND */
+        Card::eFaces m_uiHighestCard{Card::eNone}; /* Hightest card related to card combination */
+        Card::eFaces m_uiTieBreaker{Card::eNone}; /* Tie breaker in case of tie of highest card */
+        std::array<Card*, MAX_CARDS_HAND> m_pCards;
         eScore m_eScore{NONE}; /* Highest score in hand */
 };
 
@@ -196,13 +202,14 @@ class PokerGame {
 
         std::string toString() const;
         e_Player determineWinner() const;
-        void addPlayer(PlayerHand &);
-        void deal();
+        void addPlayer(PlayerHand *);
+        void dealCards();
 
     private:
 
         DeckOfCards m_cDeck;
-        std::array<PlayerHand, NUMBER_OF_PLAYERS> m_aPlayers;
+        uint8_t m_uiNumPlayers{0};
+        std::array<PlayerHand *, MAX_PLAYERS> m_aPlayers;
 };
 
 #endif /* EX_9_25_H */

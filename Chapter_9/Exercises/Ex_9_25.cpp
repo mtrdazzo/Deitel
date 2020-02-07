@@ -47,8 +47,9 @@ std::string Card::toString() const {
  * @brief PlayerHand destructor, free all cards in the player's hand.
  */
 PlayerHand::~PlayerHand() {
-    for (auto card : m_pCards)
-        delete card;
+    if (m_uiNumCards)
+        for (size_t index{0}; index < m_uiNumCards; ++index)        
+            delete m_pCards[index];
 }
 
 /**
@@ -71,12 +72,12 @@ std::string PlayerHand::toString() const {
  * @param newCard Card to be inserted into the player's hand.
  */
 void PlayerHand::acceptCard(Card *newCard) {
-    if (m_uiNumCards < CARDS_IN_HAND)
+    if (m_uiNumCards < MAX_CARDS_HAND)
         m_pCards[m_uiNumCards++] = newCard;
     else
         throw std::invalid_argument("Cannot accept more than 5 cards");
 
-    if (m_uiNumCards == CARDS_IN_HAND) {
+    if (m_uiNumCards == MAX_CARDS_HAND) {
         std::sort(m_pCards.begin(), m_pCards.end(), compByFace);
         calculateScore();
     }
@@ -90,6 +91,7 @@ void PlayerHand::acceptCard(Card *newCard) {
 bool PlayerHand::has_flush() const {
 
     return (m_pCards[0]->getSuit() == m_pCards[1]->getSuit()) &&
+           (m_pCards[1]->getSuit() == m_pCards[2]->getSuit()) &&
            (m_pCards[2]->getSuit() == m_pCards[3]->getSuit()) &&
            (m_pCards[3]->getSuit() == m_pCards[4]->getSuit());
 }
@@ -137,8 +139,18 @@ bool PlayerHand::has_pair() {
     for (auto it = m_pCards.begin(); it != m_pCards.end() - 1; ++it)
         if ((*it)->getFace() == (*(it + 1))->getFace()) {
             m_uiHighestCard = (*it)->getFace();
+
+            if (it + 1 == m_pCards.end() - 1) {
+                m_uiTieBreaker = (*(it - 1))->getFace();
+            }
+            else {
+                m_uiTieBreaker = m_pCards[m_uiNumCards-1]->getFace();
+            }
             return true;
         }
+
+    m_uiTieBreaker = m_pCards[m_uiNumCards-1]->getFace();
+
     return false;
 }
 
@@ -157,6 +169,7 @@ bool PlayerHand::has_two_pair() {
                     if ((*(it + 2))->getFace() == (*(it + 3))->getFace() &&
                        (*(it + 2))->getFace() != (*it)->getFace()) {
                         m_uiHighestCard = (*(it + 3))->getFace();
+                        m_uiTieBreaker = m_pCards[0]->getFace();
                         return true;
                     }
                     else
@@ -164,12 +177,14 @@ bool PlayerHand::has_two_pair() {
                 case 5:
                     if ((*(it + 2))->getFace() == (*(it + 3))->getFace() &&
                        (*(it + 3))->getFace() != (*it)->getFace()) {
+                        m_uiTieBreaker = (*(it + 4))->getFace();
                         m_uiHighestCard = (*(it + 3))->getFace();
                         return true;
                     }
                     else if ((*(it + 3))->getFace() == (*(it + 4))->getFace() &&
                            (*(it + 3))->getFace() != (*it)->getFace()) {
                         m_uiHighestCard = (*(it + 4))->getFace();
+                        m_uiTieBreaker = (*(it + 2))->getFace();
                         return true;
                     }
                     else
@@ -246,15 +261,17 @@ void PlayerHand::calculateScore() {
 
     /* Has royal flush or straight flush */
     if (straightScore && flushScore)
-        m_eScore = has_royal_flush() ? ROYAL_FLUSH : STRAIGHT_FLUSH;
+        flushScore = has_royal_flush() ? ROYAL_FLUSH : STRAIGHT_FLUSH;
 
-    if (straightScore || flushScore || pairScore == FULL_HOUSE)
-        m_uiHighestCard = getTieBreaker();
+    if (straightScore || flushScore || pairScore == FULL_HOUSE) {
+        m_uiHighestCard = m_pCards[m_uiNumCards-1]->getFace();
+        m_uiTieBreaker = Card::eNone;
+    }
 
     m_eScore = static_cast<eScore>(std::max(std::max(flushScore, straightScore), pairScore));
 
     if (m_eScore == NONE)
-        m_uiHighestCard = getTieBreaker();
+        m_uiHighestCard = m_uiTieBreaker = m_pCards[m_uiNumCards-1]->getFace();
 }
 
 /**
@@ -341,9 +358,9 @@ std::string DeckOfCards::printDeck(void) const {
 std::string PokerGame::toString() const {
 
     std::ostringstream output;
-    for (size_t playerNum{0}; playerNum < NUMBER_OF_PLAYERS; ++playerNum) {
+    for (size_t playerNum{0}; playerNum < m_uiNumPlayers; ++playerNum) {
         output << "Player: " << playerNum + 1 << std::endl;
-        output << m_aPlayers[playerNum].toString() << std::endl;
+        output << m_aPlayers[playerNum]->toString() << std::endl;
     }
 
     return output.str();
@@ -352,24 +369,48 @@ std::string PokerGame::toString() const {
 /**
  * @brief Deals 5 Cards to each player one by one.
  */
-void PokerGame::deal() {
+void PokerGame::dealCards() {
 
-    for (size_t cardNum{0}; cardNum < CARDS_IN_HAND; ++cardNum)
-        for (size_t playerNum{0}; playerNum < NUMBER_OF_PLAYERS; ++playerNum)
-            m_aPlayers[playerNum].acceptCard(m_cDeck.dealCard());
+    for (size_t cardNum{0}; cardNum < MAX_CARDS_HAND; ++cardNum)
+        for (size_t playerNum{0}; playerNum < m_uiNumPlayers; ++playerNum)
+            m_aPlayers[playerNum]->acceptCard(m_cDeck.dealCard());
+    /* no more players can be added */
+    m_uiNumPlayers = MAX_PLAYERS;
 }
 
 /**
- * @brief Determine the higher score between two hands. If the hands have the
- *        same score, compare the highest score.
+ * @brief Determine the winner of the game. If the two players have the same score the highest card wins.
+ *        If the two players have the same highest card, the game is a draw.
+ *
+ * @return Player enum of winning player, if there is a tie to player wins.
  */
 PokerGame::e_Player PokerGame::determineWinner() const {
 
-    if (m_aPlayers[0].getScore() != m_aPlayers[1].getScore())
-        return m_aPlayers[0].getScore() > m_aPlayers[1].getScore() ? PLAYER_1 : PLAYER_2;
+    if (m_aPlayers[0]->getScore() != m_aPlayers[1]->getScore())
+        return m_aPlayers[0]->getScore() > m_aPlayers[1]->getScore() ? PLAYER_1 : PLAYER_2;
 
-    if (m_aPlayers[0].getHighestCard() != m_aPlayers[1].getHighestCard())
-        return m_aPlayers[0].getHighestCard() > m_aPlayers[1].getHighestCard() ? PLAYER_1 : PLAYER_2;
+    if (m_aPlayers[0]->getHighestCard() != m_aPlayers[1]->getHighestCard())
+        return m_aPlayers[0]->getHighestCard() > m_aPlayers[1]->getHighestCard() ? PLAYER_1 : PLAYER_2;
+
+    if (m_aPlayers[0]->getTieBreaker() != m_aPlayers[1]->getTieBreaker())
+        return m_aPlayers[0]->getTieBreaker() > m_aPlayers[1]->getTieBreaker() ? PLAYER_1 : PLAYER_2;
+
+    return NO_PLAYER;
+}
+
+/**
+ * @brief Adds a new player to the poker game. This is mainly added to control which cards are
+ *        distributed to each player for testing the determineWinner method.
+ *
+ * @param newPlayer new player with a full hand of five cards
+ */
+void PokerGame::addPlayer(PlayerHand *newPlayer) {
+
+    if (m_uiNumPlayers < MAX_PLAYERS)
+        m_aPlayers[m_uiNumPlayers++] = newPlayer;
     else
-        return NO_PLAYER;
+    {
+        throw std::invalid_argument("too many players, maximum of 2");
+    }
+    
 }
