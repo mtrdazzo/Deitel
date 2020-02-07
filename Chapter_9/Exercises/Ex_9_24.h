@@ -40,7 +40,9 @@ class Card {
         static const char *g_suits[];
         static const char *g_faces[];
 
-        /* Suits of Cards Enum */
+        /**
+         * Suits of Cards Enum
+         */
         enum eSuits {
             eHEARTS = 0,
             eDIAMONDS,
@@ -49,7 +51,9 @@ class Card {
             eNumSuits
         };
 
-        /* Card Faces Enum Values */
+        /**
+         * Card Faces Enum Values
+         */
         enum eFaces {
             e2 = 0,
             e3,
@@ -81,6 +85,11 @@ class Card {
 
 bool compByFace(Card *, Card *);
 
+/**
+ * Player Hand class
+ * 
+ * Cards of a player's hand and determines the poker score of the hand.
+ */
 class PlayerHand {
 
     public:
