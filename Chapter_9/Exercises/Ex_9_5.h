@@ -33,6 +33,7 @@
  * 
  *   Write a driver program to test the functionality of the Quadratic class.
  * 
+ * @author Matt Randazzo
  */
 
 #ifndef EX_9_5_H

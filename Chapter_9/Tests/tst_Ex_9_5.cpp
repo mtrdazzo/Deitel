@@ -9,6 +9,9 @@
 #include <Ex_9_5.h>
 #include <gtest/gtest.h>
 
+/**
+ * @brief Verifies quadratic function with no arguments.
+ */
 TEST(ClassConstructor, NoArguments){
 
     Quadratic q1;
@@ -18,6 +21,9 @@ TEST(ClassConstructor, NoArguments){
     EXPECT_DOUBLE_EQ(q1.getC(), 0.0);
 }
 
+/**
+ * @brief Verifies quadratic function with a single zero value argument.
+ */
 TEST(ClassConstructor, SingleArgumentZero){
 
     double firstArg{0.0};
@@ -28,7 +34,9 @@ TEST(ClassConstructor, SingleArgumentZero){
     EXPECT_DOUBLE_EQ(q1.getC(), 0.0);
 }
 
-
+/**
+ * @brief Verifies quadratic function with a single non-zero value argument.
+ */
 TEST(ClassConstructor, SingleArgumentNonZero){
 
     double firstArg{-2.0};
@@ -39,6 +47,9 @@ TEST(ClassConstructor, SingleArgumentNonZero){
     EXPECT_DOUBLE_EQ(q1.getC(), 0.0);
 }
 
+/**
+ * @brief Verifies quadratic function with two arguments.
+ */
 TEST(ClassConstructor, TwoArguments){
 
     double firstArg{-1.0};
@@ -50,6 +61,9 @@ TEST(ClassConstructor, TwoArguments){
     EXPECT_DOUBLE_EQ(q1.getC(), 0.0);
 }
 
+/**
+ * @brief Verifies quadratic function with three arguments.
+ */
 TEST(ClassConstructor, ThreeArguments){
 
     double firstArg{10.0};
