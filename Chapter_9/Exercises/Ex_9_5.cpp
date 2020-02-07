@@ -1,10 +1,18 @@
-#include <iostream>
+/**
+ * @file Ex_9_25.cpp
+ *
+ * @brief Implementation for the Quadratic class. Includes logic for adding, subtracting,
+ *        solving, and printing quadratic functions.
+ *
+ * @author Matt Randazzo
+ */
+
+#include <Ex_9_5.h>
 #include <sstream>
 #include <math.h>
-#include "Ex_9_5.h"
 
 /**
- *  Class Constructors (Delegated format)
+ *  @brief Class Constructors (Delegated format)
  */
 Quadratic::Quadratic(double a_in, double b_in, double c_in) :
     a{a_in}, b{b_in}, c{c_in}{
@@ -17,10 +25,10 @@ Quadratic::Quadratic(double a_in) : Quadratic(a_in, 0, 0) {}
 Quadratic::Quadratic(void) : Quadratic(1, 0, 0) {}
 
 /**
- * Add the parameters of another Quadratic function.
+ * @brief Add the parameters of another Quadratic function.
  *
- * @param other   Other quadratic object to sum to current object
- * @return        void
+ * @param other Other quadratic object to sum to current object
+ * @return void
  */
 void Quadratic::add(Quadratic& other) {
     a += other.a;
@@ -29,10 +37,10 @@ void Quadratic::add(Quadratic& other) {
 }
 
 /**
- * Subtract the parameters of another Quadratic function.
+ * @brief Subtract the parameters of another Quadratic function.
  *
- * @param other   Other quadratic object to sum to current object
- * @return        void
+ * @param other Other quadratic object to sum to current object
+ * @return void
  */
 void Quadratic::subtract(Quadratic& other) {
     a -= other.a;
@@ -41,7 +49,7 @@ void Quadratic::subtract(Quadratic& other) {
 }
 
 /**
- * Add the parameters of another Quadratic function.
+ * @brief Add the parameters of another Quadratic function.
  *
  * @return A string representation of a quadratic equation in the form
  *         ax^2 + bx + c
@@ -56,8 +64,8 @@ std::string Quadratic::toString(void) {
 }
 
 /**
- * Solves the quadratic equation. Displays the solutions if (b^2 - 4ac) is greater
- * than 0. Otherwise it displays "No Real Roots."
+ * @brief Solves the quadratic equation. Displays the solutions if (b^2 - 4ac)
+ *        is greater than 0. Otherwise it displays "No Real Roots."
  *
  * @return void
  */
@@ -76,5 +84,4 @@ void Quadratic::solve(void) {
     else {
         std::cout << "No Real Roots" << std::endl;
     }
-
 }

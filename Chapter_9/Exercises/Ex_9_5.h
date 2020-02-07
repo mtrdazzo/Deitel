@@ -1,5 +1,9 @@
 /**
- * Exercise 9-5 Quadratic Equations Class
+ * @file Ex_9_5.h
+ * 
+ * @brief A class for performing arithmetic and solving quadratic equations.
+ * 
+ * @mainpage Exercise 9-25 Quadratic Equations Class
  * 
  * Create a class called Quadratic for performing arithmetic on and solving quadratic
  * equations. A quadratic equation is an equation in the form
@@ -35,7 +39,6 @@
 #define EX_9_5_H
 
 #include <iostream>
-
 class Quadratic {
 
     public:
@@ -51,6 +54,10 @@ class Quadratic {
         void subtract(Quadratic&);
         std::string toString(void);
         void solve(void);
+
+        double getA(void) const { return a; }
+        double getB(void) const { return b; }
+        double getC(void) const { return c; }
     
     private:
 
