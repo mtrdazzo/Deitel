@@ -1,5 +1,5 @@
 /**
- * @file Ex_9_26.cpp
+ * @file Ex_9_6.cpp
  *
  * @brief Implementation for the Rational class. Includes logic for adding, subtracting,
  *        solving, and printing Rational numbers.
