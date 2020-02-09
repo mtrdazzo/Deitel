@@ -1,5 +1,5 @@
 /**
- * @file tst_Ex_9_25.cpp
+ * @file tst_Ex_9_6.cpp
  *
  * @brief Tests the add, subtract, multiply, and divide methods of the Rational class.
  *

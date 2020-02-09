@@ -1,5 +1,5 @@
 /**
- * @file tst_Ex_9_25.cpp
+ * @file tst_Ex_9_5.cpp
  *
  * @brief Tests the arithemetic and solving of quadratic equations.
  *
