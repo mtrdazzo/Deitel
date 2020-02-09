@@ -6,14 +6,6 @@
  * @author Matt Randazzo
  */
 
-/**
- * @file Ex_9_9.cpp
- *
- * @brief Enhanced Implementation for the Student and Name classes.
- *
- * @author Matt Randazzo
- */
-
 #include <Ex_9_9.h>
 
 /**

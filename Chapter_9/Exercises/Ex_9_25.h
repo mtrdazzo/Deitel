@@ -1,7 +1,7 @@
 /**
  * @file Ex_9_25.h
  *
- * @brief
+ * @brief Interface to a Card Game that deals two five-card poker hands.
  *
  * @mainpage Exercise 9-25 Project: Card Shuffling and Dealing
  *
@@ -21,14 +21,11 @@
 #include <array>
 #include <algorithm> /* for sort function */
 #include <sstream>
-#include <iostream>
 
 #define WHAT
 #define CARDS_IN_DECK 52
 #define MAX_CARDS_HAND 5
 #define MAX_PLAYERS 2 /* requirements for only two hands */
-
-#define LOG(x) std::cout << x << std::endl; 
 
 /**
  * Card Class
