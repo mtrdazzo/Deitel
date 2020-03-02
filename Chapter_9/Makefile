@@ -28,9 +28,11 @@ MKDIR_P  = mkdir -p
 # List of Source files, exercises, and object files
 SRC_FILES     = $(wildcard $(SRC_DIR)/*.cpp)
 TST_FILES     = $(wildcard $(TST_DIR)/*.cpp)
+
 EXERCISES     = $(basename $(notdir $(SRC_FILES)))
 TESTS         = $(basename $(notdir $(TST_FILES)))
 TESTS        := $(subst tst_,,$(TESTS))
+
 SRC_OBJ_FILES = $(addsuffix .o, $(addprefix $(SRC_DIR)/obj/,$(EXERCISES)))
 TST_OBJ_FILES = $(addsuffix .o, $(addprefix $(TST_DIR)/obj/,$(basename $(notdir $(TST_FILES)))))
 BIN_FILES     = $(addprefix $(BIN_DIR)/,$(TESTS))
@@ -40,7 +42,6 @@ OUT_FILES     = $(OBJ_FILES) \
 
 DEPS  = $(OBJ_FILES:.o=.d)
 DEPS += $(GOOGLE_TEST_OBJ_FILES:.o=.d)
--include $(DEPS)
 
 vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 
@@ -88,7 +89,7 @@ $(TST_DIR)/obj/%.o : %.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(BIN_DIR)/% : $(TST_DIR)/obj/tst_%.o $(SRC_DIR)/obj/%.o
-	@echo "\n  CXX $(notdir $^) $(notdir $(LIBGTEST)) -o $(notdir $@)\n      "
+	@echo "\n  CXX $(notdir $^) -o $(notdir $@)\n      "
 	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
 
 clean:
@@ -107,5 +108,5 @@ __print_banner:
 	echo "                /_/                             ";\
 	echo "";
 
-.PHONY: Makefile clean __print_settings
+.PHONY: Makefile clean __print_banner
 .PRECIOUS: $(TST_DIR)/obj/%.o $(SRC_DIR)/obj/%.o
