@@ -11,7 +11,6 @@
 /* Includes */
 #include <Ex_9_24.h>
 #include <gtest/gtest.h>
-#include <iostream>
 
 /**
  * @brief Verifies there is no pair present in the sample hand of cards.

@@ -10,7 +10,6 @@
 /* Includes */
 #include <Ex_9_25.h>
 #include <gtest/gtest.h>
-#include <iostream>
 
 /**
  * @file tst_Ex_9_24.cpp
