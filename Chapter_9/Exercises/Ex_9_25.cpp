@@ -277,7 +277,7 @@ void PlayerHand::calculateScore() {
 /**
  * @brief DeckOfCards default constructor.
  *
- * @param deckShuffle Set to set shuffle deck on instantiatio (true by default).
+ * @param deckShuffle Set to set shuffle deck on instantiation (true by default).
  */
 DeckOfCards::DeckOfCards(bool deckShuffle) {
 
