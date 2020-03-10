@@ -179,9 +179,9 @@ void TicTacToe::start(void) {
  */
 void TicTacToe::_printBoard(void) const {
 
-    for (auto & row: board) {
-        for (const int space: row)
-            std::cout << space << "|";
+    for (uint8_t row{BOARD_SIZE}; row > 0; --row) {
+        for (uint8_t col{0}; col < BOARD_SIZE; ++col)
+            std::cout << (int)board[row-1][col] << "|";
         std::cout << std::endl;
     }
 }
