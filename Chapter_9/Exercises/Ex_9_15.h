@@ -40,15 +40,20 @@ class TicTacToe {
         void _printGreeting(void) const;
         void _getPlayerOrder(void);
         int _findWinner(void) const;
-        int _freeSpaces(void) const;
+        bool _movesLeft(void) const;
         void _printBoard(void) const;
-        bool _isValidSelection(int) const;
+        bool _isValidSelection(uint8_t) const;
+        void _makeSelection(uint8_t);
+        int _makeSelectionComputer();
+        int minimax(int, bool);
 
         static const size_t BOARD_SIZE{3};
        
         uint8_t board[BOARD_SIZE][BOARD_SIZE] = {m_ePlayer::NO_PLAYER};
+        uint8_t m_uiTurnNum{0};
         int numPlayers{m_ePlayer::NO_PLAYER};
         int currentPlayer{m_ePlayer::PLAYER_1};
+        bool isComputerTurn{false};
 };
 
 #endif
