@@ -18,8 +18,10 @@
 #define EX_9_15_H
 
 #include <iostream>
-
+#include <gtest/gtest_prod.h>
 class TicTacToe {
+
+    FRIEND_TEST(TwoPlayerGame, StartGame);
 
     public:
 
