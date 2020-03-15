@@ -49,6 +49,7 @@ vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 includeIfNotExist = $(filter-out $(wildcard $1), $1)
 
 all: __print_banner \
+	 __make_dirs \
      __google_test \
 	 __make_modules \
 	 __make_test_modules \
@@ -59,6 +60,8 @@ debug: all
 
 release: CXXFLAGS+=$(RELEASE_FLAGS)
 release: clean all
+
+__make_dirs: $(OUT_DIRS)
 
 __google_test: $(GOOGLE_TEST_OBJ_DIR) $(GOOGLE_TEST_OBJ_FILES)
 
