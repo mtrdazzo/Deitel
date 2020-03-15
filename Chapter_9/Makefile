@@ -19,10 +19,10 @@ GOOGLE_TEST_INCL_FLAGS = -I$(GOOGLE_TEST_HOME_DIR) -I$(GOOGLE_TEST_INCL_DIR) -pt
 SRC_DIR = Exercises
 TST_DIR = Tests
 BIN_DIR = $(addsuffix /bin, $(TST_DIR))
-OBJ_DIR = $(addsuffix /obj, $(TST_DIR) $(SRC_DIR))
+OBJ_DIRS = $(addsuffix /obj, $(TST_DIR) $(SRC_DIR))
 INCLUDE_FLAGS = -I$(SRC_DIR)
 
-OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) $(BIN_DIR) $(OBJ_DIR)
+OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) $(BIN_DIR) $(OBJ_DIRS)
 MKDIR_P  = mkdir -p
 
 # List of Source files, exercises, and object files
