@@ -19,6 +19,8 @@
 
 #include <iostream>
 #include <gtest/gtest_prod.h>
+
+#define BOARD_SIZE 3
 class TicTacToe {
 
     FRIEND_TEST(TwoPlayerGame, StartGame);
@@ -31,8 +33,8 @@ class TicTacToe {
 
     private:
 
-        enum m_ePlayer {
-            NO_PLAYER,
+        enum m_ePlayer : uint8_t {
+            NO_PLAYER,  
             PLAYER_1,
             PLAYER_2,
             TIE_GAME
@@ -48,14 +50,12 @@ class TicTacToe {
         void _makeSelection(uint8_t);
         int _makeSelectionComputer();
         int minimax(int, bool);
-
-        static const size_t BOARD_SIZE{3};
        
-        uint8_t board[BOARD_SIZE][BOARD_SIZE] = {m_ePlayer::NO_PLAYER};
+        uint8_t m_pBoard[BOARD_SIZE][BOARD_SIZE] = {m_ePlayer::NO_PLAYER};
         uint8_t m_uiTurnNum{0};
-        int numPlayers{m_ePlayer::NO_PLAYER};
-        int currentPlayer{m_ePlayer::PLAYER_1};
-        bool isComputerTurn{false};
+        uint8_t m_uiNumPlayers{m_ePlayer::NO_PLAYER};
+        uint8_t m_uiCurrentPlayer{m_ePlayer::PLAYER_1};
+        bool m_bIsComputerTurn{false};
 };
 
 #endif
