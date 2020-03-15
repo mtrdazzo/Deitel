@@ -2,7 +2,7 @@
 CXX           = g++
 STD           = -std=c++14
 
-EXTRA_CFLAGS  = -Wall -Wextra
+EXTRA_CFLAGS  = -Wall -Wextra -Werror
 DEBUG_FLAGS   = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O3
 CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD -MP
@@ -36,11 +36,12 @@ TESTS        := $(subst tst_,,$(TESTS))
 SRC_OBJ_FILES = $(addsuffix .o, $(addprefix $(SRC_DIR)/obj/,$(EXERCISES)))
 TST_OBJ_FILES = $(addsuffix .o, $(addprefix $(TST_DIR)/obj/,$(basename $(notdir $(TST_FILES)))))
 BIN_FILES     = $(addprefix $(BIN_DIR)/,$(TESTS))
-OUT_FILES     = $(OBJ_FILES) \
+OUT_FILES     = $(SRC_OBJ_FILES) \
 	   			$(TST_OBJ_FILES) \
 				$(BIN_FILES)
 
-DEPS  = $(OBJ_FILES:.o=.d)
+DEPS  = $(SRC_OBJ_FILES:.o=.d)
+DEPS += $(TST_OBJ_FILES:.o=.d)
 DEPS += $(GOOGLE_TEST_OBJ_FILES:.o=.d)
 
 vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
