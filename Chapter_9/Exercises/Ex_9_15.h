@@ -20,7 +20,12 @@
 #include <iostream>
 #include <gtest/gtest_prod.h>
 
-#define BOARD_SIZE 3
+#define BOARD_SIZE 3 /* Size of each dimension of the board */
+
+/**
+ * @brief Interface for the TicTacToe class.
+ * 
+ */
 class TicTacToe {
 
     FRIEND_TEST(TwoPlayerGame, StartGame);
@@ -28,7 +33,6 @@ class TicTacToe {
     public:
 
         TicTacToe();
-        ~TicTacToe();
         void start(void);
 
     private:
