@@ -1,18 +1,32 @@
+/**
+ * @file Ex_9_15.cpp
+ * @author Matthew J Randazzo (mtrdazzo@domain.com)
+ * @brief Tic Tac Toe Implementation
+ * @version 0.1
+ * @date 2020-03-24
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
+
 #include <Ex_9_15.h>
 #include <algorithm>
 
+/**
+ * @brief Construct a new TicTacToe::TicTacToe object
+ * 
+ */
 TicTacToe::TicTacToe() {
     _printGreeting();
     _getNumberOfPlayers();
     _getPlayerOrder();
 }
 
-TicTacToe::~TicTacToe() {}
-
 /**
- * @brief Determine if the space selected is a valid selection
- * @param selection Index (1-9) of a space on the board
- * @return true if selection is valid, otherwise false
+ * @brief Determine if the space selected is valid.
+ * 
+ * @param selection Index (1-9) of a space on a board
+ * @return {boolean} True if valid space, otherwise false
  */
 bool TicTacToe::_isValidSelection(uint8_t selection) const {
     uint8_t row;
@@ -31,9 +45,9 @@ bool TicTacToe::_isValidSelection(uint8_t selection) const {
 }
 
 /**
- * @brief Make the selection for the current player
+ * @brief  Make the selection for the current player.
  * 
- * @param selection Index of the board chosen
+ * @param selection Index of a space on the board.
  */
 void TicTacToe::_makeSelection(uint8_t selection) {
 
@@ -52,7 +66,9 @@ void TicTacToe::_makeSelection(uint8_t selection) {
 }
 
 /**
- * @brief Make selection for computer 
+ * @brief  Make a selection for the computer player.
+ * 
+ * @return int Best index for the current board.
  */
 int TicTacToe::_makeSelectionComputer(void) {
 
@@ -64,7 +80,7 @@ int TicTacToe::_makeSelectionComputer(void) {
             if (m_pBoard[row][col] == m_ePlayer::NO_PLAYER) {
                 m_pBoard[row][col] = m_uiCurrentPlayer;
 
-                int moveVal = minimax(0, false);
+                int moveVal = minimax(0, true);
 
                 m_pBoard[row][col] = m_ePlayer::NO_PLAYER;
 
@@ -72,7 +88,6 @@ int TicTacToe::_makeSelectionComputer(void) {
                     bestVal = moveVal;
                     bestIndex = (row * BOARD_SIZE) + col + 1;
                 }
-
             }
         }
     }
@@ -80,8 +95,11 @@ int TicTacToe::_makeSelectionComputer(void) {
 }
 
 /**
- * @brief Minimax algorithm
- * @return Score of chosen space
+ * @brief Recursive minimax algorithm to find the best score for each space.
+ * 
+ * @param depth Depth of recursion.
+ * @param isMax Maximum score of the current move.
+ * @return int  Score of the current move.
  */
 int TicTacToe::minimax(int depth, bool isMax) {
 
@@ -123,7 +141,8 @@ int TicTacToe::minimax(int depth, bool isMax) {
 }
 
 /**
- * @brief Start the game
+ * @brief Start the TicTacToe game.
+ * 
  */
 void TicTacToe::start(void) {
 
@@ -134,22 +153,24 @@ void TicTacToe::start(void) {
     do {
 
         validSelection = false;
+        _printBoard();
 
-        do {
-
-            if (m_bIsComputerTurn) {
-                selection = _makeSelectionComputer();
-                validSelection = true;
-                continue;
+        if (m_bIsComputerTurn) {
+            selection = _makeSelectionComputer();
+            validSelection = true;
+            continue;
+        }
+        else {
+            while (!validSelection) {
+                std::cout << "Player " << static_cast<int>(m_uiCurrentPlayer) << " pick a space! ";
+                std::cin >> selection;
+                std::cin.clear();
+                std::cout << selection << std::endl;
+                if (!(validSelection = _isValidSelection(selection) ))
+                    std::cout << selection << " is not a valid selection, pick again" << std::endl;
+                exit(1);
             }
-
-            _printBoard();
-            std::cout << "Player " << static_cast<int>(m_uiCurrentPlayer) << " pick a space! ";
-            std::cin >> selection;
-
-            if (!(validSelection = _isValidSelection(selection) ))
-                std::cout << selection << " is not a valid selection, pick again" << std::endl;
-        } while (!validSelection);
+        }
 
         _makeSelection(selection);
 
@@ -166,13 +187,12 @@ void TicTacToe::start(void) {
     switch (game_status) {
         case m_ePlayer::PLAYER_1:
         case m_ePlayer::PLAYER_2:
+            std::cout << "\n**************" << std::endl;
             if (!m_bIsComputerTurn)
                 std::cout << "Computer WINS!" << std::endl;
-            else {
-                std::cout << "\n**************" << std::endl;
+            else
                 std::cout << "Player " << game_status << " WINS!" << std::endl;
-                std::cout << "**************\n" << std::endl;
-            }
+            std::cout << "**************\n" << std::endl;
             break;
         case m_ePlayer::TIE_GAME:
             std::cout << "Tie Game!" << std::endl;
@@ -183,7 +203,8 @@ void TicTacToe::start(void) {
 }
 
 /**
- * @brief Print the current values of the board
+ * @brief Print the current values of the board.
+ * 
  */
 void TicTacToe::_printBoard(void) const {
 
@@ -219,8 +240,9 @@ void TicTacToe::_printBoard(void) const {
 }
 
 /**
- * @brief Determine is there is a winner of the game
- * @return true if the game has been won, otherwise false
+ * @brief Determine if there is a winner of the current board.
+ * 
+ * @return int Enumeration value of the winning player, tie, or no player.
  */
 int TicTacToe::_findWinner(void) const {
    
@@ -245,7 +267,8 @@ int TicTacToe::_findWinner(void) const {
 }
 
 /**
- * @brief Determine the number of free spaces on the m_pBoard
+ * @brief Determine if there is a free space on the TicTacToe board.
+ * 
  */
 bool TicTacToe::_movesLeft(void) const {
     for (size_t row{0}; row < BOARD_SIZE; row++)
@@ -256,7 +279,8 @@ bool TicTacToe::_movesLeft(void) const {
 }
 
 /**
- * @brief Print greeting before the game has started
+ * @brief Print greeting before the game has started.
+ * 
  */
 void TicTacToe::_printGreeting(void) const {
     std::cout << "Welcome!" << std::endl;
@@ -264,7 +288,8 @@ void TicTacToe::_printGreeting(void) const {
 }
 
 /**
- * @brief Get the order of the players
+ * @brief Get the order of the players in the TicTacToe game.
+ * 
  */
 void TicTacToe::_getPlayerOrder(void) {
 
@@ -288,7 +313,8 @@ void TicTacToe::_getPlayerOrder(void) {
 }
 
 /**
- * @brief Get the number of human players
+ * @brief Get the number of human players in the TicTacToe game.
+ * 
  */
 void TicTacToe::_getNumberOfPlayers(void) {
 
