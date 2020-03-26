@@ -13,13 +13,35 @@
 #include <algorithm>
 
 /**
- * @brief Construct a new TicTacToe::TicTacToe object
+ * @brief Construct a new TicTacToe::TicTacToe object for user input.
  * 
  */
 TicTacToe::TicTacToe() {
     _printGreeting();
     _getNumberOfPlayers();
     _getPlayerOrder();
+}
+
+/**
+ * @brief Construct a new Tic Tac Toe:: Tic Tac Toe object for input from file.
+ * 
+ * @param fileName Name of file with player instructions.
+ */
+TicTacToe::TicTacToe(const char *fileName) : m_pStrFileName{fileName} {
+    m_fileStream.open(m_pStrFileName, std::ios::in);
+    _printGreeting();
+    _getNumberOfPlayers();
+    _getPlayerOrder();
+    start();
+}
+
+/**
+ * @brief Destroy the Tic Tac Toe:: Tic Tac Toe object. Close the file stream.
+ * 
+ */
+TicTacToe::~TicTacToe() {
+    if (m_pStrFileName != nullptr)
+        m_fileStream.close();
 }
 
 /**
@@ -163,12 +185,16 @@ void TicTacToe::start(void) {
         else {
             while (!validSelection) {
                 std::cout << "Player " << static_cast<int>(m_uiCurrentPlayer) << " pick a space! ";
-                std::cin >> selection;
-                std::cin.clear();
+                if (m_pStrFileName != nullptr) {
+                    m_fileStream >> selection;
+                }
+                else {
+                    std::cin >> selection;
+                    std::cin.clear();
+                }
                 std::cout << selection << std::endl;
                 if (!(validSelection = _isValidSelection(selection) ))
                     std::cout << selection << " is not a valid selection, pick again" << std::endl;
-                exit(1);
             }
         }
 
@@ -300,8 +326,10 @@ void TicTacToe::_getPlayerOrder(void) {
 
     while (choice != 'y' && choice != 'n') {
         std::cout << "Do you want to move first (y/n)? ";
-        std::cin >> choice;
-
+        if (m_pStrFileName != nullptr)
+            m_fileStream >> choice;
+        else
+            std::cin >> choice;
         if (choice != 'y' && choice != 'n') {
             std::cout << "\nInvalid choice: " << choice << std::endl;
             std::cout << "Please enter a valid choice (y/n)" << std::endl;
@@ -320,8 +348,10 @@ void TicTacToe::_getNumberOfPlayers(void) {
 
     while (m_uiNumPlayers < m_ePlayer::PLAYER_1 || m_uiNumPlayers > m_ePlayer::PLAYER_2) {
         std::cout << "How many players? (1 or 2) ";
-        std::cin >> m_uiNumPlayers;
-
+        if (m_pStrFileName != nullptr)
+            m_fileStream >> m_uiNumPlayers;
+        else
+            std::cin >> m_uiNumPlayers;
         m_uiNumPlayers -= '0';
 
         if (m_uiNumPlayers < m_ePlayer::PLAYER_1 || m_uiNumPlayers >  m_ePlayer::PLAYER_2) {

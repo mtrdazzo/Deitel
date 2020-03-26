@@ -18,6 +18,7 @@
 #define EX_9_15_H
 
 #include <iostream>
+#include <fstream>
 #include <gtest/gtest_prod.h>
 
 #define BOARD_SIZE 3 /* Size of each dimension of the board */
@@ -33,9 +34,12 @@ class TicTacToe {
     public:
 
         TicTacToe();
+        ~TicTacToe();
         void start(void);
 
     private:
+
+        TicTacToe(const char *);
 
         enum m_ePlayer : uint8_t {
             NO_PLAYER,  
@@ -60,6 +64,8 @@ class TicTacToe {
         uint8_t m_uiNumPlayers{m_ePlayer::NO_PLAYER};
         uint8_t m_uiCurrentPlayer{m_ePlayer::PLAYER_1};
         bool m_bIsComputerTurn{false};
+        const char *m_pStrFileName{nullptr};
+        std::fstream m_fileStream;
 };
 
 #endif
