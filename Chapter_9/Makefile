@@ -7,6 +7,11 @@ DEBUG_FLAGS   = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O3
 CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD -MP
 
+# gcov parameters
+GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
+GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gnco)
+GCOV_OUT_DIR  = gcov
+
 # Google Test Relative Directories
 GOOGLE_TEST_HOME_DIR   = ../googletest/googletest
 GOOGLE_TEST_INCL_DIR   = $(GOOGLE_TEST_HOME_DIR)/include
@@ -20,7 +25,7 @@ SRC_DIR = Exercises
 TST_DIR = Tests
 BIN_DIR = $(addsuffix /bin, $(TST_DIR))
 OBJ_DIRS = $(addsuffix /obj, $(TST_DIR) $(SRC_DIR))
-INCLUDE_FLAGS = -I$(SRC_DIR)
+INCLUDE_FLAGS = -I$(SRC_DIR) -I/usr/include -L/usr/lib
 
 OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) $(BIN_DIR) $(OBJ_DIRS)
 MKDIR_P  = mkdir -p
@@ -61,6 +66,9 @@ debug: all
 release: CXXFLAGS+=$(RELEASE_FLAGS)
 release: clean all
 
+gcov: CXXFLAGS += $(GCOV_FLAGS)
+gcov: clean release
+
 __make_dirs: $(OUT_DIRS)
 
 __google_test: $(GOOGLE_TEST_OBJ_DIR) $(GOOGLE_TEST_OBJ_FILES)
@@ -85,19 +93,19 @@ $(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
 	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n      "
 
 $(SRC_DIR)/obj/%.o : %.cpp
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
 
 $(TST_DIR)/obj/%.o : %.cpp
 	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(BIN_DIR)/% : $(TST_DIR)/obj/tst_%.o $(SRC_DIR)/obj/%.o
 	@echo "\n  CXX $(notdir $^) -o $(notdir $@)\n      "
-	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
 
 clean:
-	@rm -rf $(GOOGLE_TEST_OBJ_FILES) $(OUT_FILES) $(DEPS)
+	@rm -rf $(GOOGLE_TEST_OBJ_FILES) $(OUT_FILES) $(DEPS) $(GCOV_FILES)
 
 extra-clean: clean
 	@rm -Rf $(OUT_DIRS)
