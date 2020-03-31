@@ -5,6 +5,9 @@ pipeline {
     // }
     stages {
         stage('check out code') {
+            steps {
+                echo 'checking out code...'
+            }
             // git url: 'https://github.com/joe_user/simple-maven-project-with-tests.git'
         }
         // stage('build image') {
