@@ -3,30 +3,28 @@ pipeline {
     // agent {
     //     docker { image 'centos:build_env' }
     // }
-    stages {
-        stage('check out code') {
-            steps {
-                echo 'checking out code...'
-            }
-            // git url: 'https://github.com/joe_user/simple-maven-project-with-tests.git'
+    stage('check out code') {
+        steps {
+            echo 'checking out code...'
         }
-        // stage('build image') {
-        //     app = docker.build("this/1.0")
-        // }
-        stage('build') {
-            steps {
-                echo 'building...'
-            }
+        // git url: 'https://github.com/joe_user/simple-maven-project-with-tests.git'
+    }
+    // stage('build image') {
+    //     app = docker.build("this/1.0")
+    // }
+    stage('build') {
+        steps {
+            echo 'building...'
         }
-        stage('test') {
-            steps {
-                echo 'running test suite...'
-            }
+    }
+    stage('test') {
+        steps {
+            echo 'running test suite...'
         }
-        stage('deploy') {
-            steps {
-                echo 'deploying...'
-            }
+    }
+    stage('deploy') {
+        steps {
+            echo 'deploying...'
         }
     }
 }
