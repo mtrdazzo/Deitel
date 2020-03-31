@@ -29,8 +29,10 @@
  */
 class TicTacToe {
 
-    FRIEND_TEST(TwoPlayerGame, StartGame);
-
+    FRIEND_TEST(TwoPlayerSimulatedGame, TieGame);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player1WinsThreeMoves);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player2WinsThreeMoves);
+    
     public:
 
         TicTacToe();
@@ -54,6 +56,7 @@ class TicTacToe {
         int _findWinner(void) const;
         bool _movesLeft(void) const;
         void _printBoard(void) const;
+        void _printGameStatus(void) const;
         bool _isValidSelection(uint8_t) const;
         void _makeSelection(uint8_t);
         int _makeSelectionComputer();
@@ -63,6 +66,7 @@ class TicTacToe {
         uint8_t m_uiTurnNum{0};
         uint8_t m_uiNumPlayers{m_ePlayer::NO_PLAYER};
         uint8_t m_uiCurrentPlayer{m_ePlayer::PLAYER_1};
+        uint8_t m_uiGameStatus{m_ePlayer::NO_PLAYER};
         bool m_bIsComputerTurn{false};
         const char *m_pStrFileName{nullptr};
         std::fstream m_fileStream;

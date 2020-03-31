@@ -168,14 +168,14 @@ int TicTacToe::minimax(int depth, bool isMax) {
  */
 void TicTacToe::start(void) {
 
-    int game_status;
     int selection;
     bool validSelection;
 
     do {
 
         validSelection = false;
-        _printBoard();
+        if (m_pStrFileName == nullptr)
+            _printBoard();
 
         if (m_bIsComputerTurn) {
             selection = _makeSelectionComputer();
@@ -184,7 +184,8 @@ void TicTacToe::start(void) {
         }
         else {
             while (!validSelection) {
-                std::cout << "Player " << static_cast<int>(m_uiCurrentPlayer) << " pick a space! ";
+                if (m_pStrFileName == nullptr)
+                    std::cout << "Player " << static_cast<int>(m_uiCurrentPlayer) << " pick a space! ";
                 if (m_pStrFileName != nullptr) {
                     m_fileStream >> selection;
                 }
@@ -192,9 +193,9 @@ void TicTacToe::start(void) {
                     std::cin >> selection;
                     std::cin.clear();
                 }
-                std::cout << selection << std::endl;
                 if (!(validSelection = _isValidSelection(selection) ))
-                    std::cout << selection << " is not a valid selection, pick again" << std::endl;
+                    if (m_pStrFileName == nullptr)
+                        std::cout << selection << " is not a valid selection, pick again" << std::endl;
             }
         }
 
@@ -206,18 +207,28 @@ void TicTacToe::start(void) {
         if (m_uiNumPlayers == m_ePlayer::PLAYER_1)
             m_bIsComputerTurn = m_bIsComputerTurn ? false : true;         
 
-    } while ((game_status = _findWinner()) == m_ePlayer::NO_PLAYER);
+    } while ((m_uiGameStatus = _findWinner()) == m_ePlayer::NO_PLAYER);
 
-    _printBoard();
+    if (m_pStrFileName == nullptr) {
+        _printBoard();
+        _printGameStatus();
+    }
+}
 
-    switch (game_status) {
+/**
+ * @brief Print the Winner at the end of the game.
+ * 
+ */
+void TicTacToe::_printGameStatus() const {
+
+    switch (m_uiGameStatus) {
         case m_ePlayer::PLAYER_1:
         case m_ePlayer::PLAYER_2:
             std::cout << "\n**************" << std::endl;
-            if (!m_bIsComputerTurn)
+            if (m_uiNumPlayers == m_ePlayer::PLAYER_1)
                 std::cout << "Computer WINS!" << std::endl;
             else
-                std::cout << "Player " << game_status << " WINS!" << std::endl;
+                std::cout << "Player " << static_cast<int>(m_uiGameStatus) << " WINS!" << std::endl;
             std::cout << "**************\n" << std::endl;
             break;
         case m_ePlayer::TIE_GAME:
@@ -309,8 +320,10 @@ bool TicTacToe::_movesLeft(void) const {
  * 
  */
 void TicTacToe::_printGreeting(void) const {
-    std::cout << "Welcome!" << std::endl;
-    std::cout << "Let's play a game of Tic Tac Toe!" << std::endl;
+    if (m_pStrFileName == nullptr) {
+        std::cout << "Welcome!" << std::endl;
+        std::cout << "Let's play a game of Tic Tac Toe!" << std::endl;
+    }
 }
 
 /**
@@ -325,14 +338,18 @@ void TicTacToe::_getPlayerOrder(void) {
     char choice{'?'};
 
     while (choice != 'y' && choice != 'n') {
-        std::cout << "Do you want to move first (y/n)? ";
+        if (m_pStrFileName == nullptr) {
+            std::cout << "Do you want to move first (y/n)? ";
+        }
         if (m_pStrFileName != nullptr)
             m_fileStream >> choice;
         else
             std::cin >> choice;
         if (choice != 'y' && choice != 'n') {
-            std::cout << "\nInvalid choice: " << choice << std::endl;
-            std::cout << "Please enter a valid choice (y/n)" << std::endl;
+            if (m_pStrFileName == nullptr) {
+                std::cout << "\nInvalid choice: " << choice << std::endl;
+                std::cout << "Please enter a valid choice (y/n)" << std::endl;
+            }
         }
     }
 
@@ -347,7 +364,8 @@ void TicTacToe::_getPlayerOrder(void) {
 void TicTacToe::_getNumberOfPlayers(void) {
 
     while (m_uiNumPlayers < m_ePlayer::PLAYER_1 || m_uiNumPlayers > m_ePlayer::PLAYER_2) {
-        std::cout << "How many players? (1 or 2) ";
+        if (m_pStrFileName == nullptr)
+            std::cout << "How many players? (1 or 2) ";
         if (m_pStrFileName != nullptr)
             m_fileStream >> m_uiNumPlayers;
         else
@@ -355,8 +373,10 @@ void TicTacToe::_getNumberOfPlayers(void) {
         m_uiNumPlayers -= '0';
 
         if (m_uiNumPlayers < m_ePlayer::PLAYER_1 || m_uiNumPlayers >  m_ePlayer::PLAYER_2) {
-            std::cout << "Invalid number of players: " << static_cast<int>(m_uiNumPlayers) << std::endl;
-            std::cout << "Please enter a valid number of players (1 or 2)" << std::endl;
+            if (m_pStrFileName == nullptr) {
+                std::cout << "Invalid number of players: " << static_cast<int>(m_uiNumPlayers) << std::endl;
+                std::cout << "Please enter a valid number of players (1 or 2)" << std::endl;
+            }
         }
     }
 }
