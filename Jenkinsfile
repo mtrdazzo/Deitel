@@ -28,39 +28,3 @@ pipeline {
         }
     }
 }
-
-pipeline {
-   stages {
-      stage('check out code') {
-         steps {
-            echo 'Checking out code...'
-            checkout scm
-         }
-      }
-      stage('check out base image') {
-         steps {
-            echo 'Checking out base image...'
-         }
-      }
-      stage('build new image') {
-         steps {
-            echo 'Building new image...'
-         }
-      }
-      stage('compilation') {
-          steps {
-              echo 'Compiling all files...'
-          }
-      }
-      stage('testing') {
-          steps {
-              echo 'Running all tests...'
-          }
-      }
-      stage('deploy') {
-          steps {
-              echo 'Deploying to application...'
-          }
-      }
-   }
-}
