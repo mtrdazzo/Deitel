@@ -1,7 +1,8 @@
 pipeline {
-    agent {
-        docker { image 'centos:build_env' }
-    }
+    agent any
+    // agent {
+    //     docker { image 'centos:build_env' }
+    // }
     stages {
         stage('check out code') {
             echo 'checking out code...'
