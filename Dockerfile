@@ -5,4 +5,4 @@ FROM centos:build_env
 # RUN yum -y upgrade
 
 # Copy all contents to /src directory
-COPY Chapter_9 /src/Chapter_9
+# COPY Chapter_9 /src/Chapter_9
