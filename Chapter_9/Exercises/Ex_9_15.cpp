@@ -245,7 +245,7 @@ void TicTacToe::_printGameStatus() const {
  */
 void TicTacToe::_printBoard(void) const {
 
-    char spaceChar;
+    char spaceChar = ' ';
 
     std::cout << '\n';
     for (uint8_t row{BOARD_SIZE}; row > 0; --row) {
