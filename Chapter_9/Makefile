@@ -2,6 +2,12 @@
 CXX           = g++
 STD           = -std=c++14
 
+# Determine build flags
+DEBUG_FLAG   = debug
+RELEASE_FLAG = release
+GCOV_FLAG    = gcov
+
+# Compiler flags
 EXTRA_CFLAGS  = -Wall -Wextra -Werror
 DEBUG_FLAGS   = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O3
@@ -9,8 +15,8 @@ CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD -MP
 
 # gcov parameters
 GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
-GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gnco)
-GCOV_OUT_DIR  = gcov
+GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gcno)
+GCOV_OUT_DIR  = gcov_out
 
 # Google Test Relative Directories
 GOOGLE_TEST_HOME_DIR   = ../googletest/googletest
@@ -28,6 +34,10 @@ OBJ_DIRS = $(addsuffix /obj, $(TST_DIR) $(SRC_DIR))
 INCLUDE_FLAGS = -I$(SRC_DIR) -I/usr/include -L/usr/lib
 
 OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) $(BIN_DIR) $(OBJ_DIRS)
+ifneq (,$(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
+OUT_DIRS += $(GCOV_OUT_DIR)
+endif
+
 MKDIR_P  = mkdir -p
 
 # List of Source files, exercises, and object files
@@ -66,8 +76,8 @@ debug: all
 release: CXXFLAGS+=$(RELEASE_FLAGS)
 release: clean all
 
-gcov: CXXFLAGS += $(GCOV_FLAGS)
-gcov: clean release
+$(GCOV_FLAG): CXXFLAGS+=$(GCOV_FLAGS)
+$(GCOV_FLAG): all __run_all_files __gcov
 
 __make_dirs: $(OUT_DIRS)
 
@@ -78,6 +88,18 @@ __make_modules: $(SRC_DIR)/obj $(SRC_OBJ_FILES)
 __make_test_modules: $(TST_DIR)/obj $(TST_OBJ_FILES)
 
 __make_bin_files: $(BIN_DIR) $(BIN_FILES)
+
+__run_all_files:
+	@for test_exe in $(BIN_FILES); do \
+		$$test_exe; \
+	done
+
+__gcov:
+	@for src_file in $(SRC_FILES); do \
+		echo $$src_file; \
+		gcov $$src_file -r -o $(SRC_DIR)/obj; \
+	done
+	@mv *.gcov $(GCOV_OUT_DIR)
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
