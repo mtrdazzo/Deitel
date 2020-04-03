@@ -1,8 +1,8 @@
-# Start from base image with make and g++
-FROM centos:build_env
+FROM alpine
 
-# upgrade dependencies if necessary
-# RUN yum -y upgrade
+RUN apk upgrade
+RUN apk add --no-cache bash
 
-# Copy all contents to /src directory
-# COPY Chapter_9 /src/Chapter_9
+# Add build dependencies
+RUN apk add g++
+RUN apk add make
