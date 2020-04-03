@@ -1,8 +1,12 @@
+# Add base alpine image
 FROM alpine
 
+# Upgrade packages
 RUN apk upgrade
-RUN apk add --no-cache bash
 
 # Add build dependencies
 RUN apk add g++
 RUN apk add make
+
+# Add lcov for testing reports
+RUN apk add lcov --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
