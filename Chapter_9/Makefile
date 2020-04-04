@@ -15,7 +15,7 @@ CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD -MP
 
 # gcov parameters
 GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
-GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gcno)
+GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gcno) $(SRC_OBJ_FILES:.o=.gcda) $(TST_OBJ_FILES:.o=.gcda) 
 GCOV_OUT_DIR  = gcov_out
 
 # Google Test Relative Directories
@@ -97,9 +97,11 @@ __run_all_files:
 __gcov:
 	@for src_file in $(SRC_FILES); do \
 		echo $$src_file; \
-		gcov $$src_file -r -o $(SRC_DIR)/obj; \
+		gcov $$src_file --no-output --telative-only --object-directory $(SRC_DIR)/obj; \
 	done
-	@mv *.gcov $(GCOV_OUT_DIR)
+
+__lcov:
+	@echo "none"
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
