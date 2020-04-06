@@ -9,9 +9,9 @@ GCOV_FLAG    = gcov
 
 # Compiler flags
 EXTRA_CFLAGS  = -Wall -Wextra -Werror
-DEBUG_FLAGS   = -g -O0 -DDEBUG
-RELEASE_FLAGS = -O3
-CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD -MP
+DEBUG_FLAGS   = -g -Og -DDEBUG
+RELEASE_FLAGS = -Os
+CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD
 
 # gcov parameters
 GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
@@ -106,7 +106,7 @@ __make_bin_files: $(BIN_DIR) $(BIN_FILES)
 
 __run_all_files:
 	@for test_exe in $(BIN_FILES); do \
-		$$test_exe > $(BUILD_LOG) 2>&1; \
+		$$test_exe > $(BUILD_LOG); \
 	done
 
 __gcov:
@@ -130,7 +130,7 @@ __print_settings:
 	@echo "CXXFLAGS=$(CXXFLAGS)\n"
 
 $(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
-	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n      "
 
 $(SRC_DIR)/obj/%.o : %.cpp
@@ -163,4 +163,4 @@ __print_banner:
 
 .PHONY: Makefile clean __print_banner
 .PRECIOUS: $(TST_DIR)/obj/%.o $(SRC_DIR)/obj/%.o
-.SILENT:
+# .SILENT:
