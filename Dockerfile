@@ -11,3 +11,6 @@ RUN apk add bash
 
 # Add lcov for testing reports
 RUN apk add lcov --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+# All future commands should run as the user
+USER appuser
