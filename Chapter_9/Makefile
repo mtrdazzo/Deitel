@@ -114,7 +114,7 @@ __gcov:
 
 __gcovr:
 	@echo Running gcovr now
-	@gcovr -r . --xml --delete --output=$(GCOVR_OUT_FILE)
+	@gcovr -r . --xml --delete --exclude=Tests --exclude=../googletest --output=$(GCOVR_OUT_FILE) 
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
