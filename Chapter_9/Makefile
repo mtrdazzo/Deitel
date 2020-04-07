@@ -16,8 +16,7 @@ CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD
 # gcov parameters
 GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
 GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gcno) $(SRC_OBJ_FILES:.o=.gcda) $(TST_OBJ_FILES:.o=.gcda) 
-GCOV_OUT_DIR  = $(OUT_DIR)/coverage
-LCOV_OUT_FILE = $(GCOV_OUT_DIR)/coverage.info
+GCOVR_OUT_FILE = $(OUT_DIR)/coverage.xml
 
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 CXXFLAGS+=$(GCOV_FLAGS)
@@ -40,9 +39,6 @@ OBJ_DIRS = $(addsuffix /obj, $(TST_DIR) $(SRC_DIR))
 INCLUDE_FLAGS = -I$(SRC_DIR) -I/usr/include -L/usr/lib
 
 OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) $(BIN_DIR) $(OBJ_DIRS) $(OUT_DIR)
-ifneq (,$(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-OUT_DIRS += $(GCOV_OUT_DIR)
-endif
 
 MKDIR_P  = mkdir -p
 
@@ -118,7 +114,7 @@ __gcov:
 
 __gcovr:
 	@echo Running gcovr now
-	@gcovr -r . --xml
+	@gcovr -r . --xml-pretty --delete --output=$(GCOVR_OUT_FILE)
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
