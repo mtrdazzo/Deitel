@@ -114,7 +114,7 @@ __gcov:
 
 __gcovr:
 	@echo Running gcovr now
-	@gcovr -r . --xml --output=$(GCOVR_OUT_FILE)
+	@gcovr -r . --xml --delete --output=$(GCOVR_OUT_FILE)
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
@@ -130,7 +130,7 @@ $(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
 	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n      "
 
 $(SRC_DIR)/obj/%.o : %.cpp
-	$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@ > $(BUILD_LOG) 2>&1
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@ > $(BUILD_LOG) 2>&1
 	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
 
 $(TST_DIR)/obj/%.o : %.cpp
