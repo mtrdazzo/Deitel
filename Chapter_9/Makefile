@@ -118,7 +118,7 @@ __gcov:
 
 __gcovr:
 	@echo Running gcovr now
-	@gcvor -r . --xml
+	@gcovr -r . --xml
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
