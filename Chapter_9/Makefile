@@ -114,7 +114,7 @@ __gcov:
 
 __gcovr:
 	@echo Running gcovr now
-	@gcovr -r . --xml-pretty --output=$(GCOVR_OUT_FILE)
+	@gcovr -r . --xml --output=$(GCOVR_OUT_FILE)
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
