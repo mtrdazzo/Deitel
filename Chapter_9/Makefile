@@ -81,10 +81,10 @@ all: __print_banner \
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 all: __run_all_files \
 	 __gcov \
-     __lcov \
-	 __gen_html
+     __gcovr \
 
 gcov: # Blank gcov rule
+	@:
 
 endif
 
@@ -92,7 +92,7 @@ debug: CXXFLAGS+=$(DEBUG_FLAGS)
 debug: all
 
 release: CXXFLAGS+=$(RELEASE_FLAGS)
-release: clean all
+release: all
 
 __make_dirs: $(OUT_DIRS)
 
@@ -106,19 +106,19 @@ __make_bin_files: $(BIN_DIR) $(BIN_FILES)
 
 __run_all_files:
 	@for test_exe in $(BIN_FILES); do \
+		echo Running $$test_exe; \
 		$$test_exe > $(BUILD_LOG); \
 	done
 
 __gcov:
 	@for src_file in $(SRC_FILES); do \
+		echo Running gcov for $$src_file; \
 		gcov $$src_file --no-output --relative-only --object-directory $(SRC_DIR)/obj > $(BUILD_LOG) 2>&1; \
 	done
 
-__lcov:
-	@lcov --capture --no-external --quiet --directory . --output-file $(LCOV_OUT_FILE) > $(BUILD_LOG) 2>&1
-
-__gen_html:
-	@genhtml $(LCOV_OUT_FILE) --output-directory $(GCOV_OUT_DIR) > $(BUILD_LOG) 2>&1
+__gcovr:
+	@echo Running gcovr now
+	@gcvor -r . --xml
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
@@ -130,22 +130,23 @@ __print_settings:
 	@echo "CXXFLAGS=$(CXXFLAGS)\n"
 
 $(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
-	$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n      "
 
 $(SRC_DIR)/obj/%.o : %.cpp
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@ > $(BUILD_LOG) 2>&1
 	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
 
 $(TST_DIR)/obj/%.o : %.cpp
 	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@ > $(BUILD_LOG) 2>&1
 
 $(BIN_DIR)/% : $(TST_DIR)/obj/tst_%.o $(SRC_DIR)/obj/%.o
 	@echo "\n  CXX $(notdir $^) -o $(notdir $@)\n      "
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@ > $(BUILD_LOG) 2>&1
 
 clean:
+	@echo Cleaning up...
 	@rm -rf $(GOOGLE_TEST_OBJ_FILES) $(OUT_FILES) $(DEPS) $(GCOV_FILES) $(BUILD_LOG)
 
 extra-clean: clean
