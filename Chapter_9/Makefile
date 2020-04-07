@@ -16,7 +16,7 @@ CXXFLAGS      = $(EXTRA_CFLAGS) $(STD) -MD
 # gcov parameters
 GCOV_FLAGS    = -fprofile-arcs -ftest-coverage
 GCOV_FILES    = $(SRC_OBJ_FILES:.o=.gcno) $(TST_OBJ_FILES:.o=.gcno) $(SRC_OBJ_FILES:.o=.gcda) $(TST_OBJ_FILES:.o=.gcda) 
-GCOVR_OUT_FILE = $(OUT_DIR)/coverage.xml
+GCOVR_OUT_FILE = coverage.xml
 
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 CXXFLAGS+=$(GCOV_FLAGS)
@@ -88,7 +88,7 @@ debug: CXXFLAGS+=$(DEBUG_FLAGS)
 debug: all
 
 release: CXXFLAGS+=$(RELEASE_FLAGS)
-release: all
+release: clean all
 
 __make_dirs: $(OUT_DIRS)
 
