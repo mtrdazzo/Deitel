@@ -30,6 +30,7 @@
 class TicTacToe {
 
     FRIEND_TEST(TwoPlayerSimulatedGame, TieGame);
+    FRIEND_TEST(TwoPlayerSimulatedGame, TieGameAlmostDiagonal);
     FRIEND_TEST(TwoPlayerSimulatedGame, Player1ColumnWinner);
     FRIEND_TEST(TwoPlayerSimulatedGame, Player2ColumnWinner);
     FRIEND_TEST(TwoPlayerSimulatedGame, Player1RowWinner);
