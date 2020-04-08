@@ -30,9 +30,15 @@
 class TicTacToe {
 
     FRIEND_TEST(TwoPlayerSimulatedGame, TieGame);
-    FRIEND_TEST(TwoPlayerSimulatedGame, Player1WinsThreeMoves);
-    FRIEND_TEST(TwoPlayerSimulatedGame, Player2WinsThreeMoves);
-    
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player1ColumnWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player2ColumnWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player1RowWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player2RowWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player1LeftDiagonalWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player2LeftDiagonalWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player1RightDiagonalWinner);
+    FRIEND_TEST(TwoPlayerSimulatedGame, Player2RightDiagonalWinner);
+
     public:
 
         TicTacToe();
