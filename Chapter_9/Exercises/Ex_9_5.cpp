@@ -28,7 +28,6 @@ Quadratic::Quadratic(void) : Quadratic(1, 0, 0) {}
  * @brief Add the parameters of another Quadratic function.
  *
  * @param other Other quadratic object to sum to current object
- * @return void
  */
 void Quadratic::add(Quadratic& other) {
     a += other.a;
@@ -40,7 +39,6 @@ void Quadratic::add(Quadratic& other) {
  * @brief Subtract the parameters of another Quadratic function.
  *
  * @param other Other quadratic object to sum to current object
- * @return void
  */
 void Quadratic::subtract(Quadratic& other) {
     a -= other.a;
@@ -58,7 +56,23 @@ std::string Quadratic::toString(void) {
 
     std::ostringstream output;
 
-    output << a << "x^2 + " << b << "x + " << c;
+    if (a != 0.0) {
+        if (a == -1.0)
+            output << "-";
+        else if (a != 1.0)
+            output << a;
+        output << "x^2";
+    }
+    if (b != 0.0) {
+        output << ((b > 0) ? " + " : " - ");
+        if (std::abs(b) != 1.0)
+            output << std::abs(b);
+        output << "x";
+    }
+    if (c != 0.0) {
+        output << ((c > 0) ? " + " : " - ");
+        output << std::abs(c);
+    }
 
     return output.str();
 }
@@ -67,7 +81,6 @@ std::string Quadratic::toString(void) {
  * @brief Solves the quadratic equation. Displays the solutions if (b^2 - 4ac)
  *        is greater than 0. Otherwise it displays "No Real Roots."
  *
- * @return void
  */
 void Quadratic::solve(void) {
 
