@@ -1,9 +1,9 @@
 /**
- * @file Ex_9_5.h
- * 
+ * @file Ex_9_5.cpp
+ * @author Matthew J Randazzo (mtrdazzo@gmail.com)
  * @brief A class for performing arithmetic and solving quadratic equations.
  * 
- * @mainpage Exercise 9-25 Quadratic Equations Class
+ * Exercise 9-25 Quadratic Equations Class
  * 
  * Create a class called Quadratic for performing arithmetic on and solving quadratic
  * equations. A quadratic equation is an equation in the form
@@ -31,15 +31,18 @@
  *  d) solve - solves a quadratic equation and displays the solutions if (b^2 - 4ac) is greater than 0.
  *     Otherwise, it displays "No Real Roots".
  * 
- *   Write a driver program to test the functionality of the Quadratic class.
+ * Write a driver program to test the functionality of the Quadratic class.
  * 
- * @author Matt Randazzo
+ * @version 0.1
+ * @date 2020-04-08
+ * 
+ * @copyright Copyright (c) 2020
+ * 
  */
 
 #ifndef EX_9_5_H
 #define EX_9_5_H
 
-#include <iostream>
 class Quadratic {
 
     public:
@@ -54,7 +57,7 @@ class Quadratic {
         void add(Quadratic&);
         void subtract(Quadratic&);
         std::string toString(void);
-        void solve(void);
+        std::string solve(void);
 
         double getA(void) const { return a; }
         double getB(void) const { return b; }
@@ -67,7 +70,6 @@ class Quadratic {
         double b;
         double c;
         char variable{'x'};
-
 };
 
 #endif

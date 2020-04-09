@@ -1,6 +1,6 @@
 /**
  * @file Ex_9_5.cpp
- * @author Matthew J Randazzo (mtrdazzo@domain.com)
+ * @author Matthew J Randazzo (mtrdazzo@gmail.com)
  * @brief Implementation for the Quadratic class. Includes logic for adding, subtracting,
  *        solving, and printing quadratic functions.
  * @version 0.1
@@ -15,10 +15,6 @@
 #include <math.h>
 
 /**
- *  @brief Class Constructors (Delegated format)
- */
-
-/**
  * @brief Construct a new Quadratic:: Quadratic object
  * 
  * @param a_in Second degree polynomial constant
@@ -27,8 +23,8 @@
  */
 Quadratic::Quadratic(double a_in, double b_in, double c_in) :
     a{a_in}, b{b_in}, c{c_in}{
-        if( a == 0 )
-            a = 1;
+        if( a == 0.0 )
+            a = 1.0;
     }
 
 /**
@@ -108,10 +104,10 @@ std::string Quadratic::toString(void) {
 /**
  * @brief Solves the quadratic equation. Displays the solutions if (b^2 - 4ac)
  *        is greater than 0. Otherwise it displays "No Real Roots."
- *
  */
-void Quadratic::solve(void) {
+std::string Quadratic::solve(void) {
 
+    std::ostringstream output;
     double solution1{0.0};
     double solution2{0.0};
 
@@ -119,10 +115,12 @@ void Quadratic::solve(void) {
         solution1 = (-1 * b + sqrt(b * b - 4 * a * c)) / (2 * a);
         solution2 = (-1 * b - sqrt(b * b - 4 * a * c)) / (2 * a);
     
-        std::cout << "Solution 1: " << solution1 << std::endl;
-        std::cout << "Solution 2: " << solution2 << std::endl;
+        output << "Solution 1: " << solution1 << std::endl;
+        output << "Solution 2: " << solution2 << std::endl;
     }
     else {
-        std::cout << "No Real Roots" << std::endl;
+        output << "No Real Roots" << std::endl;
     }
+
+    return output.str();
 }
