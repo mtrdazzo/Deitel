@@ -1,10 +1,13 @@
 /**
- * @file Ex_9_25.cpp
- *
+ * @file Ex_9_5.cpp
+ * @author Matthew J Randazzo (mtrdazzo@domain.com)
  * @brief Implementation for the Quadratic class. Includes logic for adding, subtracting,
  *        solving, and printing quadratic functions.
- *
- * @author Matt Randazzo
+ * @version 0.1
+ * @date 2020-04-08
+ * 
+ * @copyright Copyright (c) 2020
+ * 
  */
 
 #include <Ex_9_5.h>
@@ -14,14 +17,39 @@
 /**
  *  @brief Class Constructors (Delegated format)
  */
+
+/**
+ * @brief Construct a new Quadratic:: Quadratic object
+ * 
+ * @param a_in Second degree polynomial constant
+ * @param b_in First degree polynomial constant
+ * @param c_in Constant
+ */
 Quadratic::Quadratic(double a_in, double b_in, double c_in) :
     a{a_in}, b{b_in}, c{c_in}{
         if( a == 0 )
             a = 1;
     }
 
+/**
+ * @brief Construct a new Quadratic:: Quadratic object
+ * 
+ * @param a_in Second degree polynomial constant
+ * @param b_in First degree polynomial constant
+ */
 Quadratic::Quadratic(double a_in, double b_in) : Quadratic(a_in, b_in, 0) {}
+
+/**
+ * @brief Construct a new Quadratic:: Quadratic object
+ * 
+ * @param a_in Second degree polynomial constant
+ */
 Quadratic::Quadratic(double a_in) : Quadratic(a_in, 0, 0) {}
+
+/**
+ * @brief Construct a new Quadratic:: Quadratic object
+ * 
+ */
 Quadratic::Quadratic(void) : Quadratic(1, 0, 0) {}
 
 /**
