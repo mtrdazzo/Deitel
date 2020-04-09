@@ -1,6 +1,10 @@
 # Add base alpine image
 FROM alpine
 
+USER root
+
+ARG username=deitel-user
+
 # Upgrade packages
 RUN apk upgrade
 
@@ -11,5 +15,11 @@ RUN apk add make
 # Add gcovr for testing reports
 RUN apk add gcovr
 
+RUN adduser -D -u 1000 $username 
+
+RUN mkdir -p /opt/source
+RUN chown -R $username:$username /opt/source/
+
 # All future commands should run as the user
-USER appuser
+USER $username
+WORKDIR /opt/source
