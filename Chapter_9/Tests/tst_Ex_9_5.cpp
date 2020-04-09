@@ -108,10 +108,11 @@ TEST(Add, AddTwoPositive){
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
 
     EXPECT_STREQ("20x^2 + 9.2x - 14.4", q1.toString().c_str());
+    EXPECT_STREQ("10x^2 + 4.6x - 7.2", q2.toString().c_str());
 }
 
 /**
- * @brief Add two positive Quadratics together.
+ * @brief Add two negative Quadratics together.
  */
 TEST(Add, AddTwoNegatives){
 
@@ -132,6 +133,7 @@ TEST(Add, AddTwoNegatives){
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
 
     EXPECT_STREQ("-20x^2 - 9.2x - 14.4", q1.toString().c_str());
+    EXPECT_STREQ("-10x^2 - 4.6x - 7.2", q2.toString().c_str());
 }
 
 /**
@@ -154,6 +156,9 @@ TEST(Add, AddOneNegativeOnePositive){
     EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
     EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+
+    EXPECT_STREQ("", q1.toString().c_str());
+    EXPECT_STREQ("-10x^2 - 4.6x - 7.2", q2.toString().c_str());
 }
 
 /**
@@ -176,6 +181,9 @@ TEST(Subtract, SubtractTwoPositive){
     EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
     EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+
+    EXPECT_STREQ("", q1.toString().c_str());
+    EXPECT_STREQ("10x^2 + 4.6x + 7.2", q2.toString().c_str());
 }
 
 /**
@@ -198,6 +206,9 @@ TEST(Subtract, SubtractTwoNegatives){
     EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
     EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+
+    EXPECT_STREQ("", q1.toString().c_str());
+    EXPECT_STREQ("-10x^2 - 4.6x - 7.2", q2.toString().c_str());
 }
 
 /**
@@ -220,4 +231,7 @@ TEST(Subtract, SubtractOneNegativeOnePositive){
     EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
     EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
     EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+
+    EXPECT_STREQ("-20x^2 - 9.2x - 14.4", q1.toString().c_str());
+    EXPECT_STREQ("10x^2 + 4.6x + 7.2", q2.toString().c_str());
 }
