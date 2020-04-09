@@ -75,3 +75,135 @@ TEST(ClassConstructor, ThreeArguments){
     EXPECT_DOUBLE_EQ(q1.getB(), secondArg);
     EXPECT_DOUBLE_EQ(q1.getC(), thirdArg);
 }
+
+/**
+ * @brief Add two positive Quadratics together.
+ */
+TEST(Add, AddTwoPositive){
+
+    double firstArg{10.0};
+    double secondArg{4.6};
+    double thirdArg{7.2};
+    Quadratic q1{firstArg, secondArg, thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.add(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 2 * firstArg);
+    EXPECT_DOUBLE_EQ(q1.getB(), 2 * secondArg);
+    EXPECT_DOUBLE_EQ(q1.getC(), 2 * thirdArg);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
+
+/**
+ * @brief Add two positive Quadratics together.
+ */
+TEST(Add, AddTwoNegatives){
+
+    double firstArg{-10.0};
+    double secondArg{-4.6};
+    double thirdArg{-7.2};
+    Quadratic q1{firstArg, secondArg, thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.add(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 2 * firstArg);
+    EXPECT_DOUBLE_EQ(q1.getB(), 2 * secondArg);
+    EXPECT_DOUBLE_EQ(q1.getC(), 2 * thirdArg);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
+
+/**
+ * @brief Add one negative Quadratic and one positive Quadratic together.
+ */
+TEST(Add, AddOneNegativeOnePositive){
+
+    double firstArg{-10.0};
+    double secondArg{-4.6};
+    double thirdArg{-7.2};
+    Quadratic q1{-firstArg, -secondArg, -thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.add(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 0);
+    EXPECT_DOUBLE_EQ(q1.getB(), 0);
+    EXPECT_DOUBLE_EQ(q1.getC(), 0);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
+
+/**
+ * @brief Subtract two positive Quadratics.
+ */
+TEST(Subtract, SubtractTwoPositive){
+
+    double firstArg{10.0};
+    double secondArg{4.6};
+    double thirdArg{7.2};
+    Quadratic q1{firstArg, secondArg, thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.subtract(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 0);
+    EXPECT_DOUBLE_EQ(q1.getB(), 0);
+    EXPECT_DOUBLE_EQ(q1.getC(), 0);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
+
+/**
+ * @brief Subtract two negative Quadratics together.
+ */
+TEST(Subtract, SubtractTwoNegatives){
+
+    double firstArg{-10.0};
+    double secondArg{-4.6};
+    double thirdArg{-7.2};
+    Quadratic q1{firstArg, secondArg, thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.subtract(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 0);
+    EXPECT_DOUBLE_EQ(q1.getB(), 0);
+    EXPECT_DOUBLE_EQ(q1.getC(), 0);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
+
+/**
+ * @brief Subtract one negative Quadratic and one positive Quadratic together.
+ */
+TEST(Subtract, SubtractOneNegativeOnePositive){
+
+    double firstArg{10.0};
+    double secondArg{4.6};
+    double thirdArg{7.2};
+    Quadratic q1{-firstArg, -secondArg, -thirdArg};
+    Quadratic q2{firstArg, secondArg, thirdArg};
+
+    q1.subtract(q2);
+
+    EXPECT_DOUBLE_EQ(q1.getA(), 2 * -firstArg);
+    EXPECT_DOUBLE_EQ(q1.getB(), 2 * -secondArg);
+    EXPECT_DOUBLE_EQ(q1.getC(), 2 * -thirdArg);
+
+    EXPECT_DOUBLE_EQ(q2.getA(), firstArg);
+    EXPECT_DOUBLE_EQ(q2.getB(), secondArg);
+    EXPECT_DOUBLE_EQ(q2.getC(), thirdArg);
+}
