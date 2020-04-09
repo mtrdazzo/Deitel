@@ -1,22 +1,22 @@
 version: '2.0'
 services:
     deitel-image:
-        image: deitel:centos
+        image: deitel
         build:
             context: .
             dockerfile: Dockerfile
         command: echo
     debug:
-        image: deitel:centos
+        image: deitel
         command: make -j8 debug
         volumes: [.:/opt/source]
     release:
-        image: deitel:centos
+        image: deitel
         command: make release gcov
         working_dir: /opt/source/Chapter_9
         volumes: [.:/opt/source]
     clean:
-        image: deitel:centos       
+        image: deitel       
         command: make -j8 clean
         working_dir: /opt/source/Chapter_9
         volumes: [.:/opt/source]
