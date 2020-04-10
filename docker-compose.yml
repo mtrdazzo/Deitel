@@ -9,6 +9,7 @@ services:
     debug:
         image: deitel
         command: make -j8 debug
+        working_dir: /opt/source/Chapter_9
         volumes:
             - .:/opt/source
     release:
@@ -24,7 +25,7 @@ services:
         volumes:
             - .:/opt/source
     extra-clean:
-        image: deitel:centos       
+        image: deitel       
         command: make extra-clean    
         working_dir: /opt/source/Chapter_9
         volumes:
