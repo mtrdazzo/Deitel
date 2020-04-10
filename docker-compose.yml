@@ -6,6 +6,12 @@ services:
             context: .
             dockerfile: Dockerfile
         command: echo
+    test:
+        image: deitel
+        command: ls -l
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source    
     debug:
         image: deitel
         command: make -j8 debug
