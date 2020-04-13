@@ -43,6 +43,7 @@
 #ifndef EX_9_5_H
 #define EX_9_5_H
 
+#include <string>
 class Quadratic {
 
     public:
