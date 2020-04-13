@@ -73,13 +73,20 @@ vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 
 includeIfNotExist = $(filter-out $(wildcard $1), $1)
 
-debug: header
-	@docker-compose run debug
+debug: __pre_build
+	@export gid=$(id -g)
+	@export uid=$(id -u)
+	@docker-compose run $@
 	@docker-compose rm --force > /dev/null 2>&1
 
-header: __print_banner \
-	    __make_dirs \
-		__create_build_log \
+build: __print_banner
+	@echo -n "\n  Creating build image..."
+	@docker-compose $@
+	@echo "done!\n"
+
+__pre_build: __print_banner \
+	         __make_dirs \
+	         __create_build_log \
 	
 __build: __print_settings \
 		 __google_test \
@@ -102,7 +109,9 @@ __build: __see_build_log
 __debug: CXXFLAGS += $(DEBUG_FLAGS)
 __debug: __build
 
-release: clean header
+release: clean __pre_build
+	@export gid=$(id -g)
+	@export uid=$(id -u)
 	@docker-compose run release
 	@docker-compose rm --force > /dev/null 2>&1
 
