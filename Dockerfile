@@ -4,22 +4,19 @@ FROM alpine
 USER root
 
 ARG username=deitel-user
+ARG group=devs
+ARG uid
+ARG gid
 
 # Upgrade packages
-RUN apk upgrade
+RUN apk upgrade && apk update
+RUN apk add make \
+    gcovr \
+    g++
 
-# Add build dependencies
-RUN apk add g++
-RUN apk add make
-
-# Add gcovr for testing reports
-RUN apk add gcovr
-
-RUN adduser -D -u 1000 $username 
-
-RUN mkdir -p /opt/source
-RUN chown -R $username:$username /opt/source/
+# Create user and group
+RUN addgroup -S -g ${gid} ${group}
+RUN adduser -S -u ${uid} -g ${group} -D ${username}
 
 # All future commands should run as the user
-USER $username
-WORKDIR /opt/source
+USER ${username}
