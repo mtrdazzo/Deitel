@@ -24,7 +24,7 @@ class Time {
         Time(int h = 1, int m = 2, int s = 3) :
             hour{h}, minute{m}, seconds{s} {};
 
-        // Time() {}; Can only have one defaul constructor (no arguments) per class
+        // Time() {}; Can only have one default constructor (no arguments) per class
 
         int getHour(void) const { return hour; }
         int getMinute(void) const { return minute; }
