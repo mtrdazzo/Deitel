@@ -1,0 +1,20 @@
+version: '2'
+services:
+    deitel-image:
+        image: deitel
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        command: echo 
+    debug:
+        image: deitel
+        command: make __debug gcov
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - ..:/opt/source
+    release:
+        image: deitel
+        command: make __release gcov
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - ..:/opt/source
