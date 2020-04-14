@@ -9,6 +9,14 @@ services:
                 - uid
                 - gid
         command: echo 
+    devel:
+        image: deitel
+        command: sh
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - ..:/opt/source
+        depends_on:
+            - deitel-image
     debug:
         image: deitel
         command: make __debug gcov

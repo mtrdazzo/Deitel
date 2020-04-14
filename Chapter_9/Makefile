@@ -73,15 +73,18 @@ vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 
 includeIfNotExist = $(filter-out $(wildcard $1), $1)
 
+# export gid := $(shell echo $(id -u))
+# export uid := $(shell echo $(id -g))
+
 debug: __pre_build
-	@export gid=$(id -g)
-	@export uid=$(id -u)
-	@docker-compose run $@
+	docker-compose run $@
 	@docker-compose rm --force > /dev/null 2>&1
 
 build: __print_banner
-	@echo -n "\n  Creating build image..."
-	@docker-compose $@
+	@echo "\n  Creating build image..."
+	@export gid=$(shell id -u); \
+	export uid=$(shell id -g); \
+	docker-compose $@
 	@echo "done!\n"
 
 __pre_build: __print_banner \
@@ -110,8 +113,6 @@ __debug: CXXFLAGS += $(DEBUG_FLAGS)
 __debug: __build
 
 release: clean __pre_build
-	@export gid=$(id -g)
-	@export uid=$(id -u)
 	@docker-compose run release
 	@docker-compose rm --force > /dev/null 2>&1
 
