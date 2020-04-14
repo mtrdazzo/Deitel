@@ -19,7 +19,7 @@ services:
             - deitel-image
     debug:
         image: deitel
-        command: make __debug gcov
+        command: ls -l
         working_dir: /opt/source/Chapter_9
         volumes:
             - ..:/opt/source
