@@ -19,7 +19,7 @@ services:
             - deitel-image
     debug:
         image: deitel
-        command: ls -l
+        command: ls -l ..
         working_dir: /opt/source/Chapter_9
         volumes:
             - ..:/opt/source
