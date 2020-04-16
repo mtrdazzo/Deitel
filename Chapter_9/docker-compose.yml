@@ -21,7 +21,7 @@ services:
     debug:
         image: deitel
         command: ls -l
-        working_dir: /jenkins/workspace/${env.JOB_NAME}
+        working_dir: /jenkins/workspace/
         volumes:
             - jenkins-data:/jenkins
     release:
