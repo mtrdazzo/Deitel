@@ -73,18 +73,17 @@ vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 
 includeIfNotExist = $(filter-out $(wildcard $1), $1)
 
-# export gid := $(shell echo $(id -u))
-# export uid := $(shell echo $(id -g))
+jenkins-server: __print_banner
+	@docker-compose run --detach --service-ports jenkins-server
 
 debug: __pre_build
-	docker-compose run $@
-	@docker-compose rm --force > /dev/null 2>&1
+	@docker-compose run --rm $@
 
-build: __print_banner
+image: __print_banner
 	@echo "\n  Creating build image..."
 	@export gid=$(shell id -u); \
 	export uid=$(shell id -g); \
-	docker-compose $@
+	docker-compose build deitel-image
 	@echo "done!\n"
 
 __pre_build: __print_banner \
@@ -113,8 +112,7 @@ __debug: CXXFLAGS += $(DEBUG_FLAGS)
 __debug: __build
 
 release: clean __pre_build
-	@docker-compose run release
-	@docker-compose rm --force > /dev/null 2>&1
+	@docker-compose run --rm release
 
 __release: CXXFLAGS += $(RELEASE_FLAGS)
 __release: __build
