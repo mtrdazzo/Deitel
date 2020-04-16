@@ -1,4 +1,5 @@
 version: '2'
+
 services:
     deitel-image:
         image: deitel
@@ -8,7 +9,7 @@ services:
             args:
                 - uid
                 - gid
-        command: echo 
+        command: echo
     devel:
         image: deitel
         command: sh
@@ -19,13 +20,32 @@ services:
             - deitel-image
     debug:
         image: deitel
-        command: ls -l ..
-        working_dir: /opt/source/Chapter_9
+        command: ls -l
+        working_dir: /jenkins/workspace/${env.JOB_NAME}
         volumes:
-            - ..:/opt/source
+            - jenkins-data:/jenkins
     release:
         image: deitel
         command: make __release gcov
         working_dir: /opt/source/Chapter_9
         volumes:
             - ..:/opt/source
+    jenkins-server:
+        image: jenkins-image
+        build:
+            context: .
+            dockerfile: Dockerfile.jenkins
+        ports:
+            - "8080:8080"
+            - "50000:50000"
+        volumes:
+            - jenkins-data:/var/jenkins_home
+            - //var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+    jenkins-data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: /c/Users/mtrda/.jenkins
