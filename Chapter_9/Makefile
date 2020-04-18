@@ -85,14 +85,18 @@ image: __print_banner
 	docker-compose build deitel-image
 	@echo "done!\n"
 
-debug: CXXFLAGS += $(DEBUG_FLAGS)
-debug: __prebuild \
-       __build
+$(DEBUG_FLAG): CXXFLAGS += $(DEBUG_FLAGS)
+$(DEBUG_FLAG): __prebuild \
+               __build
 
-release: CXXFLAGS += $(RELEASE_FLAGS)
-release: clean \
-         __prebuild \
-         __build
+$(RELEASE_FLAG): CXXFLAGS += $(RELEASE_FLAGS)
+$(RELEASE_FLAG): clean \
+                 __prebuild \
+                 __build
+
+$(GCOV_FLAG): __run_all_files \
+              __gcov \
+              __gcovr \
 
 __prebuild: __print_banner \
             __make_dirs \
@@ -103,18 +107,7 @@ __build: __print_settings \
          __make_modules \
          __make_test_modules \
          __make_bin_files \
-
-ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-__build: __run_all_files \
-         __gcov \
-         __gcovr \
-
-gcov: # Blank gcov rule
-	@:
-
-endif
-
-__build: __see_build_log
+         __see_build_log
 
 __make_dirs: $(OUT_DIRS)
 
@@ -156,19 +149,19 @@ $(OUT_DIRS):
 	@$(MKDIR_P) $@
 
 $(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
-	@echo -e "\n  CXX $(notdir $<) -o $(notdir $@)\n      "
+	@echo -e "\n  CXX $(notdir $<) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(SRC_DIR)/$(OBJ_DIR)/%.o : %.cpp
-	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
+	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(TST_DIR)/$(OBJ_DIR)/%.o : %.cpp
-	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n      "
+	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(BIN_DIR)/% : $(TST_DIR)/obj/tst_%.o $(SRC_DIR)/$(OBJ_DIR)/%.o
-	@echo -e "\n  CXX $(notdir $^) -o $(notdir $@)\n      "
+	@echo -e "\n  CXX $(notdir $^) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
 
 __print_settings:
