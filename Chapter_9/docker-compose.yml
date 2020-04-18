@@ -2,7 +2,7 @@ version: '2'
 
 services:
     deitel-image:
-        image: deitel
+        image: deitel:alpine
         build:
             context: ..
             dockerfile: Dockerfile
@@ -11,41 +11,26 @@ services:
                 - gid
         command: echo
     devel:
-        image: deitel
+        image: deitel:alpine
         command: sh
-        working_dir: /opt/source/Chapter_9
+        working_dir: /opt/src/Chapter_9
         volumes:
-            - ..:/opt/source
-        depends_on:
-            - deitel-image
+            - ..:/opt/src
     debug:
-        image: deitel
-        command: ls -l
-        working_dir: /jenkins
+        image: deitel:alpine
+        command: make debug
+        working_dir: /opt/src/Chapter_9
         volumes:
-            - jenkins-data:/jenkins
+            - ..:/opt/src
     release:
-        image: deitel
-        command: make __release gcov
-        working_dir: /opt/source/Chapter_9
+        image: deitel:alpine
+        command: make release
+        working_dir: /opt/src/Chapter_9
         volumes:
-            - ..:/opt/source
-    jenkins-server:
-        image: jenkins-image
-        build:
-            context: .
-            dockerfile: Dockerfile.jenkins
-        ports:
-            - "8080:8080"
-            - "50000:50000"
+            - ..:/opt/src
+    gcov:
+        image: deitel:alpine
+        command: make gcov
+        working_dir: /opt/src/Chapter_9
         volumes:
-            - jenkins-data:/var/jenkins_home
-            - //var/run/docker.sock:/var/run/docker.sock
-
-volumes:
-    jenkins-data:
-        driver: local
-        driver_opts:
-            o: bind
-            type: none
-            device: /c/Users/mtrda/.jenkins
+            - ..:/opt/src
