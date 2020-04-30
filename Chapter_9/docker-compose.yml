@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+    deitel-image:
+        image: deitel:alpine
+        build:
+            context: ..
+            dockerfile: Dockerfile
+            args:
+                - uid
+                - gid
+        command: echo
+    devel:
+        image: deitel:alpine
+        command: sh
+        working_dir: /opt/src/Chapter_9
+        volumes:
+            - ..:/opt/src
+    debug:
+        image: deitel:alpine
+        command: make debug
+        working_dir: /opt/src/Chapter_9
+        volumes:
+            - ..:/opt/src
+    release:
+        image: deitel:alpine
+        command: make release
+        working_dir: /opt/src/Chapter_9
+        volumes:
+            - ..:/opt/src
+    gcov:
+        image: deitel:alpine
+        command: make gcov
+        working_dir: /opt/src/Chapter_9
+        volumes:
+            - ..:/opt/src

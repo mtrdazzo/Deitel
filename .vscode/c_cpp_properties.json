@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Deitel",
+            "includePath": [
+                "${workspaceFolder}/Chapter_9/Exercises",
+                "${workspaceFolder}/googletest/googletest/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}

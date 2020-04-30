@@ -1,0 +1,38 @@
+version: '2.0'
+services:
+    deitel-image:
+        image: deitel
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: echo
+    test:
+        image: deitel
+        command: pwd
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source    
+    debug:
+        image: deitel
+        command: make -j8 debug
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source
+    release:
+        image: deitel
+        command: make release gcov
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source
+    clean:
+        image: deitel       
+        command: make -j8 clean
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source
+    extra-clean:
+        image: deitel       
+        command: make extra-clean    
+        working_dir: /opt/source/Chapter_9
+        volumes:
+            - .:/opt/source
