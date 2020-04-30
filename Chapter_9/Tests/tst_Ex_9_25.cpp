@@ -694,6 +694,13 @@ TEST(verifyWinner, higherStraight) {
     EXPECT_EQ(player1.getScore(), PlayerHand::STRAIGHT);
     EXPECT_EQ(player2.getScore(), PlayerHand::STRAIGHT);
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(player1.getScore(), PlayerHand::STRAIGHT);
+    EXPECT_EQ(player2.getScore(), PlayerHand::STRAIGHT);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
@@ -723,6 +730,13 @@ TEST(verifyWinner, equalScoresEqualHighestCardStraight) {
     EXPECT_EQ(player1.getScore(), PlayerHand::ROYAL_FLUSH);
     EXPECT_EQ(player2.getScore(), PlayerHand::ROYAL_FLUSH);
     EXPECT_EQ(game.determineWinner(), PokerGame::NO_PLAYER);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(player1.getScore(), PlayerHand::ROYAL_FLUSH);
+    EXPECT_EQ(player2.getScore(), PlayerHand::ROYAL_FLUSH);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::NO_PLAYER);
 }
 
 /**
@@ -752,6 +766,13 @@ TEST(verifyWinner, higherPair) {
     EXPECT_EQ(player1.getScore(), PlayerHand::PAIR);
     EXPECT_EQ(player2.getScore(), PlayerHand::PAIR);
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(player1.getScore(), PlayerHand::PAIR);
+    EXPECT_EQ(player2.getScore(), PlayerHand::PAIR);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
@@ -783,6 +804,11 @@ TEST(verifyWinner, higherThreeKind) {
     EXPECT_EQ(player2.getScore(), PlayerHand::THREE_OF_A_KIND);
     EXPECT_EQ(player2.getHighestCard(), Card::e10);
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
@@ -816,6 +842,11 @@ TEST(verifyWinner, higherFullHouse) {
     EXPECT_EQ(player2.getHighestCard(), Card::eJack);
 
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
@@ -849,6 +880,11 @@ TEST(verifyWinner, higherFourOfAKind) {
     EXPECT_EQ(player2.getHighestCard(), Card::eJack);
 
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
@@ -882,6 +918,11 @@ TEST(verifyWinner, higherStraightFlush) {
     EXPECT_EQ(player2.getHighestCard(), Card::eJack);
 
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_1);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
