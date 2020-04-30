@@ -75,9 +75,6 @@ DEPS += $(GOOGLE_TEST_OBJ_FILES:.o=.d)
 
 vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
 
-jenkins:
-	@docker-compose --file ../docker-jenkins.yml up --detach --remove-orphans
-
 image: __print_banner
 	@echo "\n  Creating build image..."
 	@export gid=$(shell id -u); \
