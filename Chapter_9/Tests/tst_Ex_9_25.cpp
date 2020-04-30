@@ -629,6 +629,11 @@ TEST(verifyWinner, higherScoreWins) {
     EXPECT_EQ(player1.getScore(), PlayerHand::STRAIGHT);
     EXPECT_EQ(player2.getScore(), PlayerHand::FLUSH);
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_2);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_1);
 }
 
 /**
@@ -1028,6 +1033,11 @@ TEST(verifyWinner, sameTwoPairTieBreakerEnd) {
     EXPECT_EQ(player2.getTieBreaker(), Card::e8);
 
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_2);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_1);
 }
 
 /**
@@ -1063,6 +1073,11 @@ TEST(verifyWinner, samePairMaxCards) {
     EXPECT_EQ(player2.getTieBreaker(), Card::eJack);
 
     EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_2);
+
+    PokerGame game2;
+    game2.addPlayer(&player2);
+    game2.addPlayer(&player1);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_1);
 }
 
 /**
