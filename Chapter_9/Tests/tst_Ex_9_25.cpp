@@ -664,7 +664,7 @@ TEST(verifyWinner, higherHighestCardNoScoreWins) {
     game2.addPlayer(&player1);
     EXPECT_EQ(player1.getScore(), PlayerHand::NONE);
     EXPECT_EQ(player2.getScore(), PlayerHand::NONE);
-    EXPECT_EQ(game.determineWinner(), PokerGame::PLAYER_2);
+    EXPECT_EQ(game2.determineWinner(), PokerGame::PLAYER_2);
 }
 
 /**
