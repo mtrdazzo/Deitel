@@ -8,7 +8,7 @@ pipeline {
         SOURCE_DIR         = "\"/var/jenkins_home/workspace/${JOB_NAME}/Chapter_9\""
         GIT_URL            = 'https://github.com/mtrdazzo/Deitel'
     }
-    
+
     stages {
         stage('SCM Checkout') {
             steps {
@@ -36,12 +36,12 @@ pipeline {
         }
         stage('Build Source') {
             steps {
-                sh "docker run --volumes-from=jenkins-master -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
             }
         }
         stage('Run Tests') {
             steps {
-                sh "docker run --volumes-from=jenkins-master -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make gcov"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make gcov"
             }
             post {
                 always {
