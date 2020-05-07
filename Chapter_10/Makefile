@@ -1,6 +1,8 @@
 # Compilation Flags
-CXX := g++
+CXX := $(shell which g++)
 STD := -std=c++14
+
+CHAPTER := $(notdir $(CURDIR))
 
 # Compiler flags
 EXTRA_CFLAGS  := -Wall -Wextra
@@ -14,7 +16,15 @@ RELEASE_FLAG     := release
 GCOV_FLAG        := gcov
 CLEAN_FLAG       := clean
 EXTRA_CLEAN_FLAG := extra-clean
-ALL_FLAGS        = $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
+ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
+
+# Print parameters
+BIG_BANNER   = "   ///////////////////////////////////////////////////\n  ///\n ///   $(1)\n //\n /\n"
+SMALL_BANNER = "   ///////////////////////////////////////////////////\n  /\n /     $(1)\n/\n"
+START_TIME  := $(shell date +'%s' )
+CURRENT_TIME = $(shell date +'%s' )
+DELTA_TIME   = $(shell echo $(CURRENT_TIME) - $(START_TIME) | bc )
+ELAPSED_TIME = $(shell printf %i:%02i $(shell expr $(DELTA_TIME) / 60 ) $(shell expr $(DELTA_TIME) % 60 ) )
 
 # Find possible unknown flag
 ifneq (, $(filter-out $(ALL_FLAGS), $(MAKECMDGOALS)))
@@ -75,8 +85,8 @@ MKDIR_P  = mkdir -p
 # Source files from Exercises, Tests, and Figures
 EXR_FILES     := $(wildcard $(EXR_DIR)/*.cpp)
 TST_FILES     := $(wildcard $(TST_DIR)/*.cpp)
-TESTS         := $(subst tst_,,$(basename $(notdir $(TST_FILES))))
 FIG_FILES     := $(wildcard $(FIG_DIR)/*.cpp)
+TESTS         := $(subst tst_,,$(basename $(notdir $(TST_FILES))))
 
 SRC_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(EXR_FILES:.cpp=.o)))
 TST_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(TST_FILES:.cpp=.o)))
@@ -84,7 +94,6 @@ FIG_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(FIG_FILES:.cpp=.o)))
 GGL_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(GOOGLE_TEST_EXR_FILES:.cc=.o)))
 OBJ_FILES     := $(SRC_OBJ_FILES) $(TST_OBJ_FILES) $(GGL_OBJ_FILES) $(FIG_OBJ_FILES)
 BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS)) $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
-# BIN_FILES     :=  $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
 
 BUILD_LOG     := $(OUT_DIR)/build.log
 
@@ -94,6 +103,8 @@ vpath % $(GOOGLE_TEST_EXR_DIR) $(EXR_DIR) $(TST_DIR) $(FIG_DIR)
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS))$(filter $(EXTRA_CLEAN_FLAG), $(MAKECMDGOALS)))
 $(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(BIN_FILES)
+	@echo $(call BIG_BANNER, $(CHAPTER) build done!)
+	@echo "        Elapsed Time: $(ELAPSED_TIME)\n"
 else
 $(DEBUG_FLAG) $(RELEASE_FLAG):
 	@:
@@ -129,24 +140,19 @@ $(OUT_DIRS):
 	@$(MKDIR_P) $@
 
 $(OBJ_DIR)/%.o: %.cc
-	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+	@echo $(call SMALL_BANNER, Compiling $(notdir $<)...)
 	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o : %tst_.cpp
-	@echo "test"
-	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
-	$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
-
 $(OBJ_DIR)/%.o : %.cpp
-	@echo "\n  CXX -c $(notdir $^) -o $(notdir $@)\n"
+	@echo $(call SMALL_BANNER,Compiling $(notdir $<)...)
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o $(MAKEFILE_LIST)
-	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
 	@$(CXX) $(CXXFLAGS) $< -o $@
 
 $(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIST)
-	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
 	@$(CXX) $(CXXFLAGS) $(filter-out $(MAKEFILE_LIST), $^) $(GOOGLE_TEST_INCL_FLAGS) -o $@
 
 $(MAKEFILE_LIST):
@@ -154,8 +160,24 @@ $(MAKEFILE_LIST):
 
 __print_settings:
 	$(info $(BANNER))
-	@echo "CXX=$(CXX)\n"
-	@echo "CXXFLAGS=$(CXXFLAGS)\n"
+	@echo "Using CXX...\n\n\t$(CXX)\n"
+	@echo "Using CXXFLAGS...\n"
+	@for flag in $(CXXFLAGS); do \
+		echo "\t$$flag" ; \
+	done
+	@echo "\nFigures...\n"
+	@for test in $(notdir $(FIG_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo "\nExercises...\n"
+	@for ex in $(notdir $(EXR_FILES)); do \
+		echo "\t$$ex" ; \
+	done
+	@echo "\nTests...\n"
+	@for test in $(notdir $(TST_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo
 
 define BANNER
 
@@ -172,12 +194,12 @@ __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
 $(CLEAN_FLAG):
-	@echo -n "\n  Cleaning up..."
+	@echo 
+	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
 	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS)
-	@echo "done!\n"
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
 
-.PHONY: Makefile clean __print_banner __gcov __gcovr
+.PHONY: clean __print_banner __gcov __gcovr
 .PRECIOUS: $(OBJ_FILES)
