@@ -1,6 +1,12 @@
 # Compilation Flags
-CXX          := g++
-STD          := -std=c++14
+CXX := g++
+STD := -std=c++14
+
+# Compiler flags
+EXTRA_CFLAGS  := -Wall -Wextra
+DEBUG_FLAGS   := -g -Og -DDEBUG
+RELEASE_FLAGS := -Os -Werror
+CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 
 # Determine build flags
 DEBUG_FLAG       := debug
@@ -14,12 +20,6 @@ ALL_FLAGS        = $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EX
 ifneq (, $(filter-out $(ALL_FLAGS), $(MAKECMDGOALS)))
 $(error Unknown option: $(filter-out $(ALL_FLAGS), $(MAKECMDGOALS)))
 endif
-
-# Compiler flags
-EXTRA_CFLAGS  := -Wall -Wextra
-DEBUG_FLAGS   := -g -Og -DDEBUG
-RELEASE_FLAGS := -Os -Werror
-CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 
 # Resolve release or debug build
 ifeq ($(RELEASE_FLAG)$(DEBUG_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS))$(filter $(DEBUG_FLAG), $(MAKECMDGOALS)))
@@ -75,10 +75,8 @@ MKDIR_P  = mkdir -p
 # Source files from Exercises, Tests, and Figures
 EXR_FILES     := $(wildcard $(EXR_DIR)/*.cpp)
 TST_FILES     := $(wildcard $(TST_DIR)/*.cpp)
-FIG_FILES     := $(wildcard $(FIG_DIR)/*.cpp)
-
-EXERCISES     := $(basename $(notdir $(EXR_FILES)))
 TESTS         := $(subst tst_,,$(basename $(notdir $(TST_FILES))))
+FIG_FILES     := $(wildcard $(FIG_DIR)/*.cpp)
 
 SRC_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(EXR_FILES:.cpp=.o)))
 TST_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(TST_FILES:.cpp=.o)))
@@ -86,6 +84,8 @@ FIG_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(FIG_FILES:.cpp=.o)))
 GGL_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(GOOGLE_TEST_EXR_FILES:.cc=.o)))
 OBJ_FILES     := $(SRC_OBJ_FILES) $(TST_OBJ_FILES) $(GGL_OBJ_FILES) $(FIG_OBJ_FILES)
 BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS)) $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
+# BIN_FILES     :=  $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
+
 BUILD_LOG     := $(OUT_DIR)/build.log
 
 DEPS  = $(OBJ_FILES:.o=.d)
@@ -129,29 +129,33 @@ $(OUT_DIRS):
 	@$(MKDIR_P) $@
 
 $(OBJ_DIR)/%.o: %.cc
-	@echo -en "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
-$(OBJ_DIR)/tst_%.o : %.cpp $(GGL_OBJ_FILES)
-	@echo -en "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o : %tst_.cpp
+	@echo "test"
+	@echo "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
+	$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o : %.cpp
-	@echo -en "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
+	@echo "\n  CXX -c $(notdir $^) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
-$(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o
-	@echo -e "\n  CXX $(notdir $^) -o $(notdir $@)\n"
+$(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o $(MAKEFILE_LIST)
+	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
 	@$(CXX) $(CXXFLAGS) $< -o $@
 
-# $(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o
-# 	@echo -e "\n  CXX $(notdir $^) -o $(notdir $@)\n"
-# 	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+$(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIST)
+	@echo "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+	@$(CXX) $(CXXFLAGS) $(filter-out $(MAKEFILE_LIST), $^) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+
+$(MAKEFILE_LIST):
+	@:
 
 __print_settings:
 	$(info $(BANNER))
-	@echo -e "  CXX=$(CXX)\n"
-	@echo -e "  CXXFLAGS=$(CXXFLAGS)\n"
+	@echo "CXX=$(CXX)\n"
+	@echo "CXXFLAGS=$(CXXFLAGS)\n"
 
 define BANNER
 
