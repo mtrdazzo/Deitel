@@ -21,6 +21,7 @@ ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(E
 # Print parameters
 BIG_BANNER   = "   ///////////////////////////////////////////////////\n  ///\n ///   $(1)\n //\n /\n"
 SMALL_BANNER = "   ///////////////////////////////////////////////////\n  /\n /     $(1)\n/\n"
+CURR_DATE   := $(shell date)
 START_TIME  := $(shell date +'%s' )
 CURRENT_TIME = $(shell date +'%s' )
 DELTA_TIME   = $(shell echo $(CURRENT_TIME) - $(START_TIME) | bc )
@@ -187,6 +188,8 @@ define BANNER
  | |___| | | | (_| | |_) | ||  __/ |    | | |_| |
   \____|_| |_|\__,_| .__/ \__\___|_|    |_|\___/ 
                    |_|                           
+
+          $(CURR_DATE)
 
 endef
 
