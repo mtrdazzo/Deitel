@@ -1,20 +1,49 @@
 # Compilation Flags
-CXX           = g++
-STD           = -std=c++14
+CXX := $(shell which g++)
+STD := -std=c++14
 
-# Determine build flags
-DEBUG_FLAG   = debug
-RELEASE_FLAG = release
-GCOV_FLAG    = gcov
-ALL_FLAGS   := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG)
+CHAPTER := $(notdir $(CURDIR))
 
 # Compiler flags
-EXTRA_CFLAGS  = -Wall -Wextra -Werror
-DEBUG_FLAGS   = -g -Og -DDEBUG
-RELEASE_FLAGS = -Os
-CXXFLAGS     := $(EXTRA_CFLAGS) $(STD) -MD
+EXTRA_CFLAGS  := -Wall -Wextra
+DEBUG_FLAGS   := -g -Og -DDEBUG
+RELEASE_FLAGS := -Os -Werror
+CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
+
+# Determine build flags
+DEBUG_FLAG       := debug
+RELEASE_FLAG     := release
+GCOV_FLAG        := gcov
+CLEAN_FLAG       := clean
+EXTRA_CLEAN_FLAG := extra-clean
+ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
+
+# Print parameters
+BIG_BANNER   = "   ///////////////////////////////////////////////////\n  ///\n ///   $(1)\n //\n /\n"
+SMALL_BANNER = "   ///////////////////////////////////////////////////\n  /\n /     $(1)\n/\n"
+CURR_DATE   := $(shell date)
+START_TIME  := $(shell date +'%s' )
+CURRENT_TIME = $(shell date +'%s' )
+DELTA_TIME   = $(shell echo $(CURRENT_TIME) - $(START_TIME) | bc )
+ELAPSED_TIME = $(shell printf %i:%02i $(shell expr $(DELTA_TIME) / 60 ) $(shell expr $(DELTA_TIME) % 60 ) )
+
+# Find possible unknown flag
+ifneq (, $(filter-out $(ALL_FLAGS), $(MAKECMDGOALS)))
+$(error Unknown option: $(filter-out $(ALL_FLAGS), $(MAKECMDGOALS)))
+endif
+
+# Resolve release or debug build
+ifeq ($(RELEASE_FLAG)$(DEBUG_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS))$(filter $(DEBUG_FLAG), $(MAKECMDGOALS)))
+$(error Pick either $(RELEASE_FLAG) or $(DEBUG_FLAG) not both!)
+endif
+ifeq ($(RELEASE_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS)))
+CXXFLAGS += $(RELEASE_FLAGS)
+else
+CXXFLAGS += $(DEBUG_FLAGS)
+endif
 
 # gcov parameters
+ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 GCOVR_OUT_FILE = coverage.xml
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
 GCOV_FILES    := $(SRC_OBJ_FILES:.o=.gcno) \
@@ -25,96 +54,62 @@ GCOV_FILES    := $(SRC_OBJ_FILES:.o=.gcno) \
                  $(GOOGLE_TEST_OBJ_FILES:.o=.gcno) \
                  $(GCOVR_OUT_FILE)
 
-ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 CXXFLAGS+=$(GCOV_FLAGS)
 endif
 
 # Google Test Relative Directories
 GOOGLE_TEST_HOME_DIR    = ../googletest/googletest
 GOOGLE_TEST_INCL_DIR   := $(GOOGLE_TEST_HOME_DIR)/include
-GOOGLE_TEST_SRC_DIR    := $(GOOGLE_TEST_HOME_DIR)/src
-GOOGLE_TEST_SRC_FILES   = gtest_main.cc gtest-all.cc
-GOOGLE_TEST_OBJ_FILES   = $(addprefix $(GOOGLE_TEST_OBJ_DIR)/, $(GOOGLE_TEST_SRC_FILES:.cc=.o))
-GOOGLE_TEST_OBJ_DIR     = $(GOOGLE_TEST_HOME_DIR)/$(OBJ_DIR)
+GOOGLE_TEST_EXR_DIR    := $(GOOGLE_TEST_HOME_DIR)/src
+GOOGLE_TEST_EXR_FILES   = gtest_main.cc gtest-all.cc
 GOOGLE_TEST_INCL_FLAGS := -I$(GOOGLE_TEST_HOME_DIR) -I$(GOOGLE_TEST_INCL_DIR) -pthread
 
-OBJ_DIR       = obj
-OUT_DIR       = out
-SRC_DIR       = Exercises
-TST_DIR       = Tests
-BIN_DIR      := $(addsuffix /bin, $(OUT_DIR))
-OBJ_DIRS     := $(addsuffix /$(OBJ_DIR), $(TST_DIR) $(SRC_DIR))
-INCLUDE_FLAGS = -I$(SRC_DIR) -I/usr/include -L/usr/lib
+ifeq ($(RELEASE_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS)))
+OUT_DIR       = out/$(RELEASE_FLAG)
+else
+OUT_DIR       = out/$(DEBUG_FLAG)
+endif
 
-OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) \
+OBJ_DIR       = $(OUT_DIR)/obj
+EXR_DIR       = Exercises
+TST_DIR       = Tests
+FIG_DIR       = Figures
+BIN_DIR      := $(OUT_DIR)/bin
+INCLUDE_FLAGS = -I$(EXR_DIR) -I/usr/include -L/usr/lib
+
+OUT_DIRS = $(OUT_DIR) \
            $(BIN_DIR) \
-           $(OBJ_DIRS) \
-           $(OUT_DIR)
+           $(OBJ_DIR)
 
 MKDIR_P  = mkdir -p
 
-# List of Source files, exercises, and object files
-SRC_FILES     := $(wildcard $(SRC_DIR)/*.cpp)
+# Source files from Exercises, Tests, and Figures
+EXR_FILES     := $(wildcard $(EXR_DIR)/*.cpp)
 TST_FILES     := $(wildcard $(TST_DIR)/*.cpp)
+FIG_FILES     := $(wildcard $(FIG_DIR)/*.cpp)
+TESTS         := $(subst tst_,,$(basename $(notdir $(TST_FILES))))
 
-EXERCISES     := $(basename $(notdir $(SRC_FILES)))
-TESTS         := $(basename $(notdir $(TST_FILES)))
-TESTS         := $(subst tst_,,$(TESTS))
+SRC_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(EXR_FILES:.cpp=.o)))
+TST_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(TST_FILES:.cpp=.o)))
+FIG_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(FIG_FILES:.cpp=.o)))
+GGL_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(GOOGLE_TEST_EXR_FILES:.cc=.o)))
+OBJ_FILES     := $(SRC_OBJ_FILES) $(TST_OBJ_FILES) $(GGL_OBJ_FILES) $(FIG_OBJ_FILES)
+BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS)) $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
 
-SRC_OBJ_FILES := $(addsuffix .o, $(addprefix $(SRC_DIR)/$(OBJ_DIR)/,$(EXERCISES)))
-TST_OBJ_FILES := $(addsuffix .o, $(addprefix $(TST_DIR)/$(OBJ_DIR)/,$(basename $(notdir $(TST_FILES)))))
-BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS))
-OUT_FILES     := $(SRC_OBJ_FILES) \
-                 $(TST_OBJ_FILES) \
-                 $(BIN_FILES)
 BUILD_LOG     := $(OUT_DIR)/build.log
 
-DEPS  = $(SRC_OBJ_FILES:.o=.d)
-DEPS += $(TST_OBJ_FILES:.o=.d)
-DEPS += $(GOOGLE_TEST_OBJ_FILES:.o=.d)
+DEPS  = $(OBJ_FILES:.o=.d)
 
-vpath % $(GOOGLE_TEST_SRC_DIR) $(SRC_DIR) $(TST_DIR)
+vpath % $(GOOGLE_TEST_EXR_DIR) $(EXR_DIR) $(TST_DIR) $(FIG_DIR)
 
-image: __print_banner
-	@echo "\n  Creating build image..."
-	@export gid=$(shell id -u); \
-	export uid=$(shell id -g); \
-	docker-compose build deitel-image
-	@echo "done!\n"
-
-$(DEBUG_FLAG): CXXFLAGS += $(DEBUG_FLAGS)
-$(DEBUG_FLAG): __prebuild \
-               __build
-
-$(RELEASE_FLAG): CXXFLAGS += $(RELEASE_FLAGS)
-$(RELEASE_FLAG): clean \
-                 __prebuild \
-                 __build
-
-$(GCOV_FLAG): __run_all_files \
-              __gcov \
-              __gcovr \
-
-__prebuild: __print_banner \
-            __make_dirs \
-            __create_build_log \
-
-__build: __print_settings \
-         __google_test \
-         __make_modules \
-         __make_test_modules \
-         __make_bin_files \
-         __see_build_log
-
-__make_dirs: $(OUT_DIRS)
-
-__google_test: $(GOOGLE_TEST_OBJ_DIR) $(GOOGLE_TEST_OBJ_FILES)
-
-__make_modules: $(SRC_DIR)/$(OBJ_DIR) $(SRC_OBJ_FILES)
-
-__make_test_modules: $(TST_DIR)/$(OBJ_DIR) $(TST_OBJ_FILES)
-
-__make_bin_files: $(BIN_DIR) $(BIN_FILES)
+ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS))$(filter $(EXTRA_CLEAN_FLAG), $(MAKECMDGOALS)))
+$(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(BIN_FILES)
+	@echo $(call BIG_BANNER, $(CHAPTER) build done!)
+	@echo "        Elapsed Time: $(ELAPSED_TIME)\n"
+else
+$(DEBUG_FLAG) $(RELEASE_FLAG):
+	@:
+endif
 
 __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
@@ -131,8 +126,8 @@ __run_all_files:
 
 __gcov:
 	@echo -en "\n  Running gcov..."
-	@for src_file in $(SRC_FILES); do \
-		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(SRC_DIR)/obj >> $(BUILD_LOG) 2>&1; \
+	@for src_file in $(EXR_FILES); do \
+		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(EXR_DIR)/obj >> $(BUILD_LOG) 2>&1; \
 	done
 	@echo -e "done!\n"
 
@@ -145,46 +140,69 @@ $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
 	@$(MKDIR_P) $@
 
-$(GOOGLE_TEST_OBJ_DIR)/%.o: %.cc
-	@echo -e "\n  CXX $(notdir $<) -o $(notdir $@)\n"
+$(OBJ_DIR)/%.o: %.cc
+	@echo $(call SMALL_BANNER, Compiling $(notdir $<)...)
 	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
-$(SRC_DIR)/$(OBJ_DIR)/%.o : %.cpp
-	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o : %.cpp
+	@echo $(call SMALL_BANNER,Compiling $(notdir $<)...)
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
 
-$(TST_DIR)/$(OBJ_DIR)/%.o : %.cpp
-	@echo -e "\n  CXX -c $(notdir $<) -o $(notdir $@)\n"
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+$(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o $(MAKEFILE_LIST)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $< -o $@
 
-$(BIN_DIR)/% : $(TST_DIR)/obj/tst_%.o $(SRC_DIR)/$(OBJ_DIR)/%.o
-	@echo -e "\n  CXX $(notdir $^) -o $(notdir $@)\n"
-	@$(CXX) $(CXXFLAGS) $(GCOV_FLAGS) $^ $(GOOGLE_TEST_OBJ_FILES) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+$(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIST)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $(filter-out $(MAKEFILE_LIST), $^) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+
+$(MAKEFILE_LIST):
+	@:
 
 __print_settings:
-	@echo -e "  CXX=$(CXX)\n"
-	@echo -e "  CXXFLAGS=$(CXXFLAGS)\n"
+	$(info $(BANNER))
+	@echo "Using CXX...\n\n\t$(CXX)\n"
+	@echo "Using CXXFLAGS...\n"
+	@for flag in $(CXXFLAGS); do \
+		echo "\t$$flag" ; \
+	done
+	@echo "\nFigures...\n"
+	@for test in $(notdir $(FIG_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo "\nExercises...\n"
+	@for ex in $(notdir $(EXR_FILES)); do \
+		echo "\t$$ex" ; \
+	done
+	@echo "\nTests...\n"
+	@for test in $(notdir $(TST_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo
 
-__print_banner:
-	@ \
-	echo "   ________                __               ____ ";\
-	echo "  / ____/ /_  ____ _____  / /____  _____   / __ \ ";\
-	echo " / /   / __ \/ __  / __ \/ __/ _ \/ ___/  / /_/ /";\
-	echo "/ /___/ / / / /_/ / /_/ / /_/  __/ /      \__, /";\
-	echo "\____/_/ /_/\__,_/ .___/\__/\___/_/      /____/ ";\
-	echo "                /_/                             ";\
-	echo "";
+define BANNER
+
+   ____ _                 _               ___  
+  / ___| |__   __ _ _ __ | |_ ___ _ __   / _ \ 
+ | |   | '_ \ / _` | '_ \| __/ _ \ '__| | (_) |
+ | |___| | | | (_| | |_) | ||  __/ |     \__, |
+  \____|_| |_|\__,_| .__/ \__\___|_|       /_/ 
+                   |_|                         
+
+          $(CURR_DATE)
+
+endef
 
 __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
-clean:
-	@echo -n "\n  Cleaning up..."
-	@rm -rf $(GOOGLE_TEST_OBJ_FILES) $(OUT_FILES) $(DEPS) $(GCOV_FILES) $(BUILD_LOG)
-	@echo "done!\n"
+$(CLEAN_FLAG):
+	@echo 
+	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS)
 
-extra-clean: clean
-	@rm -Rf  $(GOOGLE_TEST_OBJ_DIR)  $(BIN_DIR) $(OBJ_DIRS) $(OUT_DIR)
+$(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
+	@rm -Rf  $(OUT_DIR)
 
-.PHONY: Makefile clean __print_banner __gcov __gcovr jenkins
-.PRECIOUS: $(TST_DIR)/$(OBJ_DIR)/%.o $(SRC_DIR)/$(OBJ_DIR)/%.o
+.PHONY: clean __print_banner __gcov __gcovr
+.PRECIOUS: $(OBJ_FILES)
