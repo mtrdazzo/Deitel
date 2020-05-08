@@ -4,9 +4,9 @@
         {
             "type": "shell",
             "label": "run makefile",
-            "command": "make debug",
+            "command": "make",
             "options": {
-                "cwd": "${workspaceFolder}/Chapter_9"
+                "cwd": "${fileDirname}/.."
             },
             "problemMatcher": [
                 "$gcc"
@@ -16,19 +16,5 @@
                 "isDefault": true
             }
         },
-        {
-            "type": "shell",
-            "label": "cpp build active file",
-            "command": "/usr/bin/cpp",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "options": {
-                "cwd": "/usr/bin"
-            }
-        }
     ]
 }
