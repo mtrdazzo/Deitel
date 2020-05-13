@@ -44,7 +44,7 @@ endif
 
 # gcov parameters
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-GCOVR_OUT_FILE = coverage.xml
+GCOVR_OUT_FILE = coverage.html
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
 GCOV_FILES    := $(SRC_OBJ_FILES:.o=.gcno) \
                  $(TST_OBJ_FILES:.o=.gcno) \
@@ -111,6 +111,8 @@ $(DEBUG_FLAG) $(RELEASE_FLAG):
 	@:
 endif
 
+$(GCOV_FLAG): __run_all_files __gcov __gcovr
+
 __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
 		rm $(BUILD_LOG); \
@@ -118,23 +120,24 @@ __create_build_log:
 	@touch $(BUILD_LOG)
 
 __run_all_files:
-	@echo -en "\n  Running all exercises..."
-	@for test_exe in $(BIN_FILES); do \
+	@echo -n "\n  Running all exercises..."
+	@for test_exe in $(addprefix $(BIN_DIR)/,$(TESTS)); do \
+		echo "\n$$test_exe" >> $(BUILD_LOG); \
 		$$test_exe >> $(BUILD_LOG) 2>&1; \
 	done
-	@echo -e "done!\n"
+	@echo "done!"
 
 __gcov:
-	@echo -en "\n  Running gcov..."
+	@echo -n "\n  Running gcov..."
 	@for src_file in $(EXR_FILES); do \
-		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(EXR_DIR)/obj >> $(BUILD_LOG) 2>&1; \
+		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(OBJ_DIR) >> $(BUILD_LOG) 2>&1; \
 	done
-	@echo -e "done!\n"
+	@echo "done!"
 
 __gcovr:
-	@echo -en "\n  Creating test coverage report: $(GCOVR_OUT_FILE)..."
-	@gcovr -r . --xml --delete --exclude=Tests --exclude=../googletest --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
-	@echo -e "done!\n"
+	@echo -n "\n  Creating test coverage report: $(GCOVR_OUT_FILE)..."
+	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
+	@echo "done!\n"
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
@@ -199,7 +202,7 @@ __see_build_log:
 $(CLEAN_FLAG):
 	@echo 
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS)
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG)
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
