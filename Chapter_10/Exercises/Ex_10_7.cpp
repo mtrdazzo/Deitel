@@ -111,17 +111,10 @@ void DoubleSubscriptedArray::operator=(const DoubleSubscriptedArray& other) {
         this->~DoubleSubscriptedArray();
     }
 
-    array = new (std::nothrow) int[other.row * other.col]{}; 
+    /* Call constructor explicitly */
+    DoubleSubscriptedArray(static_cast<int>(other.row), static_cast<int>(other.col));
 
-    if (array == nullptr) {
-        std::cout << "Array could not be allocated" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    else {
-        this->row = other.row;
-        this->col = other.col;
-
-        for (size_t index{0}; index < getSize(); index++)
-            *(array + index) = *(other.array + index);
-    }
+    for (size_t index{0}; index < getSize(); index++)
+        *(array + index) = *(other.array + index);
+    // }
 }
