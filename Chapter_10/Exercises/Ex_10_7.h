@@ -33,8 +33,12 @@
 #define EX_10_7_H
 
 #include <stdint.h>
+#include <iostream>
 
 class DoubleSubscriptedArray {
+
+    friend std::ostream& operator<<(std::ostream&, const DoubleSubscriptedArray&);
+    friend std::istream& operator>>(std::istream&, DoubleSubscriptedArray&);
 
     public:
 
@@ -50,6 +54,7 @@ class DoubleSubscriptedArray {
          */
         ~DoubleSubscriptedArray() {
             delete[] array;
+            array = nullptr;
         }
 
         /**
@@ -67,6 +72,28 @@ class DoubleSubscriptedArray {
         int operator()(int, int) const;
 
         /**
+         * @brief Equality operator
+         * 
+         * @return true If size and/or values of the data arrays are equal
+         * @return false 
+         */
+        bool operator==(DoubleSubscriptedArray &) const;
+
+        /**
+         * @brief Inequality operator
+         * 
+         * @return true If size and/or values of the data arrays are not equal
+         * @return false 
+         */
+        bool operator!=(DoubleSubscriptedArray &) const;
+
+        /**
+         * @brief Copy constructor
+         * 
+         */
+        void operator=(DoubleSubscriptedArray &);
+
+        /**
          * @brief Get the size of the array
          * 
          * @return uint32_t size of the array
@@ -74,9 +101,9 @@ class DoubleSubscriptedArray {
         uint32_t getSize() const { return row * col; }
 
     private:
-        int   *array;
-        uint32_t row;
-        uint32_t col;
+        int   *array{nullptr};
+        uint32_t row{0};
+        uint32_t col{0};
 };
 
 #endif 

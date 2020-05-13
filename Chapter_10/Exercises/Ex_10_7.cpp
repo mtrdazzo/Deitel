@@ -37,7 +37,7 @@ DoubleSubscriptedArray::DoubleSubscriptedArray(int row, int col) {
 }
 
 /**
- * @brief Access the row and column of the array
+ * @brief Access the array at the specified row and column
  * 
  * @param row row index of the array
  * @param col column index of the array
@@ -54,7 +54,7 @@ int& DoubleSubscriptedArray::operator()(int row, int col) {
 }
 
 /**
- * @brief Return the value of at row and column of the array
+ * @brief Return the value of the array at specified row and column
  * 
  * @param row row index of the array
  * @param col column index of the array
@@ -67,5 +67,61 @@ int DoubleSubscriptedArray::operator()(int row, int col) const {
         throw std::invalid_argument("invalid column");
     else {
         return *(array + (row * col));
+    }
+}
+
+/**
+ * @brief Equality operator, return true if internal data storages are the same length
+ *        and contain the same data at each index.
+ * 
+ * @param other Other DoubleSubscriptedArray object
+ * @return true 
+ * @return false 
+ */
+bool DoubleSubscriptedArray::operator==(DoubleSubscriptedArray& other) const {
+    if (getSize() != other.getSize())
+        return false;
+    for (size_t index{0}; index < getSize(); index++)
+        if (*(array + index) != *(other.array + index))
+            return false;
+    return true;
+}
+
+/**
+ * @brief Inequality operator, return true if internal data storages are different length
+ *        or do not contain the same data at each index.
+ * 
+ * @param other Other DoubleSubscriptedArray object
+ * @return true 
+ * @return false 
+ */
+bool DoubleSubscriptedArray::operator!=(DoubleSubscriptedArray& other) const {
+    return !(*this == other);
+}
+
+/**
+ * @brief Copy the values of the elements of the other DoubleSubscriptedArray to this object.
+ * 
+ * @param other Other DoubleSubscriptedArray object
+ */
+void DoubleSubscriptedArray::operator=(DoubleSubscriptedArray& other) {
+
+    /* Call destructor explicitly */
+    if (array != nullptr) {
+        this->~DoubleSubscriptedArray();
+    }
+
+    array = new (std::nothrow) int[other.row * other.col]{}; 
+
+    if (array == nullptr) {
+        std::cout << "Array could not be allocated" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    else {
+        this->row = other.row;
+        this->col = other.col;
+
+        for (size_t index{0}; index < getSize(); index++)
+            *(array + index) = *(other.array + index);
     }
 }
