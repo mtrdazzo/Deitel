@@ -37,8 +37,8 @@
 
 class DoubleSubscriptedArray {
 
-    friend std::ostream& operator<<(std::ostream&, const DoubleSubscriptedArray&);
-    friend std::istream& operator>>(std::istream&, DoubleSubscriptedArray&);
+    // friend std::ostream& operator<<(std::ostream&, const DoubleSubscriptedArray&);
+    // friend std::istream& operator>>(std::istream&, DoubleSubscriptedArray&);
 
     public:
 
@@ -77,7 +77,7 @@ class DoubleSubscriptedArray {
          * @return true If size and/or values of the data arrays are equal
          * @return false 
          */
-        bool operator==(DoubleSubscriptedArray &) const;
+        bool operator==(const DoubleSubscriptedArray &) const;
 
         /**
          * @brief Inequality operator
@@ -85,13 +85,13 @@ class DoubleSubscriptedArray {
          * @return true If size and/or values of the data arrays are not equal
          * @return false 
          */
-        bool operator!=(DoubleSubscriptedArray &) const;
+        bool operator!=(const DoubleSubscriptedArray &) const;
 
         /**
          * @brief Copy constructor
          * 
          */
-        void operator=(DoubleSubscriptedArray &);
+        void operator=(const DoubleSubscriptedArray &);
 
         /**
          * @brief Get the size of the array

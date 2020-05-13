@@ -78,7 +78,7 @@ int DoubleSubscriptedArray::operator()(int row, int col) const {
  * @return true 
  * @return false 
  */
-bool DoubleSubscriptedArray::operator==(DoubleSubscriptedArray& other) const {
+bool DoubleSubscriptedArray::operator==(const DoubleSubscriptedArray& other) const {
     if (getSize() != other.getSize())
         return false;
     for (size_t index{0}; index < getSize(); index++)
@@ -95,7 +95,7 @@ bool DoubleSubscriptedArray::operator==(DoubleSubscriptedArray& other) const {
  * @return true 
  * @return false 
  */
-bool DoubleSubscriptedArray::operator!=(DoubleSubscriptedArray& other) const {
+bool DoubleSubscriptedArray::operator!=(const DoubleSubscriptedArray& other) const {
     return !(*this == other);
 }
 
@@ -104,7 +104,7 @@ bool DoubleSubscriptedArray::operator!=(DoubleSubscriptedArray& other) const {
  * 
  * @param other Other DoubleSubscriptedArray object
  */
-void DoubleSubscriptedArray::operator=(DoubleSubscriptedArray& other) {
+void DoubleSubscriptedArray::operator=(const DoubleSubscriptedArray& other) {
 
     /* Call destructor explicitly */
     if (array != nullptr) {

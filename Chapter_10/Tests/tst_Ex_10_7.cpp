@@ -90,3 +90,84 @@ TEST(SubscriptedOverload, NonConstantObject) {
     EXPECT_EQ(testOut, 0);
     EXPECT_EQ(dArray(row - 1, col - 1), testInt);
 }
+
+/**
+ * @brief Test equality operators for single element arrays
+ * 
+ */
+TEST(EqualityOperators, SingleElement) {
+
+    DoubleSubscriptedArray dsa1(1, 1);
+    DoubleSubscriptedArray dsa2(1, 1);
+    DoubleSubscriptedArray dsa3(1, 1);
+
+    int testInt{5};
+
+    dsa1(0, 0) = testInt;
+    dsa2(0, 0) = testInt;
+    dsa3(0, 0) = testInt + 1;
+
+    EXPECT_TRUE(dsa1 == dsa2);
+    EXPECT_FALSE(dsa1 == dsa3);
+    EXPECT_TRUE(dsa1 != dsa3);
+}
+
+/**
+ * @brief Test Equality Operators for multiple element arrays
+ * 
+ */
+TEST(EqualityOperators, MultipleElements) {
+
+    int testInts[]{2, 3, 4};
+
+    DoubleSubscriptedArray dsa1(1, 3);
+    DoubleSubscriptedArray dsa2(1, 3);
+    DoubleSubscriptedArray dsa3(1, 4);
+    DoubleSubscriptedArray dsa4(1, 3);
+
+    for (size_t index{0}; index < 3; index++) {
+        dsa1(0, index) = testInts[index];
+        dsa2(0, index) = testInts[index];
+        dsa3(0, index) = testInts[index];
+        dsa4(0, index) = testInts[index];
+    }
+
+    dsa4(0, 2) += 1;
+
+    EXPECT_TRUE(dsa1 == dsa2);
+    EXPECT_FALSE(dsa1 == dsa3);
+    EXPECT_TRUE(dsa2 != dsa3);
+    EXPECT_FALSE(dsa4 == dsa1);
+}
+
+/**
+ * @brief Test the copy operator for single and multiple sized data arrays.
+ * 
+ */
+TEST(CopyOperator, MultipleElements) {
+
+    int testInts[]{2, 3, 4};
+    int testInt{5};
+    DoubleSubscriptedArray dsa1(1, 1);
+    DoubleSubscriptedArray dsa2(1, 1);
+    DoubleSubscriptedArray dsa3(1, 3);
+
+    dsa1(0, 0) = testInt;
+    dsa2(0, 0) = testInt + 1;
+
+    for (size_t index{0}; index < 3; index++) {
+        dsa3(0, index) = testInts[index];
+    }
+
+    EXPECT_FALSE(dsa1 == dsa2);
+    dsa2 = dsa1;
+    EXPECT_TRUE(dsa1 == dsa2);
+
+    EXPECT_FALSE(dsa1 == dsa3);
+    dsa1 = dsa3;
+    EXPECT_TRUE(dsa1 == dsa3);
+
+    EXPECT_FALSE(dsa3 == dsa2);
+    dsa3 = dsa2;
+    EXPECT_TRUE(dsa3 == dsa2);
+}
