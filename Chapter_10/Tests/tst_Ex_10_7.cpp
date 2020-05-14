@@ -151,6 +151,7 @@ TEST(CopyOperator, MultipleElements) {
     DoubleSubscriptedArray dsa1(1, 1);
     DoubleSubscriptedArray dsa2(1, 1);
     DoubleSubscriptedArray dsa3(1, 3);
+    const DoubleSubscriptedArray dsa4(1, 1);
 
     dsa1(0, 0) = testInt;
     dsa2(0, 0) = testInt + 1;
@@ -170,4 +171,24 @@ TEST(CopyOperator, MultipleElements) {
     EXPECT_FALSE(dsa3 == dsa2);
     dsa3 = dsa2;
     EXPECT_TRUE(dsa3 == dsa2);
+
+    EXPECT_EQ(dsa4(0, 0), 0);
+
+    int tempInt;
+
+    try {
+        tempInt = dsa4(0, 1);
+        EXPECT_EQ(tempInt, 0);
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid column");
+    }
+
+    try {
+        tempInt = dsa4(1, 0);
+        EXPECT_EQ(tempInt, 0);
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid row");
+    }
 }
