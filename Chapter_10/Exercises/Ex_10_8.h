@@ -33,6 +33,8 @@
 #include <string>
 #include <stdint.h>
 
+#define YEAR_OF_MODEL_T 1908
+
 class MotorVehicle {
 
     /**
@@ -83,14 +85,85 @@ class MotorVehicle {
          */
         bool operator>(MotorVehicle &);
 
+        /**
+         * @brief Set the make of the vehicle.
+         * 
+         * @param make Make of the vehicle.
+         */
+        void setMake(const std::string &make) { m_sMake = make; }
+
+        /**
+         * @brief Get the make of the vehicle
+         * 
+         * @return std::string Make of the vehicle.
+         */
+        std::string getMake() const { return m_sMake; }
+
+        /**
+         * @brief Set the fule type of the vehicle.
+         * 
+         * @param fuelType Fuel type of the vehicle (deisel/regular).
+         */
+        void setFuelType(const std::string &);
+
+        /**
+         * @brief Get the fuel type of the vehicle (regular/deisel).
+         * 
+         * @return std::string 
+         */
+        std::string getFuelType() const { return m_sFuelType; }
+
+        /**
+         * @brief Set the year of manufacture of the vehicle.
+         * 
+         * @param year Year of manufacture, must at or during first year of Model T (1908).
+         */
+        void setYear(const int);
+
+        /**
+         * @brief Get the year of manufacture of the vehicle.
+         * 
+         * @return int Year of manufacture of the vehicle.
+         */
+        int getYear() const { return m_iYearOfManufacture; }
+
+        /**
+         * @brief Set the color of the vehicle.
+         * 
+         */
+        void setColor(const std::string &color) { m_sColor = color; }
+
+        /**
+         * @brief Get the Color
+         * 
+         * @return std::string The color of the vehicle.
+         */
+        std::string getColor() const { return m_sColor; }
+
+        /**
+         * @brief Set the engine fuel capacity (US gallons) of the vehicle.
+         * 
+         */
+        void setFuelCapacity(int);
+
+        /**
+         * @brief Get the engine fuel capacity (US gallons) of the vehicle.
+         * 
+         * @return int Fuel capacity (US gallons) of the vehicle.
+         */
+        int getFuelCapacity() const { return m_iFuelCapacity; }
+
+
     private:
 
         std::string m_sMake;
         int m_iYearOfManufacture;
         std::string m_sColor;
         std::string m_sFuelType;
-        int m_iEngineCapacity;
+        int m_iFuelCapacity;
 
+        const std::string regularFuel{"regular"};
+        const std::string deiselFuel{"deisel"};
 };
 
 #endif
