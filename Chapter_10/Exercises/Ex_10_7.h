@@ -37,8 +37,7 @@
 
 class DoubleSubscriptedArray {
 
-    // friend std::ostream& operator<<(std::ostream&, const DoubleSubscriptedArray&);
-    // friend std::istream& operator>>(std::istream&, DoubleSubscriptedArray&);
+    friend std::ostream& operator<<(std::ostream&, const DoubleSubscriptedArray&);
 
     public:
 

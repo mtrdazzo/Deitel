@@ -49,7 +49,7 @@ int& DoubleSubscriptedArray::operator()(int row, int col) {
     else if (col < 0 || static_cast<uint32_t>(col) >= this->col)
         throw std::invalid_argument("invalid column");
     else {
-        return *(array + (row * col));
+        return *(array + (row * this->col + col));
     }
 }
 
@@ -124,4 +124,19 @@ void DoubleSubscriptedArray::operator=(const DoubleSubscriptedArray& other) {
         for (size_t index{0}; index < getSize(); index++)
             *(array + index) = *(other.array + index);
     }
+}
+
+/**
+ * @brief 
+ * 
+ * @param output 
+ * @param dsa 
+ * @return ostream& 
+ */
+std::ostream& operator<<(std::ostream& output, const DoubleSubscriptedArray& dsa) {
+
+    for (size_t index{0}; index < dsa.getSize(); ++index)
+        output << *(dsa.array + index) << ((index + 1 < dsa.getSize()) ? " " : "");
+
+    return output;
 }
