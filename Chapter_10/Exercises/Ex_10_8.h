@@ -67,7 +67,7 @@ class MotorVehicle {
          * @return true All data for both MotorVehicle operands are equal.
          * @return false 
          */
-        bool operator==(MotorVehicle &);
+        bool operator==(const MotorVehicle &) const;
 
         /**
          * @brief Inequality operator
@@ -75,7 +75,7 @@ class MotorVehicle {
          * @return true Data for both MotorVehicle operands are not equal.
          * @return false 
          */
-        bool operator!=(MotorVehicle &other) { return !(*this == other); }
+        bool operator!=(const MotorVehicle &other) const { return !(*this == other); }
 
         /**
          * @brief Greater than operator
@@ -83,8 +83,8 @@ class MotorVehicle {
          * @return true Manufacture date of the former operand was manufactured before the latter.
          * @return false 
          */
-        bool operator>(MotorVehicle &other ) { 
-            return this->m_iYearOfManufacture > other.m_iYearOfManufacture;
+        bool operator>(const MotorVehicle &other ) const { 
+            return this->m_iYearOfManufacture < other.m_iYearOfManufacture;
         }
 
         /**
@@ -154,7 +154,6 @@ class MotorVehicle {
          * @return int Fuel capacity (US gallons) of the vehicle.
          */
         int getFuelCapacity() const { return m_iFuelCapacity; }
-
 
     private:
 
