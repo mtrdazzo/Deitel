@@ -111,7 +111,7 @@ $(DEBUG_FLAG) $(RELEASE_FLAG):
 	@:
 endif
 
-$(GCOV_FLAG): __run_all_files __gcov __gcovr
+$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr
 
 __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
@@ -202,7 +202,7 @@ __see_build_log:
 $(CLEAN_FLAG):
 	@echo 
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG)
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
