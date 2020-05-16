@@ -10,6 +10,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <sstream>
 #include "Ex_10_7.h"
 
 /**
@@ -191,4 +192,45 @@ TEST(CopyOperator, MultipleElements) {
     catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid row");
     }
+}
+
+/**
+ * @brief Test the output of a single element DoublesubscriptedArray
+ * 
+ */
+TEST(Output, SingleElement) {
+
+    DoubleSubscriptedArray dsa1{1, 1};
+    std::ostringstream output;
+    dsa1(0, 0) = 5;
+
+    output << dsa1;
+
+    EXPECT_STREQ(output.str().c_str(), "5");
+}
+
+/**
+ * @brief Test the output of a multiple element DoublesubscriptedArray
+ * 
+ */
+TEST(Output, MultipleElement) {
+
+    DoubleSubscriptedArray dsa1{1, 4};
+    DoubleSubscriptedArray dsa2{2, 4};
+
+    std::ostringstream output1;
+    std::ostringstream output2;
+
+    for (size_t index{0}; index < dsa1.getSize(); ++index)
+        dsa1(0, index) = index + 1;
+
+    for (size_t row{0}; row < 2; ++row)
+        for (size_t col{0}; col < 4; ++col)
+            dsa2(row, col) = 4 * row + col + 1;
+
+    output1 << dsa1;
+    output2 << dsa2;
+
+    EXPECT_STREQ(output1.str().c_str(), "1 2 3 4");
+    EXPECT_STREQ(output2.str().c_str(), "1 2 3 4 5 6 7 8");
 }
