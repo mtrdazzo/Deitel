@@ -75,7 +75,7 @@ class MotorVehicle {
          * @return true Data for both MotorVehicle operands are not equal.
          * @return false 
          */
-        bool operator!=(MotorVehicle &);
+        bool operator!=(MotorVehicle &other) { return !(*this == other); }
 
         /**
          * @brief Greater than operator
@@ -83,7 +83,9 @@ class MotorVehicle {
          * @return true Manufacture date of the former operand was manufactured before the latter.
          * @return false 
          */
-        bool operator>(MotorVehicle &);
+        bool operator>(MotorVehicle &other ) { 
+            return this->m_iYearOfManufacture > other.m_iYearOfManufacture;
+        }
 
         /**
          * @brief Set the make of the vehicle.

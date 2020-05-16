@@ -69,3 +69,21 @@ void MotorVehicle::setFuelCapacity(const int fuelCapacity) {
     else
         m_iFuelCapacity = fuelCapacity;
 }
+
+/**
+ * @brief Equality operator
+ * 
+ * @param other Other MotorVehicle operand
+ * @return true All data for both MotorVehicle operands are equal.
+ * @return false 
+ */
+bool MotorVehicle::operator==(MotorVehicle &other) {
+
+    if (this->m_sMake == other.m_sMake &&
+        this->m_iYearOfManufacture == other.m_iYearOfManufacture &&
+        this->m_sColor == other.m_sColor &&
+        this->m_sFuelType == other.m_sFuelType &&
+        this->m_iFuelCapacity == other.m_iFuelCapacity)
+        return true; 
+    return false;
+}
