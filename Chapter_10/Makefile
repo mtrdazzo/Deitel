@@ -46,14 +46,6 @@ endif
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 GCOVR_OUT_FILE = coverage.html
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
-GCOV_FILES    := $(SRC_OBJ_FILES:.o=.gcno) \
-                 $(TST_OBJ_FILES:.o=.gcno) \
-                 $(SRC_OBJ_FILES:.o=.gcda) \
-                 $(TST_OBJ_FILES:.o=.gcda) \
-                 $(GOOGLE_TEST_OBJ_FILES:.o=.gcda) \
-                 $(GOOGLE_TEST_OBJ_FILES:.o=.gcno) \
-                 $(GCOVR_OUT_FILE)
-
 CXXFLAGS+=$(GCOV_FLAGS)
 endif
 
@@ -96,11 +88,34 @@ GGL_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(GOOGLE_TEST_EXR_FILES:.cc=.
 OBJ_FILES     := $(SRC_OBJ_FILES) $(TST_OBJ_FILES) $(GGL_OBJ_FILES) $(FIG_OBJ_FILES)
 BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS)) $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
 
+GCOV_FILES := $(SRC_OBJ_FILES:.o=.gcno) \
+              $(TST_OBJ_FILES:.o=.gcno) \
+              $(FIG_OBJ_FILES:.o=.gcno) \
+              $(SRC_OBJ_FILES:.o=.gcda) \
+              $(TST_OBJ_FILES:.o=.gcda) \
+              $(FIG_OBJ_FILES:.o=.gcda) \
+              $(GGL_OBJ_FILES:.o=.gcda) \
+              $(GGL_OBJ_FILES:.o=.gcno) \
+              $(GCOVR_OUT_FILE)
+
 BUILD_LOG     := $(OUT_DIR)/build.log
 
 DEPS  = $(OBJ_FILES:.o=.d)
 
 vpath % $(GOOGLE_TEST_EXR_DIR) $(EXR_DIR) $(TST_DIR) $(FIG_DIR)
+
+define BANNER
+
+   ____ _                 _              _  ___  
+  / ___| |__   __ _ _ __ | |_ ___ _ __  / |/ _ \ 
+ | |   | '_ \ / _` | '_ \| __/ _ \ '__| | | | | |
+ | |___| | | | (_| | |_) | ||  __/ |    | | |_| |
+  \____|_| |_|\__,_| .__/ \__\___|_|    |_|\___/ 
+                   |_|                           
+
+          $(CURR_DATE)
+
+endef
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS))$(filter $(EXTRA_CLEAN_FLAG), $(MAKECMDGOALS)))
 $(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(BIN_FILES)
@@ -110,6 +125,50 @@ else
 $(DEBUG_FLAG) $(RELEASE_FLAG):
 	@:
 endif
+
+__print_settings:
+	$(info $(BANNER))
+	@echo "Using CXX...\n\n\t$(CXX)\n"
+	@echo "Using CXXFLAGS...\n"
+	@for flag in $(CXXFLAGS); do \
+		echo "\t$$flag" ; \
+	done
+	@echo "\nFigures...\n"
+	@for test in $(notdir $(FIG_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo "\nExercises...\n"
+	@for ex in $(notdir $(EXR_FILES)); do \
+		echo "\t$$ex" ; \
+	done
+	@echo "\nTests...\n"
+	@for test in $(notdir $(TST_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo
+
+$(OUT_DIRS):
+	@echo "\n  > Initialized directory $@\n"
+	@$(MKDIR_P) $@
+
+$(OBJ_DIR)/%.o: %.cc
+	@echo $(call SMALL_BANNER, Compiling $(notdir $<)...)
+	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o : %.cpp
+	@echo $(call SMALL_BANNER,Compiling $(notdir $<)...)
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
+
+$(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o $(MAKEFILE_LIST)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $< -o $@
+
+$(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIST)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $(filter-out $(MAKEFILE_LIST), $^) $(GOOGLE_TEST_INCL_FLAGS) -o $@
+
+$(MAKEFILE_LIST):
+	@:
 
 $(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr
 
@@ -139,70 +198,12 @@ __gcovr:
 	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
-$(OUT_DIRS):
-	@echo "\n  > Initialized directory $@\n"
-	@$(MKDIR_P) $@
-
-$(OBJ_DIR)/%.o: %.cc
-	@echo $(call SMALL_BANNER, Compiling $(notdir $<)...)
-	@$(CXX) $(CXXFLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
-
-$(OBJ_DIR)/%.o : %.cpp
-	@echo $(call SMALL_BANNER,Compiling $(notdir $<)...)
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(GOOGLE_TEST_INCL_FLAGS) -c $< -o $@
-
-$(BIN_DIR)/%.fig : $(OBJ_DIR)/%.o $(MAKEFILE_LIST)
-	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
-	@$(CXX) $(CXXFLAGS) $< -o $@
-
-$(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIST)
-	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
-	@$(CXX) $(CXXFLAGS) $(filter-out $(MAKEFILE_LIST), $^) $(GOOGLE_TEST_INCL_FLAGS) -o $@
-
-$(MAKEFILE_LIST):
-	@:
-
-__print_settings:
-	$(info $(BANNER))
-	@echo "Using CXX...\n\n\t$(CXX)\n"
-	@echo "Using CXXFLAGS...\n"
-	@for flag in $(CXXFLAGS); do \
-		echo "\t$$flag" ; \
-	done
-	@echo "\nFigures...\n"
-	@for test in $(notdir $(FIG_FILES)); do \
-		echo "\t$$test" ; \
-	done
-	@echo "\nExercises...\n"
-	@for ex in $(notdir $(EXR_FILES)); do \
-		echo "\t$$ex" ; \
-	done
-	@echo "\nTests...\n"
-	@for test in $(notdir $(TST_FILES)); do \
-		echo "\t$$test" ; \
-	done
-	@echo
-
-define BANNER
-
-   ____ _                 _              _  ___  
-  / ___| |__   __ _ _ __ | |_ ___ _ __  / |/ _ \ 
- | |   | '_ \ / _` | '_ \| __/ _ \ '__| | | | | |
- | |___| | | | (_| | |_) | ||  __/ |    | | |_| |
-  \____|_| |_|\__,_| .__/ \__\___|_|    |_|\___/ 
-                   |_|                           
-
-          $(CURR_DATE)
-
-endef
-
 __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
 $(CLEAN_FLAG):
-	@echo 
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES)
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
