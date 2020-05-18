@@ -42,7 +42,7 @@ class MotorVehicle {
      * 
      * @return std::ostream 
      */
-    friend std::ostream operator<<(std::ostream &, MotorVehicle &);
+    friend std::ostream& operator<<(std::ostream &, const MotorVehicle &);
 
     public:
 

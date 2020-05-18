@@ -86,3 +86,21 @@ bool MotorVehicle::operator==(const MotorVehicle &other) const {
         return true; 
     return false;
 }
+
+/**
+ * @brief Output MotorVehicle class data to a public stream
+ * 
+ * @param output stdout
+ * @param vehicle MotorVehicle instance
+ * @return std::ostream stdout to allow for cascading
+ */
+std::ostream& operator<<(std::ostream &output, const MotorVehicle &vehicle) {
+
+    output << "Make: " << vehicle.m_sMake << '\n';
+    output << "Year: " << vehicle.m_iYearOfManufacture << '\n';
+    output << "Color: " << vehicle.m_sColor << '\n';
+    output << "Fuel: " << vehicle.m_sFuelType << '\n';
+    output << "Capacity: " << vehicle.m_iFuelCapacity << std::endl;
+
+    return output;
+}

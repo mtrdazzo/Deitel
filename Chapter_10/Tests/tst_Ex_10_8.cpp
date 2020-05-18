@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <sstream>
 #include <Ex_10_8.h>
 
 /**
@@ -170,4 +171,19 @@ TEST(Operators, GreaterThanOperator) {
     myCar1.setYear(year + 1);
 
     EXPECT_FALSE(myCar1 > myCar2);
+}
+
+/**
+ * @brief Output vehicle information to the output stream
+ * 
+ */
+TEST(Output, OutputVehicleInfo) {
+
+    std::ostringstream output;
+    const char *expected_output = "Make: Honda\nYear: 2015\nColor: white\nFuel: regular\nCapacity: 11\n";
+    MotorVehicle myCar("Honda", 2015, "white", "regular", 11);
+
+    output << myCar;
+
+    EXPECT_STREQ(output.str().c_str(), expected_output);
 }
