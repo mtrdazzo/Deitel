@@ -10,11 +10,11 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker Image') {
-            steps {
-                sh "make image"
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         sh "make image"
+        //     }
+        // }
         stage('Build Source') {
             steps {
                 sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
