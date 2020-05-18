@@ -53,6 +53,13 @@ OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) \
 
 MKDIR_P  = mkdir -p
 
+GIT_BRANCH := $(shell git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+JENKINS_URL = localhost:8080
+API_TOKEN   = 111491eb2c3325d939c3e87a25dabd59a7
+USER_NAME   = mtrdazzo
+MANAL_TOKEN = MANUAL_BUILD
+PIPELINE    = Parameterized%20Build
+
 jenkins:
 	@docker-compose --file docker-jenkins.yml up --detach --remove-orphans
 
@@ -61,3 +68,13 @@ stop-jenkins:
 		docker stop jenkins-server; \
 		docker rm --force jenkins-server; \
 	fi
+
+pipeline:
+	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
+
+image: __print_banner
+	@echo "\n  Creating build image..."
+	@export gid=$(shell id -u); \
+	export uid=$(shell id -g); \
+	docker-compose build deitel-image
+	@echo "done!\n"
