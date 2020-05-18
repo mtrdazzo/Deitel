@@ -25,7 +25,7 @@ pipeline {
             }
             post {
                 always {
-                  step([$class: 'CoberturaPublisher', coberturaReportFile: '${env.BRANCH_NAME}.split('/')[-1]/coverage.xml'])
+                  step([$class: 'CoberturaPublisher', coberturaReportFile: '${BRANCH_FOLDER}/coverage.xml'])
                 }
             }
         }
