@@ -174,7 +174,7 @@ $(MAKEFILE_LIST):
 	@:
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
-$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr_xml __gcovr_html
+$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr_html __gcovr_xml
 else
 $(GCOV_FLAG):
 	@:
@@ -184,7 +184,7 @@ __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
 		rm $(BUILD_LOG); \
 	fi
-	@touch $(BUILD_LOG)
+	touch $(BUILD_LOG)
 
 __run_all_files:
 	@echo -n "\n  Running all exercises..."
