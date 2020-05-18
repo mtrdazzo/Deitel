@@ -2,12 +2,12 @@ pipeline {
 
     agent any
 
-    environment {
+    // environment {
         // DOCKER_IMAGE_TAG  = "deitel:alpine"
         // GIT_PULL_RETRY_CNT = 3
         // SOURCE_DIR         = "\"/var/jenkins_home/workspace/${JOB_NAME}/Chapter_9\""
         // GIT_URL            = 'https://github.com/mtrdazzo/Deitel'
-    }
+    // }
 
     stages {
         stage('Build Docker Image') {
