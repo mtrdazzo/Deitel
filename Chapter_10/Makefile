@@ -34,21 +34,22 @@ endif
 
 # Resolve release or debug build
 ifeq ($(RELEASE_FLAG)$(DEBUG_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS))$(filter $(DEBUG_FLAG), $(MAKECMDGOALS)))
-$(error Pick either $(RELEASE_FLAG) or $(DEBUG_FLAG) not both!)
+    $(error Pick either $(RELEASE_FLAG) or $(DEBUG_FLAG) not both!)
 endif
 ifeq ($(RELEASE_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS)))
-CXXFLAGS += $(RELEASE_FLAGS)
+    CXXFLAGS += $(RELEASE_FLAGS)
 else
-CXXFLAGS += $(DEBUG_FLAGS)
+    CXXFLAGS += $(DEBUG_FLAGS)
 endif
 
 # gcov parameters
-ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
 GCOVR_XML_FILE  = coverage.xml
 GCOVR_HTML_FILE = coverage.html
 GCOVR_OUT_FILES = $(GCOVR_HTML_FILE) $(GCOVR_XML_FILE)
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
-CXXFLAGS+=$(GCOV_FLAGS)
+
+ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
+    CXXFLAGS+=$(GCOV_FLAGS)
 endif
 
 # Google Test Relative Directories
@@ -172,7 +173,12 @@ $(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIS
 $(MAKEFILE_LIST):
 	@:
 
+ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
 $(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr_xml __gcovr_html
+else
+$(GCOV_FLAG):
+	@:
+endif
 
 __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
@@ -210,7 +216,7 @@ __see_build_log:
 
 $(CLEAN_FLAG):
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES)
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES) $(CURDIR)/*.gcov
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
