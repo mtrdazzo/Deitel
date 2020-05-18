@@ -44,7 +44,9 @@ endif
 
 # gcov parameters
 ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-GCOVR_OUT_FILE = coverage.html
+GCOVR_XML_FILE  = coverage.xml
+GCOVR_HTML_FILE = coverage.html
+GCOVR_OUT_FILES = $(GCOVR_HTML_FILE) $(GCOVR_XML_FILE)
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
 CXXFLAGS+=$(GCOV_FLAGS)
 endif
@@ -96,7 +98,7 @@ GCOV_FILES := $(SRC_OBJ_FILES:.o=.gcno) \
               $(FIG_OBJ_FILES:.o=.gcda) \
               $(GGL_OBJ_FILES:.o=.gcda) \
               $(GGL_OBJ_FILES:.o=.gcno) \
-              $(GCOVR_OUT_FILE)
+              $(GCOVR_OUT_FILES)
 
 BUILD_LOG     := $(OUT_DIR)/build.log
 
@@ -170,7 +172,7 @@ $(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIS
 $(MAKEFILE_LIST):
 	@:
 
-$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr
+$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr_xml __gcovr_html
 
 __create_build_log:
 	@if [ -f "$(BUILD_LOG)" ]; then \
@@ -193,10 +195,14 @@ __gcov:
 	done
 	@echo "done!"
 
-__gcovr:
-	@echo -n "\n  Creating test coverage report: $(GCOVR_OUT_FILE)..."
-	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
-	@gcovr -r . --xml --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
+__gcovr_xml:
+	@echo -n "\n  Creating xml test coverage report: $(GCOVR_XML_FILE)..."
+	@gcovr -r . --xml --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_XML_FILE) >> $(BUILD_LOG) 2>&1
+	@echo "done!\n"
+
+__gcovr_html:
+	@echo -n "  Creating html test coverage report: $(GCOVR_HTML_FILE)..."
+	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_HTML_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
 __see_build_log:
