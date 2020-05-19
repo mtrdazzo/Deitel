@@ -72,9 +72,9 @@ stop-jenkins:
 pipeline:
 	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
 
-image: __print_banner
-	@echo "\n  Creating build image..."
-	@export gid=$(shell id -u); \
-	export uid=$(shell id -g); \
+image:
+	@echo "\nCreating build image...\n"
+	@export gid=$(shell id -g); \
+	export uid=$(shell id -u); \
 	docker-compose build deitel-image
 	@echo "done!\n"

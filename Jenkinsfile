@@ -9,19 +9,19 @@ pipeline {
     }
 
     stages {
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh "make image"
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                sh "make image"
+            }
+        }
         stage('Clean') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make clean"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release clean"
             }
         }
         stage('Build Source') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make debug gcov"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov"
             }
             post {
                 always {
@@ -29,11 +29,5 @@ pipeline {
                 }
             }
         }
-        // stage('Run Tests') {
-        //     steps {
-        //         sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov"
-        //     }
-
-        // }
     }
 }
