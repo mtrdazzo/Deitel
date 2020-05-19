@@ -3,10 +3,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_TAG  = "deitel:alpine"
-        BRANCH_FOLDER     = "${BRANCH_NAME.split('/')[-1]}"
-        SOURCE_DIR        = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
-        COVERAGE_FILE = "\${FILE, path=\"${FOLDER}/coverage.xml\"}"
+        DOCKER_IMAGE_TAG = "deitel:alpine"
+        BRANCH_FOLDER    = "${BRANCH_NAME.split('/')[-1]}"
+        SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
+        COVERAGE_FILE    = "\${FILE, path=\"${BRANCH_FOLDER}/coverage.xml\"}"
     }
 
     stages {
