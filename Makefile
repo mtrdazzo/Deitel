@@ -60,9 +60,11 @@ USER_NAME   = mtrdazzo
 MANAL_TOKEN = MANUAL_BUILD
 PIPELINE    = Parameterized%20Build
 
+# Start jenkins server
 jenkins:
 	@docker-compose --file docker-jenkins.yml up --detach --remove-orphans
 
+# Stop jenkins server
 stop-jenkins:
 	@if docker ps -a | grep jenkins-server; then \
 		docker stop jenkins-server; \
