@@ -174,7 +174,7 @@ $(MAKEFILE_LIST):
 	@:
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
-$(GCOV_FLAG): $(RELEASE_FLAG) __run_all_files __gcov __gcovr_xml
+$(GCOV_FLAG): $(DEBUG_FLAG) __run_all_files __gcov __gcovr_xml
 else
 $(GCOV_FLAG):
 	@:
