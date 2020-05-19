@@ -14,9 +14,10 @@ CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 DEBUG_FLAG       := debug
 RELEASE_FLAG     := release
 GCOV_FLAG        := gcov
+GCOV_XML_FLAG    := gcov-xml
 CLEAN_FLAG       := clean
 EXTRA_CLEAN_FLAG := extra-clean
-ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
+ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(GCOV_XML_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
 
 # Print parameters
 BIG_BANNER   = "   ///////////////////////////////////////////////////\n  ///\n ///   $(1)\n //\n /\n"
@@ -48,9 +49,7 @@ GCOVR_HTML_FILE = coverage.html
 GCOVR_OUT_FILES = $(GCOVR_HTML_FILE) $(GCOVR_XML_FILE)
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
 
-ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-    CXXFLAGS+=$(GCOV_FLAGS)
-endif
+CXXFLAGS+=$(GCOV_FLAGS)
 
 # Google Test Relative Directories
 GOOGLE_TEST_HOME_DIR    = ../googletest/googletest
@@ -174,9 +173,10 @@ $(MAKEFILE_LIST):
 	@:
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
-$(GCOV_FLAG): $(DEBUG_FLAG) __run_all_files __gcov __gcovr_xml
+$(GCOV_FLAG): __run_all_files __gcov __gcovr_html
+$(GCOV_XML_FLAG): __run_all_files __gcov __gcovr_xml
 else
-$(GCOV_FLAG):
+$(GCOV_FLAG) $(GCOV_XML_FLAG):
 	@:
 endif
 
@@ -207,7 +207,7 @@ __gcovr_xml:
 	@echo "done!\n"
 
 __gcovr_html:
-	@echo -n "  Creating html test coverage report: $(GCOVR_HTML_FILE)..."
+	@echo -n "\n  Creating html test coverage report: $(GCOVR_HTML_FILE)..."
 	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_HTML_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
@@ -215,6 +215,7 @@ __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
 $(CLEAN_FLAG):
+	@echo
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
 	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES) $(CURDIR)/*.gcov
 
