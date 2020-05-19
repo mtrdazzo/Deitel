@@ -5,7 +5,8 @@ pipeline {
     environment {
         DOCKER_IMAGE_TAG  = "deitel:alpine"
         BRANCH_FOLDER     = "${BRANCH_NAME.split('/')[-1]}"
-        SOURCE_DIR         = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
+        SOURCE_DIR        = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
+        COVERAGE_FILE = "\${FILE, path=\"${FOLDER}/coverage.xml\"}"
     }
 
     stages {
@@ -33,16 +34,15 @@ pipeline {
     post {
         failure {
             emailext body: " Job: ${env.JOB_NAME}\n Result: ${currentBuild.currentResult}\n Build #:${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'RequesterRecipientProvider']],
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
                 subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
                 attachLog: true
         }
         success {
             emailext mimeType: 'text/html',
-                body: '${FILE, path="coverage.html"}',
-                recipientProviders: [[$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
-                attachLog: true
+                body: "${env.COVERAGE_FILE}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}"
         }
     }
 }
