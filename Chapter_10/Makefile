@@ -203,7 +203,7 @@ __gcov:
 
 __gcovr_xml:
 	@echo -n "\n  Creating xml test coverage report: $(GCOVR_XML_FILE)..."
-	@gcovr -r . --xml --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_XML_FILE) >> $(BUILD_LOG) 2>&1
+	@gcovr -r . --xml --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_XML_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
 __gcovr_html:
