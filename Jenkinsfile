@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml && make release gcov"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
             }
             post {
                 always {

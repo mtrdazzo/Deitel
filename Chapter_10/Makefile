@@ -174,7 +174,7 @@ $(MAKEFILE_LIST):
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
 $(GCOV_FLAG): __run_all_files __gcov __gcovr_html
-$(GCOV_XML_FLAG): __run_all_files __gcov __gcovr_xml
+$(GCOV_XML_FLAG): $(GCOV_FLAG) __gcovr_xml
 else
 $(GCOV_FLAG) $(GCOV_XML_FLAG):
 	@:
@@ -202,13 +202,13 @@ __gcov:
 	@echo "done!"
 
 __gcovr_xml:
-	@echo -n "\n  Creating xml test coverage report: $(GCOVR_XML_FILE)..."
+	@echo -n "  Creating xml test coverage report: $(GCOVR_XML_FILE)..."
 	@gcovr -r . --xml --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_XML_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
 __gcovr_html:
 	@echo -n "\n  Creating html test coverage report: $(GCOVR_HTML_FILE)..."
-	@gcovr -r . --html --html-details --delete --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_HTML_FILE) >> $(BUILD_LOG) 2>&1
+	@gcovr -r . --html --html-details --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_HTML_FILE) >> $(BUILD_LOG) 2>&1
 	@echo "done!\n"
 
 __see_build_log:
