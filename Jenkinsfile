@@ -30,4 +30,11 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            emailext body: " Job: ${env.JOB_NAME}\n Result: ${currentBuild.currentResult}\n Build #:${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}"
+        }
+    }
 }
