@@ -1,5 +1,6 @@
-**/Logs
-**/out
-**/bin
-**/obj
-**/googletest/
+src/*/bin
+**/out/*/obj
+**/out/*/bin
+**/out/*/*.log
+**/*.html
+**/coverage.xml
