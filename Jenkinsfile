@@ -31,10 +31,18 @@ pipeline {
         }
     }
     post {
-        always {
+        failure {
             emailext body: " Job: ${env.JOB_NAME}\n Result: ${currentBuild.currentResult}\n Build #:${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}"
+                recipientProviders: [[$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
+                attachLog: true
+        }
+        success {
+            emailext mimeType: 'text/html',
+                body: '${FILE, path="coverage.html"}',
+                recipientProviders: [[$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
+                attachLog: true
         }
     }
 }
