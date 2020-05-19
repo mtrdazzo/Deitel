@@ -23,16 +23,17 @@ pipeline {
             steps {
                 sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov"
             }
+            post {
+                always {
+                  step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
+                }
+            }
         }
         // stage('Run Tests') {
         //     steps {
         //         sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov"
         //     }
-        //     post {
-        //         always {
-        //           step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-        //         }
-        //     }
+
         // }
     }
 }
