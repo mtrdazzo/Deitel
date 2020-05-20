@@ -69,5 +69,6 @@ pipeline {
                 to: 'jenkinshudson@yahoo.com',
                 recipientProviders: [[$class: 'RequesterRecipientProvider'], [$class: 'DevelopersRecipientProvider']],
                 subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
+        }
     }
 }
