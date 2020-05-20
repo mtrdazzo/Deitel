@@ -61,12 +61,16 @@ pipeline {
                         style="float: left;" /> \
                         <br> <br> <br> &emsp; <strong> <font size="+3"> Build PASSED! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
+                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
+                        <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
+                        <br> &emsp; <a href="${BUILD_URL}/console"> Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
                         </body> \
                         </html> \
                         ',
-                recipientProviders: [[$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}"
+                to: 'jenkinshudson@yahoo.com',
+                recipientProviders: [[$class: 'RequesterRecipientProvider'], [$class: 'DevelopersRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
         }
     }
 }
