@@ -47,6 +47,7 @@ pipeline {
                         </body> \
                         </html> \
                         ',
+                to: 'jenkinshudson@yahoo.com',
                 recipientProviders: [[$class: 'RequesterRecipientProvider']],
                 subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
                 attachLog: true
