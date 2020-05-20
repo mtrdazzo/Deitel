@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh "make image"
+                sh "make images"
             }
         }
         stage('Build Source') {
