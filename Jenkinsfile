@@ -42,14 +42,15 @@ pipeline {
                         style="float: left;" /> \
                         <br> <br> <br> &emsp; <strong> <font size="+3"> Build FAILED! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
-                        <br> &emsp; <a href="${BUILD_URL}"> ${JOB_NAME}:${BUILD_ID} </a> <br> \
-                        <br> <br> &emsp; -- See attached build log for details. </p> \
+                        <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
+                        <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
+                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
                         </body> \
                         </html> \
                         ',
                 to: 'jenkinshudson@yahoo.com',
-                recipientProviders: [[$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
+                recipientProviders: [[$class: 'RequesterRecipientProvider'], [$class: 'DevelopersRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
                 attachLog: true
         }
         success {
@@ -62,10 +63,10 @@ pipeline {
                         style="float: left;" /> \
                         <br> <br> <br> &emsp; <strong> <font size="+3"> Build PASSED! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
-                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
-                        <br> &emsp; <a href="${BUILD_URL}/console"> Log </a> <br> \
+                        <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
+                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
                         </body> \
                         </html> \
                         ',
