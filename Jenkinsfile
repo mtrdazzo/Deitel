@@ -43,7 +43,8 @@ pipeline {
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
-                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
+                        // <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
+                        <br> &emsp;   Job: <a href="${GIT_BRANCH}"> GitHub </a> <br> \
                         </body> \
                         </html> \
                         ',
@@ -63,6 +64,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
+                        <br> &emsp;   Job: <a href="${GIT_BRANCH}"> GitHub </a> <br> \
                         </body> \
                         </html> \
                         ',
