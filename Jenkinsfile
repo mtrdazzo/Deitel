@@ -64,8 +64,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
-                        <br> &emsp; <a href="${GIT_BRANCH}"> GitHub </a> <br> \
-                        <br> &emsp; ${CHANGES_SINCE_LAST_BUILD} <br> \
+                        <br> &emsp; "${GIT_BRANCH}" <br> \
                         </body> \
                         </html> \
                         ',
