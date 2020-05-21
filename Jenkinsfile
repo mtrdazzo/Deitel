@@ -68,7 +68,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
-                        <br> &emsp; ${ENV, var="GIT_COMMIT"} <br> \
+                        <br> &emsp; GIT_REVISION: ${ENV, var="GIT_REVISION"} <br> \
                         </body> \
                         </html> \
                         ',
