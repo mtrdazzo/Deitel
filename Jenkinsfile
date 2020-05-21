@@ -26,6 +26,7 @@ pipeline {
             steps {
                 // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
                 echo "running tests"
+
             }
             // post {
             //     success {
@@ -67,13 +68,13 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
-                        <br> &emsp; "${GIT_BRANCH}" <br> \
+                        <br> &emsp; ${ENV, var="GIT_COMMIT"} <br> \
                         </body> \
                         </html> \
                         ',
                 to: 'jenkinshudson@yahoo.com',
                 recipientProviders: [[$class: 'RequesterRecipientProvider'], [$class: 'DevelopersRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}:${env.BUILD_NUMBER} ${GIT_REVISION}"
+                subject: "Jenkins Build ${currentBuild.currentResult}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
         }
     }
 }
