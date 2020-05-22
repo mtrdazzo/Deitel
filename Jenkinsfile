@@ -12,28 +12,28 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                // sh "make image"
-                echo "building docker image"
+                sh "make image"
+                // echo "building docker image"
             }
         }
         stage('Build Source') {
             steps {
-                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
-                echo "building source"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                // echo "building source"
             }
         }
         stage('Run Tests') {
             steps {
-                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
-                echo "running tests"
-                sh "lasdjfasldjf"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
+                // echo "running tests"
+                // sh "lasdjfasldjf"
 
             }
-            // post {
-            //     success {
-            //       step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-            //     }
-            // }
+            post {
+                success {
+                  step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
+                }
+            }
         }
     }
     post {
@@ -48,7 +48,7 @@ pipeline {
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
-                        // <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
+                        <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
                         <br> <pre> Changes: \n${CHANGES} </pre> \
                         <br> <pre> ${BUILD_LOG, escapeHtml="true"} </pre> <br> \
                         </body> \
