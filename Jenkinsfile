@@ -12,8 +12,8 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh "make image"
-                // echo "building docker image"
+                // sh "make image"
+                echo "building docker image"
             }
         }
         stage('Build Source') {
@@ -68,7 +68,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
-                        <br> &emsp; GIT_REVISION: ${GIT_REVISION} <br> \
+                        <br> &emsp; GIT_REVISION: ${scm.branches[0].name} <br> \
                         </body> \
                         </html> \
                         ',
