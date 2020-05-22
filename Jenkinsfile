@@ -12,27 +12,26 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh "make image"
+                // sh "make image"
                 // echo "building docker image"
             }
         }
         stage('Build Source') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
-                // echo "building source"
+                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                echo "building source"
             }
         }
         stage('Run Tests') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
-                // echo "running tests"
-                sh "lasdjfasldjf"
+                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
+                echo "running tests"
             }
-            post {
-                success {
-                  step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-                }
-            }
+            // post {
+            //     success {
+            //       step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
+            //     }
+            // }
         }
     }
     post {
@@ -69,7 +68,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
-                        <br> &emsp; GIT_REVISION: ${ENV, var="GIT_REVISION"} <br> \
+                        <br> &emsp; GIT_REVISION: ${GIT_REVISION} <br> \
                         </body> \
                         </html> \
                         ',
