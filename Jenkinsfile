@@ -12,27 +12,23 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                // sh "make image"
-                sh "make blah"
-                // echo "building docker image"
+                echo "building docker image"
             }
         }
         stage('Build Source') {
             steps {
-                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
-                echo "building source"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
             }
         }
         stage('Run Tests') {
             steps {
-                // sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
-                echo "running tests"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
             }
-            // post {
-            //     success {
-            //       step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-            //     }
-            // }
+            post {
+                success {
+                  step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
+                }
+            }
         }
     }
     post {
