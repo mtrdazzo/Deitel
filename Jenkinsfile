@@ -43,12 +43,13 @@ pipeline {
                         <body> \
                         <p style="width: 500px;"> \
                         <img alt="Jenkins Fire" src="https://www.jenkins.io/images/logos/fire/256.png" width="214" height="250" style="float: left;" /> \
-                        <br> <br> &emsp; <strong> <font size="+3"> Build FAILURE! </font> </strong>\
+                        <br> <br> &emsp; <strong> <font size="+3"> Build Failure! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         // <br> &emsp;   Job: <a href="${JOB_URL}"> ${JOB_NAME} </a> <br> \
-                        <br> &emsp;   Job: <a href="${GIT_BRANCH}"> GitHub </a> <br> \
+                        <br> <pre> Changes: \n${CHANGES} </pre> \
+                        <br> <pre> ${BUILD_LOG, escapeHtml="true"} </pre> <br> \
                         </body> \
                         </html> \
                         ',
@@ -63,7 +64,7 @@ pipeline {
                         <body> \
                         <p style="width: 500px;"> \
                         <img alt="Jenkins Logo" src="https://www.jenkins.io/images/logos/jenkins/256.png" width="180" height="250" style="float: left;" /> \
-                        <br> <br> &emsp; <strong> <font size="+3"> Build SUCCESS! </font> </strong>\
+                        <br> &emsp; <strong> <font size="+3"> Build Success! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
