@@ -69,6 +69,34 @@ HugeInteger HugeInteger::operator+(const HugeInteger& other) const {
 }
 
 /**
+ * @brief Add an integer to a HugeInteger
+ * 
+ * @param other Integer
+ * @return HugeInteger Sum of Integer and integer
+ */
+HugeInteger HugeInteger::operator+(int other) const {
+
+    HugeInteger temp;
+    int carry{0};
+
+    for (int decimal{digits -1}; decimal >= 0; --decimal) {
+        temp.integer[decimal] = carry + integer[decimal] + other % 10;
+        other /= 10;
+
+        if (temp.integer[decimal] > 9) {
+            temp.integer[decimal] %= 10;
+            carry = 1;
+        }
+        else {
+            carry = 0;
+        }
+    }
+
+
+    return temp;
+}
+
+/**
  * @brief Output integer value to output stream
  * 
  * @param output Output stream
