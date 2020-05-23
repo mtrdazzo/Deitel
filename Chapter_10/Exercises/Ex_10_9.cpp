@@ -75,25 +75,17 @@ HugeInteger HugeInteger::operator+(const HugeInteger& other) const {
  * @return HugeInteger Sum of Integer and integer
  */
 HugeInteger HugeInteger::operator+(int other) const {
+    return *this + HugeInteger(other);
+}
 
-    HugeInteger temp;
-    int carry{0};
-
-    for (int decimal{digits -1}; decimal >= 0; --decimal) {
-        temp.integer[decimal] = carry + integer[decimal] + other % 10;
-        other /= 10;
-
-        if (temp.integer[decimal] > 9) {
-            temp.integer[decimal] %= 10;
-            carry = 1;
-        }
-        else {
-            carry = 0;
-        }
-    }
-
-
-    return temp;
+/**
+ * @brief Add an intger string to a HugeInteger
+ * 
+ * @param other integer string
+ * @return HugeInteger 
+ */
+HugeInteger HugeInteger::operator+(const std::string& other) const {
+    return *this + HugeInteger(other);
 }
 
 /**
