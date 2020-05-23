@@ -83,3 +83,36 @@ TEST(Constructor, SingleMultiDigitStrings) {
         EXPECT_STREQ(err.what(), "must be a string of digits");
     }
 }
+
+/**
+ * @brief Addition + operator overload with ints and HugeIntegers
+ * 
+ */
+TEST(Operators, addition) {
+
+    /* single digit string */
+    HugeInteger int1{"5"};
+    HugeInteger int2{"4"};
+    HugeInteger int3 = int1 + int2;
+    HugeInteger int4{"6"};
+
+    std::ostringstream output1;
+    std::ostringstream output2;
+
+    output1 << int3;
+    output2 << int1 + int4;
+
+    /* Add two single digit integers no carry */
+    EXPECT_STREQ(output1.str().c_str(), "9");
+
+    /* Add two single digit integers with carray */
+    EXPECT_STREQ(output2.str().c_str(), "11");
+
+    /* Add two random huge integers */
+    HugeInteger int5{"234235324534747345345"};
+    HugeInteger int6{"334534634664645756869856"};
+    std::ostringstream output3;
+
+    output3 << int5 +int6;
+    EXPECT_STREQ(output3.str().c_str(), "334768869989180504215201");
+}
