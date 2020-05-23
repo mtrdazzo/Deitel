@@ -12,14 +12,18 @@
  * carefully, then respond to the following:
  * 
  * a) Descripe precisely how it operates
+ *    - Converts either a long or an integer string into an array of integers with integers[digts-1] being the least
+ *      significant digit
  * 
  * b) What restrictions does the class have?
+ *    - Original implementation only enables positive integers
+ *    - Digit overflow is no accounted for on most significant digit
  * 
  * c) Overload the * multiplication operator.
  * 
  * d) Overload the / division operator.
  * 
- * e) Overlod all the relational and equality operators.
+ * e) Overload all the relational and equality operators.
  * 
  * Note: There is no assignment operator or copy operator for the class HugeInteger, because the assingment operator and
  * copy operator provided by the compiler are capable of copying the entire array data member properly.

@@ -25,7 +25,7 @@ HugeInteger::HugeInteger(long value) {
 }
 
 /**
- * @brief Construct a new HugeInteger object from a string of integers.
+ * @brief Construct a new HugeInteger object from an integer string.
  * 
  * @param number String of integers
  */
@@ -36,6 +36,10 @@ HugeInteger::HugeInteger(const std::string& number) {
     for (size_t decimal{digits - length}, k{0}; decimal < digits; ++decimal, ++k )
         if (std::isdigit(number[k]))
             integer[decimal] = number[k] - '0';
+        else
+        {
+            throw std::invalid_argument("must be a string of digits");
+        }
 }
 
 /**
