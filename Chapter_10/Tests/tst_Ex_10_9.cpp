@@ -78,6 +78,7 @@ TEST(Constructor, SingleMultiDigitStrings) {
     /* invaild digit string */
     try {
         std::string maxDigitString{"12a3456789012345678901234567890123456789"};
+        HugeInteger int4{maxDigitString};
     }
     catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "must be a string of digits");
@@ -115,4 +116,13 @@ TEST(Operators, addition) {
 
     output3 << int5 +int6;
     EXPECT_STREQ(output3.str().c_str(), "334768869989180504215201");
+
+    /* Add max random huge integers */
+    HugeInteger int7{"9999999999999999999999999999999999999999"};
+    HugeInteger int8{"1"};
+
+    std::ostringstream output4;
+
+    output4 << int7 +int8;
+    EXPECT_STREQ(output4.str().c_str(), "0");
 }
