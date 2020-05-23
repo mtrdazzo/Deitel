@@ -75,9 +75,27 @@ TEST(Constructor, SingleMultiDigitStrings) {
 
     EXPECT_STREQ(output3.str().c_str(), maxDigitString.c_str());
 
-    /* invaild digit string */
+    /* invaild digit string middle */
     try {
         std::string maxDigitString{"12a3456789012345678901234567890123456789"};
+        HugeInteger int4{maxDigitString};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "must be a string of digits");
+    }
+
+    /* invaild digit string end */
+    try {
+        std::string maxDigitString{"123456789012345678901234567890123456789z"};
+        HugeInteger int4{maxDigitString};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "must be a string of digits");
+    }
+
+    /* invaild digit string beginning */
+    try {
+        std::string maxDigitString{"e123456789012345678901234567890123456789z"};
         HugeInteger int4{maxDigitString};
     }
     catch (std::invalid_argument & err) {
