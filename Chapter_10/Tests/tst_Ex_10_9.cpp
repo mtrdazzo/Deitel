@@ -104,10 +104,10 @@ TEST(Constructor, SingleMultiDigitStrings) {
 }
 
 /**
- * @brief Addition + operator overload with ints and HugeIntegers
+ * @brief Addition + operator overload with HugeIntegers
  * 
  */
-TEST(Operators, addition) {
+TEST(Operators, additionOnlyHugeIntegers) {
 
     /* single digit string */
     HugeInteger int1{"5"};
@@ -138,6 +138,48 @@ TEST(Operators, addition) {
     /* Add max random huge integers */
     HugeInteger int7{"9999999999999999999999999999999999999999"};
     HugeInteger int8{"1"};
+
+    std::ostringstream output4;
+
+    output4 << int7 +int8;
+    EXPECT_STREQ(output4.str().c_str(), "0");
+}
+
+/**
+ * @brief Addition + operator overload with ints and HugeIntegers
+ * 
+ */
+TEST(Operators, additionWithInts) {
+
+    /* single digit add */
+    HugeInteger int1{"5"};
+    int int2{4};
+    HugeInteger int3 = int1 + int2;
+    HugeInteger int4{6};
+
+    std::ostringstream output1;
+    std::ostringstream output2;
+
+    output1 << int3;
+    output2 << int1 + int4;
+
+    /* Add single digit HugeInteger and int with no carry */
+    EXPECT_STREQ(output1.str().c_str(), "9");
+
+    /* Add single digit HugeInteger and int with carry */
+    EXPECT_STREQ(output2.str().c_str(), "11");
+
+    // /* Add two random huge integers */
+    HugeInteger int5{"234235324534747345345"};
+    int int6{0x7FFFFFFF};
+    std::ostringstream output3;
+
+    output3 << int5 +int6;
+    EXPECT_STREQ(output3.str().c_str(), "234235324536894828992");
+
+    /* Add max random huge integers */
+    HugeInteger int7{"9999999999999999999999999999999999999999"};
+    int int8{1};
 
     std::ostringstream output4;
 
