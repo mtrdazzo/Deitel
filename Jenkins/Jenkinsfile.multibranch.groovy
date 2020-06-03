@@ -13,7 +13,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "building docker image"
-                sh "git branch | sed -n -e 's/^\* \(.*\)/\1/p')"
+                // sh "git branch | sed -n -e \'s/^\* \(.*\)/\1/p\')"
             }
         }
         stage('Build Source') {
