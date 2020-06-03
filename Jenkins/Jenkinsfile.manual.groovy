@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                echo "building docker image"
+                sh "make image"
             }
         }
         stage('Build Source') {
