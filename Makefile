@@ -58,7 +58,7 @@ JENKINS_URL = localhost:8080
 API_TOKEN   = 111491eb2c3325d939c3e87a25dabd59a7
 USER_NAME   = mtrdazzo
 MANAL_TOKEN = MANUAL_BUILD
-PIPELINE    = Parameterized%20Build
+PIPELINE    = Manual%20Build
 
 # Start jenkins server
 jenkins:
@@ -72,7 +72,7 @@ stop-jenkins:
 	fi
 
 pipeline:
-	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
+	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/Deitel/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
 
 image:
 	@echo "\nCreating build image...\n"
