@@ -62,7 +62,7 @@ PIPELINE    = Manual%20Build
 
 # Start jenkins server
 jenkins:
-	@docker-compose --file docker-jenkins.yml up --detach --remove-orphans
+	@docker-compose --file Jenkins/docker-jenkins.yml up --detach --remove-orphans
 
 # Stop jenkins server
 stop-jenkins:
