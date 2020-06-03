@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_TAG = "deitel:alpine"
         BRANCH_FOLDER    = "${BRANCH_NAME.split('/')[-1]}"
-        SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_NAME}\""
+        SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}\""
         COVERAGE_FILE    = "\${FILE, path=\"${BRANCH_FOLDER}/coverage.html\"}"
     }
 
