@@ -1,7 +1,7 @@
 /**
- * @file Ex_10_9.h
+ * @file   Ex_10_9.h
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief HugeInteger class interface
+ * @brief  HugeInteger class interface
  * 
  * Exercise 10-9 HugeInteger class
  * 
@@ -41,6 +41,7 @@
 #include <array>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 class HugeInteger {
 
@@ -70,9 +71,30 @@ class HugeInteger {
         /**
          * @brief Addition of HugeInteger and an integer string
          * 
-         * @return HugeInteger 
+         * @return HugeInteger
          */
         HugeInteger operator+(const std::string &) const;
+
+        /**
+         * @brief Multiplication of HugeInteger and another HugeInteger
+         * 
+         * @return HugeInteger
+         */
+        HugeInteger operator*(const HugeInteger &) const;
+
+        /**
+         * @brief Multiplication of HugeInteger and integer
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator*(const int &) const;
+
+        /**
+         * @brief Return the string representation of the HugeInteger
+         * 
+         * @return std::string 
+         */
+        std::string str() const;
 
     private:
         std::array<short, digits> integer{}; //defautl init to 0s

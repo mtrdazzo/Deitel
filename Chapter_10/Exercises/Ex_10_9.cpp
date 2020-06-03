@@ -25,6 +25,20 @@ HugeInteger::HugeInteger(long value) {
 }
 
 /**
+ * @brief Return the string representation of the HugeInteger
+ * 
+ * @return std::string 
+ */
+std::string HugeInteger::str() const {
+
+    std::ostringstream output;
+
+    output << *this;
+
+    return output.str();
+}
+
+/**
  * @brief Construct a new HugeInteger object from an integer string.
  * 
  * @param number String of integers
@@ -72,7 +86,7 @@ HugeInteger HugeInteger::operator+(const HugeInteger& other) const {
  * @brief Add an integer to a HugeInteger
  * 
  * @param other Integer
- * @return HugeInteger Sum of Integer and integer
+ * @return HugeInteger
  */
 HugeInteger HugeInteger::operator+(int other) const {
     return *this + HugeInteger(other);
@@ -113,4 +127,41 @@ std::ostream& operator<<(std::ostream& output, const HugeInteger& hugeInt) {
     }
 
     return output;
+}
+
+/**
+ * @brief Multiply two HugeIntegers together.
+ * 
+ * @param other
+ * @return HugeInteger
+ */
+HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
+
+    HugeInteger tmp;
+    int carry{0};
+
+    for (int decimal{digits-1}; decimal >=0; --decimal) {
+        tmp.integer[decimal] = integer[decimal] * other.integer[decimal] + carry;
+
+        if (tmp.integer[decimal] > 9) {
+            carry = tmp.integer[decimal] % 10;
+            tmp.integer[decimal] %= 10;
+        }
+        else {
+            carry = 0;
+        }
+    }
+
+    return tmp;
+}
+
+/**
+ * @brief Multiply HugeIntger and integer.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
+HugeInteger HugeInteger::operator*(const int & other) const {
+
+    return *this * HugeInteger(other);
 }

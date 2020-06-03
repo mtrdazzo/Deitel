@@ -169,7 +169,7 @@ TEST(Operators, additionWithInts) {
     /* Add single digit HugeInteger and int with carry */
     EXPECT_STREQ(output2.str().c_str(), "11");
 
-    // /* Add two random huge integers */
+    /* Adds two random huge integers */
     HugeInteger int5{"234235324534747345345"};
     int int6{0x7FFFFFFF};
     std::ostringstream output3;
@@ -188,7 +188,7 @@ TEST(Operators, additionWithInts) {
 }
 
 /**
- * @brief Addition + operator overload with ints and HugeIntegers
+ * @brief Addition + operator overload with strings and HugeIntegers
  * 
  */
 TEST(Operators, additionWithString) {
@@ -227,4 +227,18 @@ TEST(Operators, additionWithString) {
 
     output4 << int7 +int8;
     EXPECT_STREQ(output4.str().c_str(), "0");
+}
+
+/**
+ * @brief Multiplication * operator with integers
+ * 
+ */
+TEST(Operators, multiplicationWithInt) {
+
+    HugeInteger int1{5};
+    int int2{1};
+    
+    HugeInteger int3 = int1 * int2;
+
+    EXPECT_EQ(int3.str(), "5");
 }
