@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Build Source') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} ls -l"
             }
         }
         stage('Run Tests') {
