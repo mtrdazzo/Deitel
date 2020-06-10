@@ -54,6 +54,8 @@ class HugeInteger {
         HugeInteger(long = 0); // conversion/default constructor
         HugeInteger(const std::string&); // conversion constructor
 
+        HugeInteger& operator=(const HugeInteger &);
+
         /**
          * @brief Addition of two HugeIntegers
          * 

@@ -235,14 +235,35 @@ TEST(Operators, additionWithString) {
  */
 TEST(Operators, multiplicationWithInt) {
 
-    HugeInteger int1{5};
-    int int2{1};
-    
-    HugeInteger int3 = int1 * int2;
+    HugeInteger int1{3};
+    HugeInteger int2{10};
+    HugeInteger int3{0};
 
-    EXPECT_EQ(int3.str(), "5");
+    /* Single digit identity */
+    int3 = int1 * 1;
+    EXPECT_EQ(int3.str(), "3");
+ 
+    /* Single digit zero multiplier */
+    int3 = int1 * 0;
+    EXPECT_EQ(int3.str(), "0");
 
+    /* Single digit no carry */
     int3 = int1 * 2;
+    EXPECT_EQ(int3.str(), "6");
 
-    EXPECT_EQ(int3.str(), "10");
+    /* Single digit with carry */
+    int3 = int1 * 4;
+    EXPECT_EQ(int3.str(), "12");
+
+    /* Double digit identity */
+    int3 = int3 * 1;
+    EXPECT_EQ(int3.str(), "12");
+
+    /* Double digit zero multiplier */
+    int3 = int3 * 0;
+    EXPECT_EQ(int3.str(), "0");
+
+    /* Double digit with carry */
+    int3 = int2 * 10;
+    EXPECT_EQ(int3.str(), "100");
 }

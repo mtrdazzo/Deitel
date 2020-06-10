@@ -139,16 +139,23 @@ HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
 
     HugeInteger tmp;
     int carry{0};
+    int current_index{0};
 
-    for (int decimal{digits-1}; decimal >=0; --decimal) {
-        tmp.integer[decimal] = integer[decimal] * other.integer[decimal] + carry;
+    for (int decimal_this{digits-1}; decimal_this >= 0; --decimal_this) {
 
-        if (tmp.integer[decimal] > 9) {
-            carry = tmp.integer[decimal] / 10;
-            tmp.integer[decimal] %= 10;
-        }
-        else {
-            carry = 0;
+        for (int decimal_other{digits-1}; decimal_other >= 0; --decimal_other) {
+
+            current_index = decimal_other - (digits - (decimal_this + 1));
+
+            tmp.integer[current_index] += integer[decimal_this] * other.integer[decimal_other] + carry;
+
+            if (tmp.integer[current_index] > 9) {
+                carry = tmp.integer[current_index] / 10;
+                tmp.integer[current_index] %= 10;
+            }
+            else {
+                carry = 0;
+            }
         }
     }
 
@@ -175,4 +182,10 @@ HugeInteger HugeInteger::operator*(const int & other) const {
 HugeInteger HugeInteger::operator*(const std::string & other) const {
 
     return *this * HugeInteger(other);
+}
+
+HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
+    for (int8_t tens{0}; tens < digits; ++tens)
+        this->integer[tens] = other.integer[tens];
+    return *this;
 }
