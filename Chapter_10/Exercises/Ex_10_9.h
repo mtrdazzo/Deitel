@@ -51,7 +51,8 @@ class HugeInteger {
 
         static const int digits{40}; // maximum digits in a HugeInteger
 
-        HugeInteger(long = 0); // conversion/default constructor
+        HugeInteger(); // explicit default constructor
+        HugeInteger(long); // conversion/default constructor
         HugeInteger(const std::string&); // conversion constructor
 
         HugeInteger& operator=(const HugeInteger &);

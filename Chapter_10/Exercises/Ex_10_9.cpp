@@ -13,6 +13,15 @@
 #include <Ex_10_9.h>
 
 /**
+ * @brief Construct a new Huge Integer:: Huge Integer object
+ * 
+ */
+HugeInteger::HugeInteger() {
+    for (size_t tens{0}; tens < digits; tens++)
+        integer[tens] = 0;
+}
+
+/**
  * @brief Construct a new HugeInteger object
  * 
  * @param value Integer value
