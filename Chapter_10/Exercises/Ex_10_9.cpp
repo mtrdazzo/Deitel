@@ -144,7 +144,7 @@ HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
         tmp.integer[decimal] = integer[decimal] * other.integer[decimal] + carry;
 
         if (tmp.integer[decimal] > 9) {
-            carry = tmp.integer[decimal] % 10;
+            carry = tmp.integer[decimal] / 10;
             tmp.integer[decimal] %= 10;
         }
         else {
@@ -156,12 +156,23 @@ HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
 }
 
 /**
- * @brief Multiply HugeIntger and integer.
+ * @brief Multiply HugeInteger and integer.
  * 
  * @param other Other
  * @return HugeInteger
  */
 HugeInteger HugeInteger::operator*(const int & other) const {
+
+    return *this * HugeInteger(other);
+}
+
+/**
+ * @brief Multiply HugeInteger and integer.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
+HugeInteger HugeInteger::operator*(const std::string & other) const {
 
     return *this * HugeInteger(other);
 }

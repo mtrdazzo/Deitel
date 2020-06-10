@@ -90,6 +90,13 @@ class HugeInteger {
         HugeInteger operator*(const int &) const;
 
         /**
+         * @brief Multiplication of HugeInteger and string
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator*(const std::string &) const;
+
+        /**
          * @brief Return the string representation of the HugeInteger
          * 
          * @return std::string 

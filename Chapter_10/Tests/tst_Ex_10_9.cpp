@@ -241,4 +241,8 @@ TEST(Operators, multiplicationWithInt) {
     HugeInteger int3 = int1 * int2;
 
     EXPECT_EQ(int3.str(), "5");
+
+    int3 = int1 * 2;
+
+    EXPECT_EQ(int3.str(), "10");
 }
