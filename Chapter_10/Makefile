@@ -6,7 +6,7 @@ CHAPTER := $(notdir $(CURDIR))
 
 # Compiler flags
 EXTRA_CFLAGS  := -Wall -Wextra
-DEBUG_FLAGS   := -g -Og -DDEBUG
+DEBUG_FLAGS   := -g -O0 -DDEBUG
 RELEASE_FLAGS := -Os -Werror
 CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 
