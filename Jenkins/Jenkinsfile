@@ -4,7 +4,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_TAG = "deitel:alpine"
-        BRANCH_FOLDER    = "${BRANCH_NAME.split('/')[-1]}"
+        GIT_BRANCH       = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        BRANCH_FOLDER    = "${GIT_BRANCH.split('/')[-1]}"
         SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
         COVERAGE_FILE    = "\${FILE, path=\"${BRANCH_FOLDER}/coverage.html\"}"
     }
@@ -17,12 +18,12 @@ pipeline {
         }
         stage('Build Source') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make debug"
             }
         }
         stage('Run Tests') {
             steps {
-                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
+                sh "docker run --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make debug gcov-xml"
             }
             post {
                 success {
