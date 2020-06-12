@@ -60,23 +60,27 @@ USER_NAME   = mtrdazzo
 MANAL_TOKEN = MANUAL_BUILD
 PIPELINE    = Manual%20Build
 
+.FORCE:
+
 # Start jenkins server
-jenkins:
+jenkins: .FORCE
 	@docker-compose --file Jenkins/docker-jenkins.yml up --detach --remove-orphans
 
 # Stop jenkins server
-stop-jenkins:
+stop-jenkins: .FORCE
 	@if docker ps -a | grep jenkins-server; then \
 		docker stop jenkins-server; \
 		docker rm --force jenkins-server; \
 	fi
 
-pipeline:
+pipeline: .FORCE
 	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/Deitel/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
 
-image:
+image: .FORCE
 	@echo "\nCreating build image...\n"
 	@export gid=$(shell id -g); \
 	export uid=$(shell id -u); \
 	docker-compose build deitel-image
 	@echo "done!\n"
+
+PHONY: .FORCE
