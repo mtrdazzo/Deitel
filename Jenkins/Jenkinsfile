@@ -13,7 +13,8 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh "make image"
+                sh "echo make image"
+                echo "${env.BRANCH_FOLDER}"
             }
         }
         stage('Build Source') {
