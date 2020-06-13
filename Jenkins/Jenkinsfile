@@ -4,7 +4,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_TAG = "deitel:alpine"
-        // GIT_BRANCH       = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
         BRANCH_FOLDER    = "${BRANCH_NAME.split('/')[-1]}"
         SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
         COVERAGE_FILE    = "\${FILE, path=\"${BRANCH_FOLDER}/coverage.html\"}"
@@ -13,8 +12,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh "echo make image"
-                echo "${env.BRANCH_FOLDER}"
+                sh "make image"
             }
         }
         stage('Build Source') {
@@ -29,7 +27,7 @@ pipeline {
             post {
                 success {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-                    junit 'Chapter_10/out/**'
+                    junit 'Chapter_10/out/debug/*.xml'
                 }
             }
         }
