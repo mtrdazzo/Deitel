@@ -190,7 +190,63 @@ TEST(Addition, Strings) {
 }
 
 /**
- * @brief Multiplication operator overloaded with integers
+ * @brief Multiplication operator overloaded with HugeIntegers
+ * 
+ */
+TEST(Multiplication, HugeIntegers) {
+
+    HugeInteger int1{3};
+    HugeInteger identity{1};
+    HugeInteger zero{0};
+    HugeInteger int2{10};
+    HugeInteger int3{0};
+
+    /* Single digit identity */
+    int3 = int1 * identity;
+    EXPECT_EQ(int3.str(), int1.str());
+ 
+    /* Double digit identity */
+    int3 = int2 * identity;
+    EXPECT_EQ(int3.str(), int2.str());
+
+    /* Single digit zero multiplier */
+    int3 = int1 * zero;
+    EXPECT_EQ(int3.str(), "0");
+
+    /* Double digit zero multiplier */
+    int3 = int2 * zero;
+    EXPECT_EQ(int3.str(), "0");
+
+    /* Single digit no carry */
+    HugeInteger noCarry1{2};
+    int3 = int1 * noCarry1;
+    EXPECT_EQ(int3.str(), "6");
+
+    /* Double digit with no carry */
+    HugeInteger noCarry2{10};
+    int3 = int2 * noCarry2;
+    EXPECT_EQ(int3.str(), "100");
+
+    /* Single digit with carry */
+    HugeInteger carry1{4};
+    int3 = int1 * carry1;
+    EXPECT_EQ(int3.str(), "12");
+
+    /* Double digit with carry */
+    HugeInteger carry2{15};
+    int2 = carry2;
+    int3 = int2 * carry2;
+    EXPECT_EQ(int3.str(), "225");
+
+    /* Maximum long multiplication */
+    int1 = 0x7FFFFFFF;
+    HugeInteger maxLong{0x7FFFFFFF};
+    int3 = int1 * maxLong;
+    EXPECT_EQ(int3.str(), "4611686014132420609");
+}
+
+/**
+ * @brief Multiplication operator overloaded with Integers
  * 
  */
 TEST(Multiplication, Integers) {
@@ -235,5 +291,61 @@ TEST(Multiplication, Integers) {
     /* Maximum long multiplication */
     int1 = 0x7FFFFFFF;
     int3 = int1 * 0x7FFFFFFF;
+    EXPECT_EQ(int3.str(), "4611686014132420609");
+}
+
+/**
+ * @brief Multiplication operator overloaded with Strings
+ * 
+ */
+TEST(Multiplication, Strings) {
+
+    HugeInteger int1{3};
+    std::string identity{"1"};
+    std::string zero{"0"};
+    HugeInteger int2{10};
+    HugeInteger int3{0};
+
+    /* Single digit identity */
+    int3 = int1 * identity;
+    EXPECT_EQ(int3.str(), int1.str());
+ 
+    /* Double digit identity */
+    int3 = int2 * identity;
+    EXPECT_EQ(int3.str(), int2.str());
+
+    /* Single digit zero multiplier */
+    int3 = int1 * zero;
+    EXPECT_EQ(int3.str(), "0");
+
+    /* Double digit zero multiplier */
+    int3 = int2 * zero;
+    EXPECT_EQ(int3.str(), "0");
+
+    /* Single digit no carry */
+    std::string noCarry1{"2"};
+    int3 = int1 * noCarry1;
+    EXPECT_EQ(int3.str(), "6");
+
+    /* Double digit with no carry */
+    std::string noCarry2{"10"};
+    int3 = int2 * noCarry2;
+    EXPECT_EQ(int3.str(), "100");
+
+    /* Single digit with carry */
+    std::string carry1{"4"};
+    int3 = int1 * carry1;
+    EXPECT_EQ(int3.str(), "12");
+
+    /* Double digit with carry */
+    std::string carry2{"15"};
+    int2 = carry2;
+    int3 = int2 * carry2;
+    EXPECT_EQ(int3.str(), "225");
+
+    /* Maximum long multiplication */
+    int1 = 0x7FFFFFFF;
+    std::string maxLong{"2147483647"};
+    int3 = int1 * maxLong;
     EXPECT_EQ(int3.str(), "4611686014132420609");
 }
