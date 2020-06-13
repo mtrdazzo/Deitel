@@ -183,7 +183,7 @@ HugeInteger HugeInteger::operator*(const int & other) const {
 }
 
 /**
- * @brief Multiply HugeInteger and integer.
+ * @brief Multiply HugeInteger and string.
  * 
  * @param other Other
  * @return HugeInteger
@@ -193,12 +193,25 @@ HugeInteger HugeInteger::operator*(const std::string & other) const {
     return *this * HugeInteger(other);
 }
 
+
+/**
+ * @brief Set this integer array to the value of another HugeInteger.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
 HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
     for (int8_t tens{0}; tens < digits; ++tens)
         this->integer[tens] = other.integer[tens];
     return *this;
 }
 
+/**
+ * @brief Set this integer array to the value of another Integer.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
 HugeInteger & HugeInteger::operator=(const int other) {
     HugeInteger newHugeInt{other};
 
