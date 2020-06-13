@@ -57,6 +57,8 @@ class HugeInteger {
 
         HugeInteger& operator=(const HugeInteger &);
 
+        HugeInteger& operator=(const int);
+
         /**
          * @brief Addition of two HugeIntegers
          * 

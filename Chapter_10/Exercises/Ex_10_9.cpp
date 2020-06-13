@@ -198,3 +198,12 @@ HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
         this->integer[tens] = other.integer[tens];
     return *this;
 }
+
+HugeInteger & HugeInteger::operator=(const int other) {
+    HugeInteger newHugeInt{other};
+
+    for (int8_t tens{0}; tens < digits; ++tens)
+        this->integer[tens] = newHugeInt.integer[tens];
+
+    return *this;
+}

@@ -247,6 +247,10 @@ TEST(Operators, multiplicationWithInt) {
     int3 = int1 * 0;
     EXPECT_EQ(int3.str(), "0");
 
+    /* Double digit zero multiplier */
+    int3 = int2 * 0;
+    EXPECT_EQ(int3.str(), "0");
+
     /* Single digit no carry */
     int3 = int1 * 2;
     EXPECT_EQ(int3.str(), "6");
@@ -270,6 +274,7 @@ TEST(Operators, multiplicationWithInt) {
     int2 = 15;
     int3 = int2 * 15;
 
+    /* Double digit with carry */
     EXPECT_EQ(int3.str(), "225");
 
 }
