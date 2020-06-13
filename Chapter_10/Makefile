@@ -189,6 +189,7 @@ __create_build_log:
 __run_all_files:
 	@echo -n "\n  Running all exercises..."
 	@for test_exe in $(addprefix $(BIN_DIR)/,$(TESTS)); do \
+		export GTEST_OUTPUT="xml:$(addsuffix .xml, $$test_exe)"; \
 		echo "\n$$test_exe" >> $(BUILD_LOG); \
 		$$test_exe >> $(BUILD_LOG) 2>&1; \
 	done
