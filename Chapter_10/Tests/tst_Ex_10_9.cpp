@@ -39,7 +39,6 @@ TEST(Constructor, Integer) {
     long int max_long{0x7FFFFFFFFFFFFFFF};
     HugeInteger int4{max_long};
     EXPECT_EQ(int4.str(), std::to_string(max_long));
-
 }
 
 /**
@@ -101,39 +100,29 @@ TEST(Constructor, String) {
 TEST(Addition, HugeIntegers) {
 
     /* single digit string */
-    HugeInteger int1{"5"};
-    HugeInteger int2{"4"};
-    HugeInteger int3 = int1 + int2;
-    HugeInteger int4{"6"};
-
-    std::ostringstream output1;
-    std::ostringstream output2;
-
-    output1 << int3;
-    output2 << int1 + int4;
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{4};
+    HugeInteger singleDigit3{6};
 
     /* Add two single digit integers no carry */
-    EXPECT_STREQ(output1.str().c_str(), "9");
+    HugeInteger singleDigit4 = singleDigit1 + singleDigit2;
+    EXPECT_EQ(singleDigit4.str(), "9");
 
-    /* Add two single digit integers with carray */
-    EXPECT_STREQ(output2.str().c_str(), "11");
+    /* Add two single digit integers with carry */
+    HugeInteger multiDigit1 = singleDigit1 + singleDigit3;
+    EXPECT_EQ(multiDigit1.str(), "11");
 
     /* Add two random huge integers */
-    HugeInteger int5{"234235324534747345345"};
-    HugeInteger int6{"334534634664645756869856"};
-    std::ostringstream output3;
+    HugeInteger multiDigit2{"234235324534747345345"};
+    HugeInteger multiDigit3{"334534634664645756869856"};
+    HugeInteger multiDigit4 = multiDigit2 + multiDigit3;
+    EXPECT_EQ(multiDigit4.str(), "334768869989180504215201");
 
-    output3 << int5 +int6;
-    EXPECT_STREQ(output3.str().c_str(), "334768869989180504215201");
-
-    /* Add max random huge integers */
-    HugeInteger int7{"9999999999999999999999999999999999999999"};
-    HugeInteger int8{"1"};
-
-    std::ostringstream output4;
-
-    output4 << int7 +int8;
-    EXPECT_STREQ(output4.str().c_str(), "0");
+    /* Add max HugeInteger and see rollover */
+    HugeInteger multiDigit5{"9999999999999999999999999999999999999999"};
+    HugeInteger singleDigit5{1};
+    HugeInteger zeroSum = multiDigit5 + singleDigit5;
+    EXPECT_EQ(zeroSum.str(), "0");
 }
 
 /**
@@ -142,40 +131,30 @@ TEST(Addition, HugeIntegers) {
  */
 TEST(Addition, Integers) {
 
-    /* single digit add */
-    HugeInteger int1{"5"};
-    int int2{4};
-    HugeInteger int3 = int1 + int2;
-    int int4{6};
+    /* single digit string */
+    HugeInteger singleDigit1{5};
+    int singleDigit2{4};
+    int singleDigit3{6};
 
-    std::ostringstream output1;
-    std::ostringstream output2;
+    /* Add two single digit integers no carry */
+    HugeInteger singleDigit4 = singleDigit1 + singleDigit2;
+    EXPECT_EQ(singleDigit4.str(), "9");
 
-    output1 << int3;
-    output2 << int1 + int4;
+    /* Add two single digit integers with carry */
+    HugeInteger multiDigit1 = singleDigit1 + singleDigit3;
+    EXPECT_EQ(multiDigit1.str(), "11");
 
-    /* Add single digit HugeInteger and int with no carry */
-    EXPECT_STREQ(output1.str().c_str(), "9");
+    /* Add two random huge integers */
+    HugeInteger multiDigit2{"234235324534747345345"};
+    int multiDigit3{0x7FFFFFFF};
+    HugeInteger multiDigit4 = multiDigit2 + multiDigit3;
+    EXPECT_EQ(multiDigit4.str(), "234235324536894828992");
 
-    /* Add single digit HugeInteger and int with carry */
-    EXPECT_STREQ(output2.str().c_str(), "11");
-
-    /* Adds two random huge integers */
-    HugeInteger int5{"234235324534747345345"};
-    int int6{0x7FFFFFFF};
-    std::ostringstream output3;
-
-    output3 << int5 +int6;
-    EXPECT_STREQ(output3.str().c_str(), "234235324536894828992");
-
-    /* Add max random huge integers */
-    HugeInteger int7{"9999999999999999999999999999999999999999"};
-    int int8{1};
-
-    std::ostringstream output4;
-
-    output4 << int7 +int8;
-    EXPECT_STREQ(output4.str().c_str(), "0");
+    /* Add max HugeInteger and see rollover */
+    HugeInteger multiDigit5{"9999999999999999999999999999999999999999"};
+    int singleDigit5{1};
+    HugeInteger zeroSum = multiDigit5 + singleDigit5;
+    EXPECT_EQ(zeroSum.str(), "0");
 }
 
 /**
@@ -184,40 +163,30 @@ TEST(Addition, Integers) {
  */
 TEST(Addition, Strings) {
 
-    /* single digit add */
-    HugeInteger int1{"5"};
-    std::string int2{"4"};
-    HugeInteger int3 = int1 + int2;
-    std::string int4{"6"};
+    /* single digit string */
+    HugeInteger singleDigit1{5};
+    std::string singleDigit2{"4"};
+    std::string singleDigit3{"6"};
 
-    std::ostringstream output1;
-    std::ostringstream output2;
+    /* Add two single digit integers no carry */
+    HugeInteger singleDigit4 = singleDigit1 + singleDigit2;
+    EXPECT_EQ(singleDigit4.str(), "9");
 
-    output1 << int3;
-    output2 << int1 + int4;
-
-    /* Add single digit HugeInteger and int with no carry */
-    EXPECT_STREQ(output1.str().c_str(), "9");
-
-    /* Add single digit HugeInteger and int with carry */
-    EXPECT_STREQ(output2.str().c_str(), "11");
+    /* Add two single digit integers with carry */
+    HugeInteger multiDigit1 = singleDigit1 + singleDigit3;
+    EXPECT_EQ(multiDigit1.str(), "11");
 
     /* Add two random huge integers */
-    HugeInteger int5{"234235324534747345345"};
-    std::string int6{"2147483647"};
-    std::ostringstream output3;
+    HugeInteger multiDigit2{"234235324534747345345"};
+    std::string multiDigit3{"334534634664645756869856"};
+    HugeInteger multiDigit4 = multiDigit2 + multiDigit3;
+    EXPECT_EQ(multiDigit4.str(), "334768869989180504215201");
 
-    output3 << int5 +int6;
-    EXPECT_STREQ(output3.str().c_str(), "234235324536894828992");
-
-    /* Add max random huge integers */
-    HugeInteger int7{"9999999999999999999999999999999999999999"};
-    std::string int8{"1"};
-
-    std::ostringstream output4;
-
-    output4 << int7 +int8;
-    EXPECT_STREQ(output4.str().c_str(), "0");
+    /* Add max HugeInteger and see rollover */
+    HugeInteger multiDigit5{"9999999999999999999999999999999999999999"};
+    std::string singleDigit5{"1"};
+    HugeInteger zeroSum = multiDigit5 + singleDigit5;
+    EXPECT_EQ(zeroSum.str(), "0");
 }
 
 /**
