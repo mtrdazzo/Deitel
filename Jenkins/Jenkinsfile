@@ -27,16 +27,15 @@ pipeline {
             post {
                 success {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-                    // junit '**/out/debug/bin/*.xml'
+                    xunit (
+                            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                            tools: [ GoogleTest(pattern: '**/out/debug/bin/*.xml') ])
                 }
             }
         }
     }
     post {
         always {
-            xunit (
-                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                tools: [ GoogleTest(pattern: '**/out/debug/bin/*.xml') ])
             script {
                 if (currentBuild.currentResult == "SUCCESS") {
                     IMAGE_HTML    = '<img alt="Jenkins Logo" src="https://www.jenkins.io/images/logos/jenkins/256.png" width="180" height="250" style="float: left;" />'
