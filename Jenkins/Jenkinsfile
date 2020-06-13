@@ -67,6 +67,7 @@ pipeline {
                         <br> &emsp; Build: <a href="${BUILD_URL}"> ${BUILD_NUMBER} </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/console"> Build Log </a> <br> \
                         <br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br> \
+                        <br> &emsp; <a href="${BUILD_URL}/test_results_analyzer"> Test Results </a> <br> \
                         </body> \
                         </html> \
                         ',
