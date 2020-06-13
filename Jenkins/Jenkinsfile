@@ -1,6 +1,6 @@
 pipeline {
 
-    agent any
+    agent { label 'master' }
 
     environment {
         DOCKER_IMAGE_TAG = "deitel:alpine"
@@ -33,26 +33,21 @@ pipeline {
         }
     }
     post {
-
         always {
-
             script {
-                
                 if (currentBuild.currentResult == "SUCCESS") {
                     IMAGE_HTML    = '<img alt="Jenkins Logo" src="https://www.jenkins.io/images/logos/jenkins/256.png" width="180" height="250" style="float: left;" />'
                     CODE_COVERAGE = '<br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br>'
                     TEST_RESULTS  = '<br> &emsp; <a href="${JOB_URL}/test_results_analyzer"> Test Results </a> <br>'
                 }
                 else {
-                    IMAGE_HTML = '<img alt="Jenkins Fire" src="https://www.jenkins.io/images/logos/fire/256.png" width="214" height="250" style="float: left;" />'
+                    IMAGE_HTML    = '<img alt="Jenkins Fire" src="https://www.jenkins.io/images/logos/fire/256.png" width="214" height="250" style="float: left;" />'
                     CODE_COVERAGE = ""
-                    TEST_RESULTS = ""
+                    TEST_RESULTS  = ""
                 }
-                
                 BUILD_TIME = currentBuild.durationString.minus(" and counting")
                 PIPELINE_STATUS = currentBuild.currentResult.substring(0,1) + currentBuild.currentResult.substring(1).toLowerCase()
             }
-
             emailext mimeType: 'text/html',
                 body: "<!DOCTYPE html> \
                         <html> \
@@ -61,7 +56,7 @@ pipeline {
                         ${IMAGE_HTML} \
                         <br> <br> &emsp; <strong> <font size='+3'> Build ${PIPELINE_STATUS}! </font> </strong>\
                         <br> &emsp; ${BUILD_TIMESTAMP} <br> \
-                        <br> &emsp; ${BUILD_TIME} <br> \
+                        <br> &emsp; Build Duration: ${BUILD_TIME} <br> \
                         <br> &emsp; <a href='${BUILD_URL}/console'> Build Log </a> <br> \
                         ${CODE_COVERAGE} \
                         ${TEST_RESULTS} \
