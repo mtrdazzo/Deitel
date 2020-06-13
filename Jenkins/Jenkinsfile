@@ -27,7 +27,7 @@ pipeline {
             post {
                 success {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
-                    junit 'Chapter_10/out/debug/*.xml'
+                    junit 'Chapter_10/out/debug/bin/*.xml'
                 }
             }
         }
