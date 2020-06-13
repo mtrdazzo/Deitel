@@ -55,8 +55,18 @@ class HugeInteger {
         HugeInteger(long); // conversion/default constructor
         HugeInteger(const std::string&); // conversion constructor
 
+        /**
+         * @brief Assingment operator of another HugeInteger
+         * 
+         * @return HugeInteger& 
+         */
         HugeInteger& operator=(const HugeInteger &);
 
+        /**
+         * @brief Assingment operator of integer
+         * 
+         * @return HugeInteger& 
+         */
         HugeInteger& operator=(const int);
 
         /**
@@ -107,6 +117,54 @@ class HugeInteger {
          * @return std::string 
          */
         std::string str() const;
+
+        /**
+         * @brief Equality operator between two HugeIntegers
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator==(const HugeInteger &) const;
+
+        /**
+         * @brief Inequality operator between two HugeIntegers
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator!=(const HugeInteger &) const;
+
+        /**
+         * @brief Greater than operator with another HugeInteger
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator>(const HugeInteger &) const;
+
+        /**
+         * @brief Greater than or equal to operator with another HugeInteger
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator>=(const HugeInteger &) const;
+
+        /**
+         * @brief Less than operator with another HugeInteger
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator<(const HugeInteger &) const;
+
+        /**
+         * @brief Less than or equal to operator with another HugeInteger
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator<=(const HugeInteger &) const;
 
     private:
         std::array<short, digits> integer{}; //defautl init to 0s

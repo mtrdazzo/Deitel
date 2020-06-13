@@ -66,6 +66,33 @@ HugeInteger::HugeInteger(const std::string& number) {
 }
 
 /**
+ * @brief Assignment operator to the value of another HugeInteger.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
+HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
+    for (int8_t tens{0}; tens < digits; ++tens)
+        this->integer[tens] = other.integer[tens];
+    return *this;
+}
+
+/**
+ * @brief Assignment operator to the value of another Integer.
+ * 
+ * @param other Other
+ * @return HugeInteger
+ */
+HugeInteger & HugeInteger::operator=(const int other) {
+    HugeInteger newHugeInt{other};
+
+    for (int8_t tens{0}; tens < digits; ++tens)
+        this->integer[tens] = newHugeInt.integer[tens];
+
+    return *this;
+}
+
+/**
  * @brief Sum of two HugeIntegers
  * 
  * @param other 
@@ -193,30 +220,83 @@ HugeInteger HugeInteger::operator*(const std::string & other) const {
     return *this * HugeInteger(other);
 }
 
-
 /**
- * @brief Set this integer array to the value of another HugeInteger.
+ * @brief Equality operator between two HugeIntegers
  * 
- * @param other Other
- * @return HugeInteger
+ * @param other 
+ * @return true 
+ * @return false 
  */
-HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
-    for (int8_t tens{0}; tens < digits; ++tens)
-        this->integer[tens] = other.integer[tens];
-    return *this;
+bool HugeInteger::operator==(const HugeInteger & other) const {
+    for (int index{digits-1}; index >=0; --index)
+        if (integer[index] != other.integer[index])
+            return false;
+    return true;
 }
 
 /**
- * @brief Set this integer array to the value of another Integer.
+ * @brief Inequality operator between two HugeIntegers
  * 
- * @param other Other
- * @return HugeInteger
+ * @param other 
+ * @return true 
+ * @return false 
  */
-HugeInteger & HugeInteger::operator=(const int other) {
-    HugeInteger newHugeInt{other};
+bool HugeInteger::operator!=(const HugeInteger & other) const {
+    return !(*this == other);
+}
 
-    for (int8_t tens{0}; tens < digits; ++tens)
-        this->integer[tens] = newHugeInt.integer[tens];
+/**
+ * @brief Greater than operator with another HugeInteger
+ * 
+ * @param other 
+ * @return true 
+ * @return false 
+ */
+bool HugeInteger::operator>(const HugeInteger & other) const {
+    for (size_t index{0}; index < digits; ++index)
+        if (integer[index] != other.integer[index])
+            return integer[index] > other.integer[index];
+    return integer[digits-1] > other.integer[digits-1];
+}
 
-    return *this;
+/**
+ * @brief Less than operator with another HugeInteger
+ * 
+ * @param other 
+ * @return true 
+ * @return false 
+ */
+bool HugeInteger::operator<(const HugeInteger & other) const {
+    for (size_t index{0}; index < digits; ++index)
+        if (integer[index] != other.integer[index])
+            return integer[index] < other.integer[index];
+    return integer[digits-1] < other.integer[digits-1];
+}
+
+/**
+ * @brief Less than or equal to operator with another HugeInteger
+ * 
+ * @param other 
+ * @return true 
+ * @return false 
+ */
+bool HugeInteger::operator<=(const HugeInteger & other) const {
+    for (size_t index{0}; index < digits; ++index)
+        if (integer[index] != other.integer[index])
+            return integer[index] <= other.integer[index];
+    return true;
+}
+
+/**
+ * @brief Greater than or equal to operator with another HugeInteger
+ * 
+ * @param other 
+ * @return true 
+ * @return false 
+ */
+bool HugeInteger::operator>=(const HugeInteger & other) const {
+    for (size_t index{0}; index < digits; ++index)
+        if (integer[index] != other.integer[index])
+            return integer[index] >= other.integer[index];
+    return true;
 }

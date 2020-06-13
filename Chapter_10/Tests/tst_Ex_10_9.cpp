@@ -349,3 +349,249 @@ TEST(Multiplication, Strings) {
     int3 = int1 * maxLong;
     EXPECT_EQ(int3.str(), "4611686014132420609");
 }
+
+/**
+ * @brief Test the equality operator
+ * 
+ */
+TEST(EqualityOperator, EqualTo) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_TRUE(singleDigit2 == singleDigit2);
+    EXPECT_FALSE(singleDigit2 == singleDigit3);
+    EXPECT_FALSE(singleDigit2 == singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_TRUE(multiDigit2 == multiDigit2);
+    EXPECT_FALSE(multiDigit2 == multiDigit3);
+    EXPECT_FALSE(multiDigit2 == multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_TRUE(maxDigit2 == maxDigit2);
+    EXPECT_FALSE(maxDigit2 == maxDigit3);
+    EXPECT_FALSE(maxDigit2 == maxDigit1);
+
+    EXPECT_FALSE(singleDigit1 == multiDigit1);
+    EXPECT_FALSE(multiDigit1 == maxDigit1);
+
+    EXPECT_FALSE(multiDigit1 == singleDigit1);
+    EXPECT_FALSE(maxDigit1 == multiDigit1);
+}
+
+/**
+ * @brief Test the inequality operator
+ * 
+ */
+TEST(EqualityOperator, NotEqualTo) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_FALSE(singleDigit2 != singleDigit2);
+    EXPECT_TRUE(singleDigit2 != singleDigit3);
+    EXPECT_TRUE(singleDigit2 != singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_FALSE(multiDigit2 != multiDigit2);
+    EXPECT_TRUE(multiDigit2 != multiDigit3);
+    EXPECT_TRUE(multiDigit2 != multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_FALSE(maxDigit2 != maxDigit2);
+    EXPECT_TRUE(maxDigit2 != maxDigit3);
+    EXPECT_TRUE(maxDigit2 != maxDigit1);
+
+    EXPECT_TRUE(singleDigit1 != multiDigit1);
+    EXPECT_TRUE(multiDigit1 != maxDigit1);
+
+    EXPECT_TRUE(multiDigit1 != singleDigit1);
+    EXPECT_TRUE(maxDigit1 != multiDigit1);
+}
+
+/**
+ * @brief Test the less than operator
+ * 
+ */
+TEST(EqualityOperators, LessThan) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_FALSE(singleDigit2 < singleDigit2);
+    EXPECT_TRUE(singleDigit2 < singleDigit3);
+    EXPECT_FALSE(singleDigit2 < singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_FALSE(multiDigit2 < multiDigit2);
+    EXPECT_TRUE(multiDigit2 < multiDigit3);
+    EXPECT_FALSE(multiDigit2 < multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_FALSE(maxDigit2 < maxDigit2);
+    EXPECT_TRUE(maxDigit2 < maxDigit3);
+    EXPECT_FALSE(maxDigit2 < maxDigit1);
+
+    EXPECT_TRUE(singleDigit1 < multiDigit1);
+    EXPECT_TRUE(multiDigit1 < maxDigit1);
+
+    EXPECT_FALSE(multiDigit1 < singleDigit1);
+    EXPECT_FALSE(maxDigit1 < multiDigit1);
+}
+
+/**
+ * @brief Test the less or equal to operator
+ * 
+ */
+TEST(EqualityOperators, LessThanEqualTo) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_TRUE(singleDigit2 <= singleDigit2);
+    EXPECT_TRUE(singleDigit2 <= singleDigit3);
+    EXPECT_FALSE(singleDigit2 <= singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_TRUE(multiDigit2 <= multiDigit2);
+    EXPECT_TRUE(multiDigit2 <= multiDigit3);
+    EXPECT_FALSE(multiDigit2 <= multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_TRUE(maxDigit2 <= maxDigit2);
+    EXPECT_TRUE(maxDigit2 <= maxDigit3);
+    EXPECT_FALSE(maxDigit2 <= maxDigit1);
+
+    EXPECT_TRUE(singleDigit1 <= multiDigit1);
+    EXPECT_TRUE(multiDigit1 <= maxDigit1);
+
+    EXPECT_FALSE(multiDigit1 <= singleDigit1);
+    EXPECT_FALSE(maxDigit1 <= multiDigit1);
+}
+
+/**
+ * @brief Test the greater than operator
+ * 
+ */
+TEST(EqualityOperators, GreaterThan) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_FALSE(singleDigit2 > singleDigit2);
+    EXPECT_FALSE(singleDigit2 > singleDigit3);
+    EXPECT_TRUE(singleDigit2 > singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_FALSE(multiDigit2 > multiDigit2);
+    EXPECT_FALSE(multiDigit2 > multiDigit3);
+    EXPECT_TRUE(multiDigit2 > multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_FALSE(maxDigit2 > maxDigit2);
+    EXPECT_FALSE(maxDigit2 > maxDigit3);
+    EXPECT_TRUE(maxDigit2 > maxDigit1);
+
+    EXPECT_FALSE(singleDigit1 > multiDigit1);
+    EXPECT_FALSE(multiDigit1 > maxDigit1);
+
+    EXPECT_TRUE(multiDigit1 > singleDigit1);
+    EXPECT_TRUE(maxDigit1 > multiDigit1);
+}
+
+/**
+ * @brief Test the greater or equal to operator
+ * 
+ */
+TEST(EqualityOperators, GreaterThanEqualTo) {
+
+    /* Single Digits */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{singleDigit1 + 1};
+    HugeInteger singleDigit3{singleDigit2 + 1};
+
+    EXPECT_TRUE(singleDigit2 >= singleDigit2);
+    EXPECT_FALSE(singleDigit2 >= singleDigit3);
+    EXPECT_TRUE(singleDigit2 >= singleDigit1);
+
+    /* Multiple Digits */
+    HugeInteger multiDigit1{"123124134253456346"};
+    HugeInteger multiDigit2{multiDigit1 + 1};
+    HugeInteger multiDigit3{multiDigit2 + 1};
+
+    EXPECT_TRUE(multiDigit2 >= multiDigit2);
+    EXPECT_FALSE(multiDigit2 >= multiDigit3);
+    EXPECT_TRUE(multiDigit2 >= multiDigit1);
+
+    /* Maximum Digits */
+    HugeInteger maxDigit1{"1234567890123456789012345678901234567890"};
+    HugeInteger maxDigit2{maxDigit1 + 1};
+    HugeInteger maxDigit3{maxDigit2 + 1};
+
+    /* Different numbers of digits */
+    EXPECT_TRUE(maxDigit2 >= maxDigit2);
+    EXPECT_FALSE(maxDigit2 >= maxDigit3);
+    EXPECT_TRUE(maxDigit2 >= maxDigit1);
+
+    EXPECT_FALSE(singleDigit1 >= multiDigit1);
+    EXPECT_FALSE(multiDigit1 >= maxDigit1);
+
+    EXPECT_TRUE(multiDigit1 >= singleDigit1);
+    EXPECT_TRUE(maxDigit1 >= multiDigit1);
+}
