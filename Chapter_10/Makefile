@@ -100,6 +100,8 @@ GCOV_FILES := $(SRC_OBJ_FILES:.o=.gcno) \
               $(GGL_OBJ_FILES:.o=.gcno) \
               $(GCOVR_OUT_FILES)
 
+GTEST_XML_FILES := $(addsuffix .xml, $(addprefix $(BIN_DIR)/,$(TESTS)))
+
 BUILD_LOG     := $(OUT_DIR)/build.log
 
 DEPS  = $(OBJ_FILES:.o=.d)
@@ -218,7 +220,7 @@ __see_build_log:
 $(CLEAN_FLAG):
 	@echo
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES) $(CURDIR)/*.gcov
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES) $(CURDIR)/*.gcov $(GTEST_XML_FILES)
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)
