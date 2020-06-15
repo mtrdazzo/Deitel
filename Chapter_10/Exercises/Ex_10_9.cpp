@@ -300,3 +300,92 @@ bool HugeInteger::operator>=(const HugeInteger & other) const {
             return integer[index] >= other.integer[index];
     return true;
 }
+
+/**
+ * @brief Subtract another HugeInteger
+ * 
+ * @param other 
+ * @return HugeInteger 
+ */
+HugeInteger HugeInteger::operator-(const HugeInteger & other) const {
+
+    HugeInteger delta{*this};
+
+    if (other <= delta) {
+        for (int index{digits-1}; index >= 0; --index) {
+            if (delta.integer[index] >= other.integer[index])
+                delta.integer[index] -= other.integer[index];
+            else { /* need to carry higher index */
+                int carry_index{index-1};
+                while (carry_index >= 0 && delta.integer[carry_index] == 0)
+                    --carry_index;
+                while (carry_index < index) {
+                    delta.integer[carry_index] -= 1;
+                    delta.integer[++carry_index] += 10;
+                }
+                delta.integer[index] -= other.integer[index];
+            }
+        }
+    }
+    // else if (other > delta) {
+    //     delta = other - delta; /* reverse operands, multiply by -1 to most significant non-zero digit */
+    //     for (size_t index{0}; index < digits; ++index)
+    //         if (delta.integer[index]) {
+    //             delta.integer[index] *= -1;
+    //             break;
+    //         }
+    // }
+    return delta;
+}
+
+/**
+ * @brief Subtract an integer from a HugeInteger
+ * 
+ * @param other 
+ * @return HugeInteger 
+ */
+HugeInteger HugeInteger::operator-(const long & other) const {
+    return *this - HugeInteger(other);
+}
+
+/**
+ * @brief Divide by another HugeInteger
+ * 
+ * @param other 
+ * @return HugeInteger 
+ */
+HugeInteger HugeInteger::operator/(const HugeInteger & divisor) const {
+
+    if (divisor == HugeInteger(0))
+        throw std::invalid_argument("cannot divide by zero");
+
+    HugeInteger ratio;
+
+    if (*this > divisor) {
+        HugeInteger numerator{*this};
+        std::string tmp_value;
+        int index{0};
+        int factor{0};
+        int ratio_index{digits-1};
+
+        while (divisor.integer[index] == 0)
+            ++index;
+
+        while (index < digits) {
+            /* get string representation of number greater than divisor */
+            if (HugeInteger(tmp_value) < divisor)
+                tmp_value += '0' + numerator.integer[index++];
+            else {
+                /* find greatest multiplicative factor */
+                factor = 0;
+                while (divisor * (factor + 1) <= tmp_value)
+                    ++factor;
+                ratio.integer[ratio_index--] = factor;
+                tmp_value = (HugeInteger(tmp_value) - divisor * factor).str();
+            }
+        }
+    }
+
+
+    return ratio;
+}

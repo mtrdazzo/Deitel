@@ -166,8 +166,36 @@ class HugeInteger {
          */
         bool operator<=(const HugeInteger &) const;
 
+        /**
+         * @brief Divide by another HugeInteger
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator/(const HugeInteger &) const;
+
+        /**
+         * @brief Divide by an integer
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator/(const int &) const;
+
+        /**
+         * @brief Subtract by another HugeInteger
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator-(const HugeInteger &) const;
+
+        /**
+         * @brief Subtract by an integer
+         * 
+         * @return HugeInteger 
+         */
+        HugeInteger operator-(const long &) const;
+
     private:
-        std::array<short, digits> integer{}; //defautl init to 0s
+        std::array<short, digits> integer{};
 
 };
 

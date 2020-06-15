@@ -2,7 +2,6 @@
 #include <sstream>
 #include <Ex_10_9.h>
 
-
 /**
  * @brief Instantiate HugeInteger with no arguments.
  * 
@@ -594,4 +593,178 @@ TEST(EqualityOperators, GreaterThanEqualTo) {
 
     EXPECT_TRUE(multiDigit1 >= singleDigit1);
     EXPECT_TRUE(maxDigit1 >= multiDigit1);
+}
+
+/**
+ * @brief Addition operator overloaded with HugeIntegers
+ * 
+ */
+TEST(Subtraction, HugeIntegers) {
+
+    /* single digit string */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{4};
+    HugeInteger singleDigit3;
+    HugeInteger zero;
+
+    /* Subtract zero from a single digit integer */
+    singleDigit3 = singleDigit1 - zero;
+    EXPECT_EQ(singleDigit3, singleDigit1);
+
+    /* Subtract single digit integer from itself */
+    singleDigit3 = singleDigit1 - singleDigit1;
+    EXPECT_EQ(singleDigit3, zero);
+
+    /* Subtract two single digit integers without carry */
+    singleDigit3 = singleDigit1 - singleDigit2;
+    EXPECT_EQ(singleDigit3.str(), "1");
+
+    HugeInteger multiDigit1{20};
+    HugeInteger multiDigit2{23};
+    HugeInteger multiDigit3;
+
+    /* Subtract zero from a multi digit integer */
+    multiDigit3 = multiDigit1 - zero;
+    EXPECT_EQ(multiDigit3, multiDigit1);
+
+    /* Subtract multi digit integer from itself */
+    multiDigit3 = multiDigit1 - multiDigit1;
+    EXPECT_EQ(multiDigit3, zero);
+
+    /* Subtract two multi digit integers without carry */
+    multiDigit3 = multiDigit2 - multiDigit1;
+    EXPECT_EQ(multiDigit3.str(), "3");
+
+    /* Subtract two multi digit integers with carry */
+    HugeInteger multiDigit4{14};
+    multiDigit3 = multiDigit1 - multiDigit4;
+    EXPECT_EQ(multiDigit3.str(), "6");
+
+    HugeInteger largeDigit1{"9999999999999999999999999999999999999999"};
+    HugeInteger largeDigit2{"3333333333333333333333333333333333333333"};
+    HugeInteger largeDigit3{"2348625987359320572309457234095728345092"};
+    HugeInteger largeDigit4;
+
+    /* Subtract zero from a max digit integer */
+    largeDigit4 = largeDigit1 - zero;
+    EXPECT_EQ(largeDigit4, largeDigit1);
+
+    /* Subtract large digit from itself */
+    largeDigit4 = largeDigit1 - largeDigit1;
+    EXPECT_EQ(largeDigit4, zero);
+
+    /* Subtract two multi digit integers without carry */
+    largeDigit4 = largeDigit1 - largeDigit2;
+    EXPECT_EQ(largeDigit4.str(), "6666666666666666666666666666666666666666");
+
+    /* Subtract two multi digit integers with carry */
+    largeDigit4 = largeDigit2 - largeDigit3;
+    EXPECT_EQ(largeDigit4.str(), "984707345974012761023876099237604988241");
+}
+
+/**
+ * @brief Addition operator overloaded with Integers
+ * 
+ */
+TEST(Subtraction, Integers) {
+
+    /* single digit string */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{4};
+    HugeInteger singleDigit3;
+    HugeInteger zero;
+
+    /* Subtract zero from a single digit integer */
+    singleDigit3 = singleDigit1 - 0;
+    EXPECT_EQ(singleDigit3, singleDigit1);
+
+    /* Subtract single digit integer from itself */
+    singleDigit3 = singleDigit1 - 5;
+    EXPECT_EQ(singleDigit3, zero);
+
+    /* Subtract two single digit integers without carry */
+    singleDigit3 = singleDigit1 - 4;
+    EXPECT_EQ(singleDigit3.str(), "1");
+
+    HugeInteger multiDigit1{20};
+    HugeInteger multiDigit2{23};
+    HugeInteger multiDigit3;
+
+    /* Subtract zero from a multi digit integer */
+    multiDigit3 = multiDigit1 - 0;
+    EXPECT_EQ(multiDigit3, multiDigit1);
+
+    /* Subtract multi digit integer from itself */
+    multiDigit3 = multiDigit1 - 20;
+    EXPECT_EQ(multiDigit3, zero);
+
+    /* Subtract two multi digit integers without carry */
+    multiDigit3 = multiDigit2 - 20;
+    EXPECT_EQ(multiDigit3.str(), "3");
+
+    /* Subtract two multi digit integers with carry */
+    multiDigit3 = multiDigit1 - 14;
+    EXPECT_EQ(multiDigit3.str(), "6");
+
+    HugeInteger largeDigit1{"9223372036854775807"};
+    HugeInteger largeDigit2{"3333333333333333333333333333333333333333"};
+    HugeInteger largeDigit3{"2348625987359320572309457234095728345092"};
+    HugeInteger largeDigit4;
+
+    /* Subtract zero from a max digit integer */
+    largeDigit4 = largeDigit1 - 0;
+    EXPECT_EQ(largeDigit4, largeDigit1);
+
+    /* Subtract large digit from itself */
+    largeDigit4 = largeDigit1 - 0x7FFFFFFFFFFFFFFFL;
+    EXPECT_EQ(largeDigit4, zero);
+
+    /* Subtract two multi digit integers without carry */
+    largeDigit4 = largeDigit1 - 8112261025743664706;
+    EXPECT_EQ(largeDigit4.str(), "1111111011111111101");
+
+    /* Subtract two multi digit integers with carry */
+    largeDigit4 = largeDigit2 - 71462935742029384;
+    EXPECT_EQ(largeDigit4.str(), "3333333333333333333333261870397591303949");
+}
+
+/**
+ * @brief Division operator overloaded with HugeIntegers
+ * 
+ */
+TEST(Division, HugeIntegers) {
+
+    /* single digit string */
+    HugeInteger singleDigit1{5};
+    HugeInteger singleDigit2{4};
+    HugeInteger one{1};
+    HugeInteger zero;
+    HugeInteger singleDigit3;
+
+    /* Divide single digit HugeInteger by identity */
+    singleDigit3 = singleDigit1 / one;
+    EXPECT_EQ(singleDigit3, singleDigit1);
+
+    // /* Divide single digit HugeInteger by zero */
+    // try {
+    //     singleDigit3 = singleDigit1 / zero;
+    // } catch (std::invalid_argument & err) {
+    //     EXPECT_STREQ(err.what(), "cannot divide by zero");
+    // }
+
+    // /* Divide single digit by larger single digit */
+    // singleDigit3 = singleDigit2 / singleDigit1;
+    // EXPECT_EQ(singleDigit3, zero);
+
+    // HugeInteger doubleDigit1{23};
+    // HugeInteger doubleDigit2 = doubleDigit1 * 2;
+
+    // // /* Inverse property with HugeInteger */
+    // HugeInteger doubleDigit3 = doubleDigit2 / doubleDigit1;
+    // EXPECT_EQ(doubleDigit3, HugeInteger(2));
+
+    // /* Double digit with remainder */
+    // doubleDigit3 = doubleDigit1 - 1;
+    // EXPECT_EQ(doubleDigit1 / doubleDigit3, HugeInteger(1));
+
 }
