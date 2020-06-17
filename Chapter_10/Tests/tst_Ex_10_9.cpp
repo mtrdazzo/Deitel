@@ -745,26 +745,69 @@ TEST(Division, HugeIntegers) {
     singleDigit3 = singleDigit1 / one;
     EXPECT_EQ(singleDigit3, singleDigit1);
 
-    // /* Divide single digit HugeInteger by zero */
-    // try {
-    //     singleDigit3 = singleDigit1 / zero;
-    // } catch (std::invalid_argument & err) {
-    //     EXPECT_STREQ(err.what(), "cannot divide by zero");
-    // }
+    /* Divide single digit HugeInteger by zero */
+    try {
+        singleDigit3 = singleDigit1 / zero;
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "cannot divide by zero");
+    }
 
-    // /* Divide single digit by larger single digit */
-    // singleDigit3 = singleDigit2 / singleDigit1;
-    // EXPECT_EQ(singleDigit3, zero);
+    /* Divide single digit by larger single digit */
+    singleDigit3 = singleDigit2 / singleDigit1;
+    EXPECT_EQ(singleDigit3, zero);
 
-    // HugeInteger doubleDigit1{23};
-    // HugeInteger doubleDigit2 = doubleDigit1 * 2;
+    HugeInteger doubleDigit1{23};
+    HugeInteger doubleDigit2 = doubleDigit1 * 2;
 
-    // // /* Inverse property with HugeInteger */
-    // HugeInteger doubleDigit3 = doubleDigit2 / doubleDigit1;
-    // EXPECT_EQ(doubleDigit3, HugeInteger(2));
+    /* Divide double digit HugeInteger by zero */
+    try {
+        doubleDigit2 = doubleDigit1 / zero;
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "cannot divide by zero");
+    }
 
-    // /* Double digit with remainder */
-    // doubleDigit3 = doubleDigit1 - 1;
-    // EXPECT_EQ(doubleDigit1 / doubleDigit3, HugeInteger(1));
+    /* Inverse property with HugeInteger */
+    HugeInteger doubleDigit3 = doubleDigit2 / doubleDigit1;
+    EXPECT_EQ(doubleDigit3, HugeInteger(2));
 
+    /* Divide double digit HugeInteger by itself */
+    doubleDigit2 = doubleDigit1 / doubleDigit1;
+    EXPECT_EQ(doubleDigit2, one);
+
+    /* Divide double digit HugeInteger by identity */
+    doubleDigit2 = doubleDigit1 / one;
+    EXPECT_EQ(doubleDigit2, doubleDigit1);
+
+    /* Double digit with remainder */
+    doubleDigit3 = doubleDigit1 - 1;
+    EXPECT_EQ(doubleDigit1 / doubleDigit3, HugeInteger(1));
+
+    /* Divide double digit by smaller double digit */
+    doubleDigit3 = doubleDigit1 + 1;
+    EXPECT_EQ(doubleDigit1 / doubleDigit3, zero);
+
+    /* Divide single digit by double digit */
+    EXPECT_EQ(singleDigit1 / doubleDigit1, zero);
+
+    /* Divide double digit by single digit, no remainder */
+    singleDigit1 = 5;
+    doubleDigit1 = 25;
+    EXPECT_EQ(doubleDigit1 / singleDigit1, 5);
+
+    /* Divide double digit by single digit, with remainder */
+    singleDigit1 = 6;
+    EXPECT_EQ(doubleDigit1 / singleDigit1, 4);
+
+    /* Divide two random huge integers */
+    HugeInteger multiDigit2{"234235324534747345345"};
+    HugeInteger multiDigit3{"334534634664645756869856"};
+    EXPECT_EQ(multiDigit2 / multiDigit3, zero);
+    EXPECT_EQ(multiDigit3 / multiDigit2, HugeInteger(1428));
+
+    multiDigit3 = HugeInteger("345364567457334534634664645756869856");
+    EXPECT_EQ(multiDigit3 / multiDigit2, HugeInteger("1474434174876564"));
+
+    /* Divide max HugeInteger */
+    multiDigit2 = HugeInteger("9999999999999999999999999999999999999999");
+    EXPECT_EQ(multiDigit2 / HugeInteger(3), HugeInteger("3333333333333333333333333333333333333333"));
 }

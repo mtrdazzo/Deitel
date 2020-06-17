@@ -67,7 +67,7 @@ class HugeInteger {
          * 
          * @return HugeInteger& 
          */
-        HugeInteger& operator=(const int);
+        HugeInteger& operator=(const long int);
 
         /**
          * @brief Addition of two HugeIntegers
@@ -81,7 +81,7 @@ class HugeInteger {
          * 
          * @return HugeInteger 
          */
-        HugeInteger operator+(int) const;
+        HugeInteger operator+(const long int) const;
 
         /**
          * @brief Addition of HugeInteger and an integer string
@@ -102,7 +102,7 @@ class HugeInteger {
          * 
          * @return HugeInteger 
          */
-        HugeInteger operator*(const int &) const;
+        HugeInteger operator*(const long int &) const;
 
         /**
          * @brief Multiplication of HugeInteger and string

@@ -11,6 +11,7 @@
 
 #include <cctype>
 #include <Ex_10_9.h>
+#include <algorithm>
 
 /**
  * @brief Construct a new Huge Integer:: Huge Integer object
@@ -27,10 +28,13 @@ HugeInteger::HugeInteger() {
  * @param value Integer value
  */
 HugeInteger::HugeInteger(long value) {
-    for (int decimal{digits - 1}; value != 0; --decimal) {
+    int decimal;
+    for (decimal = digits - 1; value != 0; --decimal) {
         integer[decimal] = value % 10;
         value /= 10;
     }
+    while (decimal >= 0)
+        integer[decimal--] = 0;
 }
 
 /**
@@ -83,7 +87,7 @@ HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
  * @param other Other
  * @return HugeInteger
  */
-HugeInteger & HugeInteger::operator=(const int other) {
+HugeInteger & HugeInteger::operator=(const long other) {
     HugeInteger newHugeInt{other};
 
     for (int8_t tens{0}; tens < digits; ++tens)
@@ -124,7 +128,7 @@ HugeInteger HugeInteger::operator+(const HugeInteger& other) const {
  * @param other Integer
  * @return HugeInteger
  */
-HugeInteger HugeInteger::operator+(int other) const {
+HugeInteger HugeInteger::operator+(const long other) const {
     return *this + HugeInteger(other);
 }
 
@@ -204,7 +208,7 @@ HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
  * @param other Other
  * @return HugeInteger
  */
-HugeInteger HugeInteger::operator*(const int & other) const {
+HugeInteger HugeInteger::operator*(const long int & other) const {
 
     return *this * HugeInteger(other);
 }
@@ -361,31 +365,32 @@ HugeInteger HugeInteger::operator/(const HugeInteger & divisor) const {
 
     HugeInteger ratio;
 
-    if (*this > divisor) {
+    if (*this >= divisor) {
+
         HugeInteger numerator{*this};
         std::string tmp_value;
+        std::string end_value;
         int index{0};
         int factor{0};
-        int ratio_index{digits-1};
 
-        while (divisor.integer[index] == 0)
+        while (numerator.integer[index] == 0)
             ++index;
 
-        while (index < digits) {
+        while (index <= digits) {
             /* get string representation of number greater than divisor */
             if (HugeInteger(tmp_value) < divisor)
                 tmp_value += '0' + numerator.integer[index++];
             else {
                 /* find greatest multiplicative factor */
                 factor = 0;
-                while (divisor * (factor + 1) <= tmp_value)
+                while ((divisor * HugeInteger(factor + 1)) <= HugeInteger(tmp_value))
                     ++factor;
-                ratio.integer[ratio_index--] = factor;
+                end_value += std::to_string(factor);
                 tmp_value = (HugeInteger(tmp_value) - divisor * factor).str();
             }
         }
+        ratio = HugeInteger(end_value);
     }
-
 
     return ratio;
 }
