@@ -12,12 +12,13 @@
  * carefully, then respond to the following:
  * 
  * a) Descripe precisely how it operates
- *    - Converts either a long or an integer string into an array of integers with integers[digts-1] being the least
+ *    - Converts either a long or an integer string into an array of integers with integers[digits-1] being the least
  *      significant digit
+ *    - All equality operators and arithmetic operators( +, -, /, *) are implemented.
  * 
  * b) What restrictions does the class have?
  *    - Original implementation only enables positive integers
- *    - Digit overflow is no accounted for on most significant digit
+ *    - Digit overflow is not accounted for on most significant digit
  * 
  * c) Overload the * multiplication operator.
  * 
@@ -178,7 +179,7 @@ class HugeInteger {
          * 
          * @return HugeInteger 
          */
-        HugeInteger operator/(const int &) const;
+        HugeInteger operator/(const long int &) const;
 
         /**
          * @brief Subtract by another HugeInteger
@@ -192,7 +193,7 @@ class HugeInteger {
          * 
          * @return HugeInteger 
          */
-        HugeInteger operator-(const long &) const;
+        HugeInteger operator-(const long int &) const;
 
     private:
         std::array<short, digits> integer{};

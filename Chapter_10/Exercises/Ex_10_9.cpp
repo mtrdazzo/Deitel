@@ -394,3 +394,13 @@ HugeInteger HugeInteger::operator/(const HugeInteger & divisor) const {
 
     return ratio;
 }
+
+/**
+ * @brief Divide an integer into a HugeInteger
+ * 
+ * @param other 
+ * @return HugeInteger 
+ */
+HugeInteger HugeInteger::operator/(const long & other) const {
+    return *this / HugeInteger(other);
+}
