@@ -53,6 +53,13 @@ class Quadratic {
          */
         Quadratic operator-(const Quadratic &) const;
 
+        /**
+         * @brief Output quadratic forula to a string
+         * 
+         * @return std::string 
+         */
+        std::string str() const;
+
     private:
 
         int m_iQuadratic{0}; /* ax^2 */

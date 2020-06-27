@@ -10,6 +10,7 @@
  */
 
 #include "Ex_10_10.h"
+#include <sstream>
 
 /**
  * @brief Sum of two Quadratic objects.
@@ -20,7 +21,7 @@
 Quadratic Quadratic::operator+(const Quadratic & other) const {
     return Quadratic(this->m_iQuadratic + other.m_iQuadratic,
                      this->m_iLinear + other.m_iLinear,
-                     this->m_iConstant + other.m_iLinear);
+                     this->m_iConstant + other.m_iConstant);
 }
 
 /**
@@ -44,15 +45,22 @@ Quadratic Quadratic::operator-(const Quadratic & other) const {
  */
 std::ostream& operator<<(std::ostream& output, const Quadratic& equation) {
 
-    if (equation.m_iQuadratic)
-        output << equation.m_iQuadratic << "x^2";
+    if (equation.m_iQuadratic) {
+        if (equation.m_iQuadratic < 0)
+            output << "-";
+        if (std::abs(equation.m_iQuadratic) > 1)
+            output << std::abs(equation.m_iQuadratic);
+        output << "x^2";
+    }
 
     if (equation.m_iLinear) {
         if (equation.m_iLinear < 0)
             output << " - ";
         else if (equation.m_iLinear > 0)
             output << " + ";
-        output << std::abs(equation.m_iLinear);
+        if (std::abs(equation.m_iLinear) > 1)
+            output << std::abs(equation.m_iLinear);
+        output << "x";
     }
 
     if (equation.m_iConstant) {
@@ -64,4 +72,18 @@ std::ostream& operator<<(std::ostream& output, const Quadratic& equation) {
     }
 
     return output;
+}
+
+/**
+ * @brief Output quadratic formula in the form ax^2 + bx + c as string.
+ * 
+ * @return std::string 
+ */
+std::string Quadratic::str() const {
+
+    std::ostringstream output;
+
+    output << *this;
+
+    return output.str();
 }
