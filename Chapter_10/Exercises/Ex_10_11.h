@@ -26,11 +26,25 @@
  */
 
 #include <cstddef>
+#include <array>
 
 #define NUM_COFFICIENTS 40
 
 class Polynomial {
+
     public:
+
+        /**
+         * @brief Construct a new Polynomial object
+         * 
+         */
+        Polynomial(std::array<int, NUM_COFFICIENTS>);
+
+        /**
+         * @brief Destroy the Polynomial object
+         * 
+         */
+        ~Polynomial() {};
 
         /**
          * @brief Assignment operator.
@@ -94,4 +108,4 @@ class Polynomial {
     private:
 
         int m_iCoefficients[NUM_COFFICIENTS];
-}
+};
