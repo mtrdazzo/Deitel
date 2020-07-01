@@ -32,7 +32,7 @@ Quadratic Quadratic::operator+(const Quadratic & other) const {
  */
 Quadratic Quadratic::operator-(const Quadratic & other) const {
     return Quadratic(this->m_iQuadratic - other.m_iQuadratic,
-                     this->m_iLinear + other.m_iLinear,
+                     this->m_iLinear - other.m_iLinear,
                      this->m_iConstant - other.m_iConstant);
 }
 
@@ -45,7 +45,11 @@ Quadratic Quadratic::operator-(const Quadratic & other) const {
  */
 std::ostream& operator<<(std::ostream& output, const Quadratic& equation) {
 
+    bool hasQuadratic{false};
+    bool hasLinear{false};
+
     if (equation.m_iQuadratic) {
+        hasQuadratic = true;
         if (equation.m_iQuadratic < 0)
             output << "-";
         if (std::abs(equation.m_iQuadratic) > 1)
@@ -54,21 +58,35 @@ std::ostream& operator<<(std::ostream& output, const Quadratic& equation) {
     }
 
     if (equation.m_iLinear) {
-        if (equation.m_iLinear < 0)
-            output << " - ";
-        else if (equation.m_iLinear > 0)
-            output << " + ";
-        if (std::abs(equation.m_iLinear) > 1)
-            output << std::abs(equation.m_iLinear);
+        hasLinear = true;
+        if (hasQuadratic) {
+            if (equation.m_iLinear < 0)
+                output << " - ";
+            else if (equation.m_iLinear > 0)
+                output << " + ";
+            if (std::abs(equation.m_iLinear) > 1)
+                output << std::abs(equation.m_iLinear);
+        }
+        else {
+            if (equation.m_iLinear == -1)
+                output << '-';
+            else if (equation.m_iLinear != 1)
+                output << equation.m_iLinear;
+        }
         output << "x";
     }
 
     if (equation.m_iConstant) {
-        if (equation.m_iConstant < 0)
-            output << " - ";
-        else if (equation.m_iConstant > 0)
-            output << " + ";
-        output << std::abs(equation.m_iConstant);
+        if (hasLinear) {
+            if (equation.m_iConstant < 0)
+                output << " - ";
+            else if (equation.m_iConstant > 0)
+                output << " + ";
+            output << std::abs(equation.m_iConstant);
+        }
+        else {
+            output << equation.m_iConstant;
+        }
     }
 
     return output;
