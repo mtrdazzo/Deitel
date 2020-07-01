@@ -19,4 +19,3 @@
 Polynomial::Polynomial(POLYNOMIAL_ARRAY & coefficients) {
     m_aCoefficients = coefficients;
 }
-
