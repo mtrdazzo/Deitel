@@ -29,6 +29,7 @@
 #include <array>
 
 #define NUM_COFFICIENTS 40
+typedef std::array<int, NUM_COFFICIENTS> POLYNOMIAL_ARRAY;
 
 class Polynomial {
 
@@ -38,7 +39,7 @@ class Polynomial {
          * @brief Construct a new Polynomial object
          * 
          */
-        Polynomial(std::array<int, NUM_COFFICIENTS>);
+        Polynomial(POLYNOMIAL_ARRAY &);
 
         /**
          * @brief Destroy the Polynomial object
@@ -97,15 +98,15 @@ class Polynomial {
          * 
          * @return int 
          */
-        int getCoefficient(size_t) const;
+        int getCoefficient(size_t order) const { return m_aCoefficients.at(order); }
 
         /**
          * @brief Set the coefficient C of the nth polynomial of the form C*x^n.
          * 
          */
-        void setCoefficient(int);
+        void setCoefficient(size_t order, int coefficient) { m_aCoefficients.at(order) = coefficient; }
 
     private:
 
-        int m_iCoefficients[NUM_COFFICIENTS];
+        POLYNOMIAL_ARRAY m_aCoefficients;
 };
