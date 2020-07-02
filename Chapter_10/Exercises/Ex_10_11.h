@@ -35,6 +35,8 @@ class Polynomial {
 
     public:
 
+        Polynomial();
+
         /**
          * @brief Construct a new Polynomial object
          * 
