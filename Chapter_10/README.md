@@ -23,6 +23,6 @@
 ### Exercise 10-11
 #### **Polynomial Class**
 * Constructs a class to represent a polynomial of up to 40 orders
-* Instantiate a Polynomial object with no coefficients, or a POLYNOMIAL_ARRAY which is an STL array of int's of size 40
-* Contains overloaded operators for addition (+), subtraction (-), and multiplication (*)
-* Contains overloaded operators for addition assignment (+=), subtraction assignment (-=), and multiplication assignment (-=)
+* Instantiate a Polynomial object with no coefficients, or a , <code>POLYNOMIAL_ARRAY</code> which is an STL array of int's of size 40
+* Contains overloaded arithmetic operators for addition (+), subtraction (-), and multiplication (*)
+* Contains overloaded operators for assignment (=), addition assignment (+=), subtraction assignment (-=), and multiplication assignment (-=)

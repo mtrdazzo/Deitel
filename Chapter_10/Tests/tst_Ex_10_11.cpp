@@ -169,3 +169,18 @@ TEST(PolynomialOperators, SubtractionAssignment) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         EXPECT_EQ(p5.getCoefficient(order), p4.getCoefficient(order));
 }
+
+/**
+ * @brief Test the assignment operator
+ * 
+ */
+TEST(PolynomialOperators, Assignment) {
+    POLYNOMIAL_ARRAY pArray1{getRandomPolynomials()};
+
+    Polynomial p1{pArray1};
+    Polynomial p2;
+
+    p2 = p1;
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        EXPECT_EQ(p2.getCoefficient(order), p1.getCoefficient(order));
+}
