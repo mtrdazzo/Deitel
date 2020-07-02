@@ -119,3 +119,53 @@ TEST(PolynomialOperators, Subtraction) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         EXPECT_EQ(p5.getCoefficient(order), p4.getCoefficient(order));
 }
+
+/**
+ * @brief Test the Addition assignment operator
+ * 
+ */
+TEST(PolynomialOperators, AdditionAssignment) {
+    POLYNOMIAL_ARRAY pArray1{getRandomPolynomials()};
+    POLYNOMIAL_ARRAY pArray2{getRandomPolynomials()};
+
+    Polynomial p1{pArray1};
+    Polynomial p2{pArray2};
+    Polynomial p3{p1 + p2};
+
+    p1 += p2;
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        EXPECT_EQ(p3.getCoefficient(order), p1.getCoefficient(order));
+    
+    Polynomial empty;
+    Polynomial p4{pArray1};
+    Polynomial p5{p4};
+
+    p4 += empty;
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        EXPECT_EQ(p5.getCoefficient(order), p4.getCoefficient(order));
+}
+
+/**
+ * @brief Test the Subtraction assignment operator
+ * 
+ */
+TEST(PolynomialOperators, SubtractionAssignment) {
+    POLYNOMIAL_ARRAY pArray1{getRandomPolynomials()};
+    POLYNOMIAL_ARRAY pArray2{getRandomPolynomials()};
+
+    Polynomial p1{pArray1};
+    Polynomial p2{pArray2};
+    Polynomial p3{p1 - p2};
+
+    p1 -= p2;
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        EXPECT_EQ(p3.getCoefficient(order), p1.getCoefficient(order));
+    
+    Polynomial empty;
+    Polynomial p4{pArray1};
+    Polynomial p5{p4};
+
+    p4 -= empty;
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        EXPECT_EQ(p5.getCoefficient(order), p4.getCoefficient(order));
+}

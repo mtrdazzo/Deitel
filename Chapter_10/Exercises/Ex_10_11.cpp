@@ -30,6 +30,16 @@ Polynomial::Polynomial(POLYNOMIAL_ARRAY & coefficients) {
 }
 
 /**
+ * @brief Set coefficients of Polynomial from other polynomial.
+ * 
+ * @param other 
+ */
+void Polynomial::operator=(const Polynomial & other) {
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        m_aCoefficients.at(order) = other.getCoefficient(order);
+}
+
+/**
  * @brief Addition operator, returns the sum of the coefficients of the two Polynomial operands.
  * 
  * @param other Second Polynomial operand
@@ -56,4 +66,24 @@ Polynomial Polynomial::operator-(const Polynomial & other) const {
         difference.setCoefficient(order, this->getCoefficient(order) - other.getCoefficient(order));
     
     return difference;
+}
+
+/**
+ * @brief Addition assignment operator.
+ * 
+ * @param other 
+ */
+void Polynomial::operator+=(const Polynomial & other) {
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        m_aCoefficients[order] += other.getCoefficient(order);
+}
+
+/**
+ * @brief Subtraction assignment operator
+ * 
+ * @param other 
+ */
+void Polynomial::operator-=(const Polynomial & other) {
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        m_aCoefficients[order] -= other.getCoefficient(order);
 }

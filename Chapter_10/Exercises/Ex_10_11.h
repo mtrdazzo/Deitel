@@ -35,10 +35,14 @@ class Polynomial {
 
     public:
 
+        /**
+         * @brief Construct a new Polynomial object
+         * 
+         */
         Polynomial();
 
         /**
-         * @brief Construct a new Polynomial object
+         * @brief Construct a new Polynomial object from polynomial array
          * 
          */
         Polynomial(POLYNOMIAL_ARRAY &);
@@ -54,7 +58,7 @@ class Polynomial {
          * 
          * @return Polynomial 
          */
-        Polynomial operator=(const Polynomial &) const;
+        void operator=(const Polynomial &);
 
         /**
          * @brief Addition operator.
