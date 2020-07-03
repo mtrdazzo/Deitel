@@ -100,6 +100,14 @@ class Polynomial {
         void operator*=(const Polynomial &);
 
         /**
+         * @brief Equality operator.
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator==(const Polynomial &) const;
+
+        /**
          * @brief Get the coefficient C of the nth polynomial of the form C*x^n.
          * 
          * @return int 

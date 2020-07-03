@@ -87,3 +87,47 @@ void Polynomial::operator-=(const Polynomial & other) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         m_aCoefficients[order] -= other.getCoefficient(order);
 }
+
+Polynomial Polynomial::operator*(const Polynomial & other) const {
+    Polynomial product;
+    size_t order3{0};
+
+    for (size_t order1{0}; order1 < NUM_COFFICIENTS; ++order1) {
+        for (size_t order2{0}; order2 < NUM_COFFICIENTS; ++order2) {
+            if (order1 == 0 && order2 == 0)
+                product.m_aCoefficients[0] = m_aCoefficients[order1] * other.m_aCoefficients[order2];
+            else if (order1 == 0 && order2 != 0) {
+                product.m_aCoefficients[order2] += m_aCoefficients[order1] * other.m_aCoefficients[order2];
+            }
+            else if (order1 != 0 && order1 == 0) {
+                product.m_aCoefficients[order1] += m_aCoefficients[order1] * other.m_aCoefficients[order2];
+
+            }
+            else {
+                order3 = order1 + order2;
+                if (order3 < NUM_COFFICIENTS)
+                    product.m_aCoefficients[order3] += m_aCoefficients[order1] * other.m_aCoefficients[order2];
+            }
+        }
+    }
+    
+    return product;
+}
+
+/**
+ * @brief Equality operator
+ * 
+ * @param other 
+ * @return true If all coefficients for all polynomials are equal
+ * @return false 
+ */
+#include <iostream>
+bool Polynomial::operator==(const Polynomial & other) const {
+    for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
+        if (m_aCoefficients.at(order) != other.m_aCoefficients.at(order)) {
+            std::cout << "HELLO" << std::endl;
+            std::cout << m_aCoefficients.at(order) << other.m_aCoefficients.at(order) << std::endl;
+            return false;
+        }
+    return true;
+}
