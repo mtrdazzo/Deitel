@@ -1,3 +1,14 @@
+/**
+ * @file tst_Ex_10_11.cpp
+ * @author Matthew J Randazzo (mtrdazzo@gmail.com)
+ * @brief Test Polynomial class functionality
+ * @version 0.1
+ * @date 2020-07-03
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
+
 #include <gtest/gtest.h>
 #include "Ex_10_11.h"
 #include <cstdlib>

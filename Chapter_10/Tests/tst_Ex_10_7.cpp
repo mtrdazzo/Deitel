@@ -1,7 +1,7 @@
 /**
  * @file tst_Ex_10_7.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief 
+ * @brief Test DoubleScriptedArray class functionality
  * @version 0.1
  * @date 2020-05-11
  * 
