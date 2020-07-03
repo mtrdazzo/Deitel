@@ -110,8 +110,17 @@ Polynomial Polynomial::operator*(const Polynomial & other) const {
             }
         }
     }
-    
     return product;
+}
+
+/**
+ * @brief Multiplication assignment operator
+ * 
+ * @param other 
+ */
+void Polynomial::operator*=(const Polynomial & other) {
+    Polynomial product = *this * other;
+    *this = other;
 }
 
 /**
@@ -121,12 +130,9 @@ Polynomial Polynomial::operator*(const Polynomial & other) const {
  * @return true If all coefficients for all polynomials are equal
  * @return false 
  */
-#include <iostream>
 bool Polynomial::operator==(const Polynomial & other) const {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         if (m_aCoefficients.at(order) != other.m_aCoefficients.at(order)) {
-            std::cout << "HELLO" << std::endl;
-            std::cout << m_aCoefficients.at(order) << other.m_aCoefficients.at(order) << std::endl;
             return false;
         }
     return true;
