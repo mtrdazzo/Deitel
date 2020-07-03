@@ -69,6 +69,8 @@ pipeline {
                 to: 'jenkinshudson@yahoo.com',
                 recipientProviders: [[$class: 'RequesterRecipientProvider']],
                 subject: "Jenkins Build ${PIPELINE_STATUS}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
+
+            cleanWs();
         }
     }
 }

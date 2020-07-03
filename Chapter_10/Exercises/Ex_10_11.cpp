@@ -99,9 +99,8 @@ Polynomial Polynomial::operator*(const Polynomial & other) const {
             else if (order1 == 0 && order2 != 0) {
                 product.m_aCoefficients[order2] += m_aCoefficients[order1] * other.m_aCoefficients[order2];
             }
-            else if (order1 != 0 && order1 == 0) {
+            else if (order1 != 0 && order2 == 0) {
                 product.m_aCoefficients[order1] += m_aCoefficients[order1] * other.m_aCoefficients[order2];
-
             }
             else {
                 order3 = order1 + order2;

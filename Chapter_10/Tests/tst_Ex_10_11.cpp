@@ -308,3 +308,22 @@ TEST(PolynomialOperators, MultiplicationAssignment) {
     expectedP.setCoefficient(39, 4);
     EXPECT_EQ(product, expectedP);
 }
+
+/**
+ * @brief Test the Equality operator
+ * 
+ */
+TEST(PolynomialOperators, Equality) {
+    POLYNOMIAL_ARRAY pArray{getRandomPolynomials()};
+
+    Polynomial random1{pArray};
+    Polynomial random2{pArray};
+    Polynomial random3{pArray};
+
+    random2.setCoefficient(0,random1.getCoefficient(0) + 1);
+    random3.setCoefficient(NUM_COFFICIENTS-1, random1.getCoefficient(NUM_COFFICIENTS-1) + 1);
+
+    /* Identity property */
+    EXPECT_NE(random1, random2);
+    EXPECT_NE(random1, random3);
+}
