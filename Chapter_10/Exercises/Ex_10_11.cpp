@@ -120,7 +120,7 @@ Polynomial Polynomial::operator*(const Polynomial & other) const {
  */
 void Polynomial::operator*=(const Polynomial & other) {
     Polynomial product = *this * other;
-    *this = other;
+    *this = product;
 }
 
 /**
