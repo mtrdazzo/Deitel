@@ -21,6 +21,15 @@ Polynomial::Polynomial() {
 }
 
 /**
+ * @brief Construct a new Polynomial:: Polynomial object using another Polynomial object
+ * 
+ * @param other 
+ */
+Polynomial::Polynomial(const Polynomial & other) {
+    *this = other;
+}
+
+/**
  * @brief Construct a new Polynomial:: Polynomial object
  * 
  * @param coefficients STL array of coefficients with indices representing polynomial order.
@@ -34,9 +43,10 @@ Polynomial::Polynomial(POLYNOMIAL_ARRAY & coefficients) {
  * 
  * @param other 
  */
-void Polynomial::operator=(const Polynomial & other) {
+const Polynomial & Polynomial::operator=(const Polynomial & other) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         m_aCoefficients.at(order) = other.getCoefficient(order);
+    return *this;
 }
 
 /**
@@ -72,22 +82,34 @@ Polynomial Polynomial::operator-(const Polynomial & other) const {
  * @brief Addition assignment operator.
  * 
  * @param other 
+ * @return Polynomial& Reference to sum for cascading
  */
-void Polynomial::operator+=(const Polynomial & other) {
+Polynomial & Polynomial::operator+=(const Polynomial & other) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         m_aCoefficients[order] += other.getCoefficient(order);
+    
+    return *this;
 }
 
 /**
- * @brief Subtraction assignment operator
+ * @brief Subtraction assignment operator.
  * 
  * @param other 
+ * @return Polynomial& Reference to difference for cascading
  */
-void Polynomial::operator-=(const Polynomial & other) {
+Polynomial & Polynomial::operator-=(const Polynomial & other) {
     for (size_t order{0}; order < NUM_COFFICIENTS; ++order)
         m_aCoefficients[order] -= other.getCoefficient(order);
+    
+    return *this;
 }
 
+/**
+ * @brief Multiplication operator
+ * 
+ * @param other 
+ * @return Polynomial Product of both polynomials
+ */
 Polynomial Polynomial::operator*(const Polynomial & other) const {
     Polynomial product;
     size_t order3{0};
@@ -113,13 +135,16 @@ Polynomial Polynomial::operator*(const Polynomial & other) const {
 }
 
 /**
- * @brief Multiplication assignment operator
+ * @brief Multiplication assignment operator.
  * 
  * @param other 
+ * @return Polynomial& Reference to sum for cascading
  */
-void Polynomial::operator*=(const Polynomial & other) {
+Polynomial & Polynomial::operator*=(const Polynomial & other) {
     Polynomial product = *this * other;
     *this = product;
+
+    return *this;
 }
 
 /**
@@ -135,4 +160,15 @@ bool Polynomial::operator==(const Polynomial & other) const {
             return false;
         }
     return true;
+}
+
+/**
+ * @brief Inequality operator
+ * 
+ * @param other 
+ * @return true If all coefficients for all polynomials are not equal
+ * @return false 
+ */
+bool Polynomial::operator!=(const Polynomial & other) const {
+    return !(*this == other);
 }

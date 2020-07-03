@@ -54,14 +54,15 @@ class HugeInteger {
 
         HugeInteger(); // explicit default constructor
         HugeInteger(long); // conversion/default constructor
-        HugeInteger(const std::string&); // conversion constructor
+        HugeInteger(const std::string &); // conversion constructor
+        HugeInteger(const HugeInteger &); // copy constructor
 
         /**
          * @brief Assingment operator of another HugeInteger
          * 
          * @return HugeInteger& 
          */
-        HugeInteger& operator=(const HugeInteger &);
+        const HugeInteger& operator=(const HugeInteger &);
 
         /**
          * @brief Assingment operator of integer

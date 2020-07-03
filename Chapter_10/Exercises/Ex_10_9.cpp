@@ -14,12 +14,21 @@
 #include <algorithm>
 
 /**
- * @brief Construct a new Huge Integer:: Huge Integer object
+ * @brief Construct a new HugeInteger object
  * 
  */
 HugeInteger::HugeInteger() {
     for (size_t tens{0}; tens < digits; tens++)
         integer[tens] = 0;
+}
+
+/**
+ * @brief Construct a new HugeInteger object from another HugeInteger object
+ * 
+ * @param other 
+ */
+HugeInteger::HugeInteger(const HugeInteger & other) {
+    *this = other;
 }
 
 /**
@@ -75,7 +84,7 @@ HugeInteger::HugeInteger(const std::string& number) {
  * @param other Other
  * @return HugeInteger
  */
-HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
+const HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
     for (int8_t tens{0}; tens < digits; ++tens)
         this->integer[tens] = other.integer[tens];
     return *this;

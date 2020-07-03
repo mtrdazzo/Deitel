@@ -48,17 +48,23 @@ class Polynomial {
         Polynomial(POLYNOMIAL_ARRAY &);
 
         /**
+         * @brief Copy constructor
+         * 
+         */
+        Polynomial(const Polynomial &);
+
+        /**
          * @brief Destroy the Polynomial object
          * 
          */
         ~Polynomial() {};
 
         /**
-         * @brief Assignment operator.
+         * @brief Copy assignment operator.
          * 
          * @return Polynomial 
          */
-        void operator=(const Polynomial &);
+        const Polynomial & operator=(const Polynomial &);
 
         /**
          * @brief Addition operator.
@@ -85,19 +91,19 @@ class Polynomial {
          * @brief Addition assignment operator.
          * 
          */
-        void operator+=(const Polynomial &);
+        Polynomial & operator+=(const Polynomial &);
 
         /**
          * @brief Subtraction assignment operator.
          * 
          */
-        void operator-=(const Polynomial &);
+        Polynomial & operator-=(const Polynomial &);
 
         /**
          * @brief Multiplication assignment operator.
          * 
          */
-        void operator*=(const Polynomial &);
+        Polynomial & operator*=(const Polynomial &);
 
         /**
          * @brief Equality operator.
@@ -106,6 +112,14 @@ class Polynomial {
          * @return false 
          */
         bool operator==(const Polynomial &) const;
+
+        /**
+         * @brief Inequality operator.
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool operator!=(const Polynomial &) const;
 
         /**
          * @brief Get the coefficient C of the nth polynomial of the form C*x^n.

@@ -27,3 +27,12 @@
 * Contains overloaded arithmetic operators for addition (+), subtraction (-), and multiplication (*)
 * Contains overloaded operators for assignment (=), addition assignment (+=), subtraction assignment (-=), and multiplication assignment (-=)
 * Contains an equality operator (==) (added for testing purposes)
+
+### Chapter Notes:
+* In each class I was explicity defining a destructor and even an assignment operator (for practice) for each class. When building with gcc 9.2.0 I was getting the following warning:  <br />  <br />
+<code> implicitly-declared is deprecated because {Class} has user-provided  definition </code> <br />  <br />
+This is due to the standard which debuted in C++11 which states: </br><br/>
+*The implicit definition of a copy constructor as defaulted is deprecated if the class has a user-declared copy assignment operator or a user-declared destructor. The implicit definition of a copy assignment operator as defaulted is deprecated if the class has a user-declared copy constructor or a user-declared destructor* <br/><br/>
+The rationale behind this is the well-known Rule of Three which states: <br/><br/>
+*If a class requires a user-defined destructor, a user-defined copy constructor, or a user-defined copy assignment operator, it almost certainly requires all three.* <br/><br/>
+So, when defining a destrutor, copy constructor, or copy assignment operator, include all three.
