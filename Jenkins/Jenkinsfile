@@ -29,7 +29,7 @@ pipeline {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
                     xunit (
                             thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                            tools: [ GoogleTest(pattern: '**/out/debug/bin/*.xml') ])
+                            tools: [ GoogleTest(pattern: '**/out/release/bin/*.xml') ])
                 }
             }
         }
