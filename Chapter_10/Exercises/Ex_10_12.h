@@ -17,6 +17,7 @@
 
 #include <string>
 #include <cmath>
+#include <stdexcept>
 
 class DollarAmount {
 

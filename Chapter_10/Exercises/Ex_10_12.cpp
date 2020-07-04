@@ -10,6 +10,7 @@
  */
 
 #include "Ex_10_12.h"
+#include <stdexcept>
 
 /**
  * @brief Express the dollar amount as a string (i.e., 6.32 or 0.04)
