@@ -197,7 +197,7 @@ class HugeInteger {
         HugeInteger operator-(const long int &) const;
 
     private:
-        std::array<short, digits> integer{};
+        std::array<short, digits> integer{0};
 
 };
 

@@ -86,7 +86,7 @@ HugeInteger::HugeInteger(const std::string& number) {
  */
 const HugeInteger & HugeInteger::operator=(const HugeInteger & other) {
     for (int8_t tens{0}; tens < digits; ++tens)
-        this->integer[tens] = other.integer[tens];
+        integer[tens] = other.integer[tens];
     return *this;
 }
 
@@ -188,22 +188,25 @@ HugeInteger HugeInteger::operator*(const HugeInteger & other) const {
 
     HugeInteger tmp;
     int carry{0};
+    int offset{0};
     int current_index{0};
 
-    for (int decimal_this{digits-1}; decimal_this >= 0; --decimal_this) {
+    for (int decimal_this{digits-1}; decimal_this >= 0; --decimal_this, ++offset) {
 
         for (int decimal_other{digits-1}; decimal_other >= 0; --decimal_other) {
 
-            current_index = decimal_other - (digits - (decimal_this + 1));
+            current_index = decimal_other - offset;
 
-            tmp.integer[current_index] += integer[decimal_this] * other.integer[decimal_other] + carry;
+            if (current_index >= 0) {
+                tmp.integer[current_index] += integer[decimal_this] * other.integer[decimal_other] + carry;
 
-            if (tmp.integer[current_index] > 9) {
-                carry = tmp.integer[current_index] / 10;
-                tmp.integer[current_index] %= 10;
-            }
-            else {
-                carry = 0;
+                if (tmp.integer[current_index] > 9) {
+                    carry = tmp.integer[current_index] / 10;
+                    tmp.integer[current_index] %= 10;
+                }
+                else {
+                    carry = 0;
+                }
             }
         }
     }
