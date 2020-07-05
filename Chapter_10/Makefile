@@ -122,7 +122,7 @@ define BANNER
 endef
 
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS))$(filter $(EXTRA_CLEAN_FLAG), $(MAKECMDGOALS)))
-$(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(BIN_FILES)
+$(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(OBJ_FILES) $(BIN_FILES)
 	@echo $(call BIG_BANNER, $(CHAPTER) build done!)
 	@echo "        Elapsed Time: $(ELAPSED_TIME)\n"
 else
