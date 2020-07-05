@@ -6,7 +6,7 @@
  * Exercise 10-12 DollarAmount Class Enhancement
  * 
  * Enhance class DollarAmount from Exercise 5.32 with overloaded addition (+), subtraction (-),
- * and division (/) operators.
+ * multiplication (*), and division (/) operators.
  * 
  * @version 0.1
  * @date 2020-07-03
@@ -81,6 +81,25 @@ class DollarAmount {
             if (other == 0)
                 throw std::invalid_argument("cannot divide by zero");
             return amount / other;
+        }
+
+        /**
+         * @brief Multiplication operator with integer operand
+         * 
+         * @param other 
+         * @return DollarAmount 
+         */
+        DollarAmount operator*(const int64_t & other) const {
+            return *this * DollarAmount(other);
+        }
+
+        /**
+         * @brief Multiplication operator with DollarAmount operand
+         * 
+         * @return DollarAmount 
+         */
+        DollarAmount operator*(const DollarAmount & other) const {
+            return DollarAmount(this->amount * other.amount);
         }
 
         /**

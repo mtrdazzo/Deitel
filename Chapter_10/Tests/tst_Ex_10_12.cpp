@@ -156,3 +156,34 @@ TEST(DollarAmountOperators, Division){
         EXPECT_STREQ(err.what(), "cannot divide by zero");
     }
 }
+
+/**
+ * @brief Test functionality of the Multiplication operator
+ * 
+ */
+TEST(DollarAmountOperators, Multiplication){
+
+    /* Identity */
+    EXPECT_EQ((DollarAmount(100) * DollarAmount(1)).toString(), DollarAmount(100).toString());
+
+    // /* Same magnitude */
+    EXPECT_EQ((DollarAmount(2) * DollarAmount(2)).toString(), DollarAmount(4).toString());
+
+    // /* Different magnitude */
+    EXPECT_EQ((DollarAmount(8) * DollarAmount(9)).toString(), DollarAmount(72).toString());
+
+    /* Multiply by zero */
+    EXPECT_EQ((DollarAmount(100) * DollarAmount(0)).toString(), DollarAmount(0).toString());
+
+    /* Identity */
+    EXPECT_EQ((DollarAmount(100) * 1).toString(), DollarAmount(100).toString());
+
+    // /* Same magnitude */
+    EXPECT_EQ((DollarAmount(2) * 2).toString(), DollarAmount(4).toString());
+
+    // /* Different magnitude */
+    EXPECT_EQ((DollarAmount(8) * 9).toString(), DollarAmount(72).toString());
+
+    /* Multiply by zero */
+    EXPECT_EQ((DollarAmount(100) * 0).toString(), DollarAmount(0).toString());
+}
