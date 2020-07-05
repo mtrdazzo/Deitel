@@ -6,7 +6,7 @@ CHAPTER := $(notdir $(CURDIR))
 
 # Compiler flags
 EXTRA_CFLAGS  := -Wall -Wextra
-DEBUG_FLAGS   := -g -Og -DDEBUG
+DEBUG_FLAGS   := -g -O0 -DDEBUG
 RELEASE_FLAGS := -Os -Werror
 CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 
@@ -14,9 +14,10 @@ CXXFLAGS      := $(EXTRA_CFLAGS) $(STD) -MD
 DEBUG_FLAG       := debug
 RELEASE_FLAG     := release
 GCOV_FLAG        := gcov
+GCOV_XML_FLAG    := gcov-xml
 CLEAN_FLAG       := clean
 EXTRA_CLEAN_FLAG := extra-clean
-ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
+ALL_FLAGS        := $(DEBUG_FLAG) $(RELEASE_FLAG) $(GCOV_FLAG) $(GCOV_XML_FLAG) $(CLEAN_FLAG) $(EXTRA_CLEAN_FLAG)
 
 # Print parameters
 BIG_BANNER   = "   ///////////////////////////////////////////////////\n  ///\n ///   $(1)\n //\n /\n"
@@ -34,28 +35,21 @@ endif
 
 # Resolve release or debug build
 ifeq ($(RELEASE_FLAG)$(DEBUG_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS))$(filter $(DEBUG_FLAG), $(MAKECMDGOALS)))
-$(error Pick either $(RELEASE_FLAG) or $(DEBUG_FLAG) not both!)
+    $(error Pick either $(RELEASE_FLAG) or $(DEBUG_FLAG) not both!)
 endif
 ifeq ($(RELEASE_FLAG), $(filter $(RELEASE_FLAG), $(MAKECMDGOALS)))
-CXXFLAGS += $(RELEASE_FLAGS)
+    CXXFLAGS += $(RELEASE_FLAGS)
 else
-CXXFLAGS += $(DEBUG_FLAGS)
+    CXXFLAGS += $(DEBUG_FLAGS)
 endif
 
 # gcov parameters
-ifneq (, $(filter $(GCOV_FLAG), $(MAKECMDGOALS)))
-GCOVR_OUT_FILE = coverage.xml
+GCOVR_XML_FILE  = coverage.xml
+GCOVR_HTML_FILE = coverage.html
+GCOVR_OUT_FILES = $(GCOVR_HTML_FILE) $(GCOVR_XML_FILE)
 GCOV_FLAGS     = -fprofile-arcs -ftest-coverage
-GCOV_FILES    := $(SRC_OBJ_FILES:.o=.gcno) \
-                 $(TST_OBJ_FILES:.o=.gcno) \
-                 $(SRC_OBJ_FILES:.o=.gcda) \
-                 $(TST_OBJ_FILES:.o=.gcda) \
-                 $(GOOGLE_TEST_OBJ_FILES:.o=.gcda) \
-                 $(GOOGLE_TEST_OBJ_FILES:.o=.gcno) \
-                 $(GCOVR_OUT_FILE)
 
 CXXFLAGS+=$(GCOV_FLAGS)
-endif
 
 # Google Test Relative Directories
 GOOGLE_TEST_HOME_DIR    = ../googletest/googletest
@@ -96,14 +90,39 @@ GGL_OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(GOOGLE_TEST_EXR_FILES:.cc=.
 OBJ_FILES     := $(SRC_OBJ_FILES) $(TST_OBJ_FILES) $(GGL_OBJ_FILES) $(FIG_OBJ_FILES)
 BIN_FILES     := $(addprefix $(BIN_DIR)/,$(TESTS)) $(addprefix $(BIN_DIR)/, $(notdir $(FIG_FILES:.cpp=.fig)))
 
+GCOV_FILES := $(SRC_OBJ_FILES:.o=.gcno) \
+              $(TST_OBJ_FILES:.o=.gcno) \
+              $(FIG_OBJ_FILES:.o=.gcno) \
+              $(SRC_OBJ_FILES:.o=.gcda) \
+              $(TST_OBJ_FILES:.o=.gcda) \
+              $(FIG_OBJ_FILES:.o=.gcda) \
+              $(GGL_OBJ_FILES:.o=.gcda) \
+              $(GGL_OBJ_FILES:.o=.gcno) \
+              $(GCOVR_OUT_FILES)
+
+GTEST_XML_FILES := $(addsuffix .xml, $(addprefix $(BIN_DIR)/,$(TESTS)))
+
 BUILD_LOG     := $(OUT_DIR)/build.log
 
 DEPS  = $(OBJ_FILES:.o=.d)
 
 vpath % $(GOOGLE_TEST_EXR_DIR) $(EXR_DIR) $(TST_DIR) $(FIG_DIR)
 
+define BANNER
+
+   ____ _                 _              _  ___  
+  / ___| |__   __ _ _ __ | |_ ___ _ __  / |/ _ \ 
+ | |   | '_ \ / _` | '_ \| __/ _ \ '__| | | | | |
+ | |___| | | | (_| | |_) | ||  __/ |    | | |_| |
+  \____|_| |_|\__,_| .__/ \__\___|_|    |_|\___/ 
+                   |_|                           
+
+          $(CURR_DATE)
+
+endef
+
 ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS))$(filter $(EXTRA_CLEAN_FLAG), $(MAKECMDGOALS)))
-$(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(BIN_FILES)
+$(DEBUG_FLAG) $(RELEASE_FLAG): __print_settings $(OUT_DIRS) $(OBJ_FILES) $(BIN_FILES)
 	@echo $(call BIG_BANNER, $(CHAPTER) build done!)
 	@echo "        Elapsed Time: $(ELAPSED_TIME)\n"
 else
@@ -111,30 +130,26 @@ $(DEBUG_FLAG) $(RELEASE_FLAG):
 	@:
 endif
 
-__create_build_log:
-	@if [ -f "$(BUILD_LOG)" ]; then \
-		rm $(BUILD_LOG); \
-	fi
-	@touch $(BUILD_LOG)
-
-__run_all_files:
-	@echo -en "\n  Running all exercises..."
-	@for test_exe in $(BIN_FILES); do \
-		$$test_exe >> $(BUILD_LOG) 2>&1; \
+__print_settings:
+	$(info $(BANNER))
+	@echo "Using CXX...\n\n\t$(CXX)\n"
+	@echo "Using CXXFLAGS...\n"
+	@for flag in $(CXXFLAGS); do \
+		echo "\t$$flag" ; \
 	done
-	@echo -e "done!\n"
-
-__gcov:
-	@echo -en "\n  Running gcov..."
-	@for src_file in $(EXR_FILES); do \
-		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(EXR_DIR)/obj >> $(BUILD_LOG) 2>&1; \
+	@echo "\nFigures...\n"
+	@for test in $(notdir $(FIG_FILES)); do \
+		echo "\t$$test" ; \
 	done
-	@echo -e "done!\n"
-
-__gcovr:
-	@echo -en "\n  Creating test coverage report: $(GCOVR_OUT_FILE)..."
-	@gcovr -r . --xml --delete --exclude=Tests --exclude=../googletest --sort-percentage --output=$(GCOVR_OUT_FILE) >> $(BUILD_LOG) 2>&1
-	@echo -e "done!\n"
+	@echo "\nExercises...\n"
+	@for ex in $(notdir $(EXR_FILES)); do \
+		echo "\t$$ex" ; \
+	done
+	@echo "\nTests...\n"
+	@for test in $(notdir $(TST_FILES)); do \
+		echo "\t$$test" ; \
+	done
+	@echo
 
 $(OUT_DIRS):
 	@echo "\n  > Initialized directory $@\n"
@@ -159,47 +174,53 @@ $(BIN_DIR)/% : $(OBJ_DIR)/tst_%.o $(OBJ_DIR)/%.o $(GGL_OBJ_FILES) $(MAKEFILE_LIS
 $(MAKEFILE_LIST):
 	@:
 
-__print_settings:
-	$(info $(BANNER))
-	@echo "Using CXX...\n\n\t$(CXX)\n"
-	@echo "Using CXXFLAGS...\n"
-	@for flag in $(CXXFLAGS); do \
-		echo "\t$$flag" ; \
-	done
-	@echo "\nFigures...\n"
-	@for test in $(notdir $(FIG_FILES)); do \
-		echo "\t$$test" ; \
-	done
-	@echo "\nExercises...\n"
-	@for ex in $(notdir $(EXR_FILES)); do \
-		echo "\t$$ex" ; \
-	done
-	@echo "\nTests...\n"
-	@for test in $(notdir $(TST_FILES)); do \
-		echo "\t$$test" ; \
-	done
-	@echo
+ifeq (, $(filter $(CLEAN_FLAG), $(MAKECMDGOALS)))
+$(GCOV_FLAG): __run_all_files __gcov __gcovr_html
+$(GCOV_XML_FLAG): $(GCOV_FLAG) __gcovr_xml
+else
+$(GCOV_FLAG) $(GCOV_XML_FLAG):
+	@:
+endif
 
-define BANNER
+__create_build_log:
+	@if [ -f "$(BUILD_LOG)" ]; then \
+		rm $(BUILD_LOG); \
+	fi
+	touch $(BUILD_LOG)
 
-   ____ _                 _               ___  
-  / ___| |__   __ _ _ __ | |_ ___ _ __   / _ \ 
- | |   | '_ \ / _` | '_ \| __/ _ \ '__| | (_) |
- | |___| | | | (_| | |_) | ||  __/ |     \__, |
-  \____|_| |_|\__,_| .__/ \__\___|_|       /_/ 
-                   |_|                         
+__run_all_files:
+	@echo -n "\n  Running all exercises..."
+	@for test_exe in $(addprefix $(BIN_DIR)/,$(TESTS)); do \
+		export GTEST_OUTPUT="xml:$(addsuffix .xml, $$test_exe)"; \
+		echo "\n$$test_exe" >> $(BUILD_LOG); \
+		$$test_exe >> $(BUILD_LOG) 2>&1; \
+	done
+	@echo "done!"
 
-          $(CURR_DATE)
+__gcov:
+	@echo -n "\n  Running gcov..."
+	@for src_file in $(EXR_FILES); do \
+		gcov $$src_file --no-output --demangled-names --relative-only --object-directory $(OBJ_DIR) >> $(BUILD_LOG) 2>&1; \
+	done
+	@echo "done!"
 
-endef
+__gcovr_xml:
+	@echo -n "  Creating xml test coverage report: $(GCOVR_XML_FILE)..."
+	@gcovr -r . --xml --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_XML_FILE) >> $(BUILD_LOG) 2>&1
+	@echo "done!\n"
+
+__gcovr_html:
+	@echo -n "\n  Creating html test coverage report: $(GCOVR_HTML_FILE)..."
+	@gcovr -r . --html --html-details --exclude=$(FIG_DIR) --exclude=$(TST_DIR) --exclude=$(GOOGLE_TEST_HOME_DIR) --sort-percentage --output=$(GCOVR_HTML_FILE) >> $(BUILD_LOG) 2>&1
+	@echo "done!\n"
 
 __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
 $(CLEAN_FLAG):
-	@echo 
+	@echo
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
-	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS)
+	@rm -f $(OBJ_FILES) $(BIN_FILES) $(DEPS) $(BUILD_LOG) $(CURDIR)/*.html $(GCOV_FILES) $(CURDIR)/*.gcov $(GTEST_XML_FILES)
 
 $(EXTRA_CLEAN_FLAG): $(CLEAN_FLAG)
 	@rm -Rf  $(OUT_DIR)

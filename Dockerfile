@@ -12,7 +12,8 @@ ARG gid
 RUN apk upgrade && apk update
 RUN apk add make \
     gcovr \
-    g++
+    g++ \
+    git
 
 # Create user and group
 RUN addgroup -S -g ${gid} ${group}

@@ -53,11 +53,34 @@ OUT_DIRS = $(GOOGLE_TEST_OBJ_DIR) \
 
 MKDIR_P  = mkdir -p
 
-jenkins:
-	@docker-compose --file docker-jenkins.yml up --detach --remove-orphans
+GIT_BRANCH := $(shell git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+JENKINS_URL = localhost:8080
+API_TOKEN   = 111491eb2c3325d939c3e87a25dabd59a7
+USER_NAME   = mtrdazzo
+MANAL_TOKEN = MANUAL_BUILD
+PIPELINE    = Manual%20Build
 
-stop-jenkins:
+.FORCE:
+
+# Start jenkins server
+jenkins: .FORCE
+	@docker-compose --file Jenkins/docker-jenkins.yml up --detach --remove-orphans
+
+# Stop jenkins server
+stop-jenkins: .FORCE
 	@if docker ps -a | grep jenkins-server; then \
 		docker stop jenkins-server; \
 		docker rm --force jenkins-server; \
 	fi
+
+pipeline: .FORCE
+	@curl -X POST "http://$(USER_NAME):$(API_TOKEN)@$(JENKINS_URL)/job/Deitel/job/$(PIPELINE)/buildWithParameters?token=$(MANAL_TOKEN)&BRANCH_NAME=$(GIT_BRANCH)"
+
+image: .FORCE
+	@echo "\nCreating build image...\n"
+	@export gid=$(shell id -g); \
+	export uid=$(shell id -u); \
+	docker-compose build deitel-image
+	@echo "done!\n"
+
+PHONY: .FORCE

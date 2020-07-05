@@ -1,0 +1,76 @@
+pipeline {
+
+    agent { label 'master' }
+
+    environment {
+        DOCKER_IMAGE_TAG = "deitel:alpine"
+        BRANCH_FOLDER    = "${BRANCH_NAME.split('/')[-1]}"
+        SOURCE_DIR       = "\"/var/jenkins_home/workspace/${JOB_NAME}/${BRANCH_FOLDER}\""
+        COVERAGE_FILE    = "\${FILE, path=\"${BRANCH_FOLDER}/coverage.html\"}"
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                sh "make image"
+            }
+        }
+        stage('Build Source') {
+            steps {
+                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
+            }
+            post {
+                success {
+                    step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
+                    xunit (
+                            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                            tools: [ GoogleTest(pattern: '**/out/release/bin/*.xml') ])
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                if (currentBuild.currentResult == "SUCCESS") {
+                    IMAGE_HTML    = '<img alt="Jenkins Logo" src="https://www.jenkins.io/images/logos/jenkins/256.png" width="180" height="250" style="float: left;" />'
+                    CODE_COVERAGE = '<br> &emsp; <a href="${BUILD_URL}/cobertura"> Code Coverage </a> <br>'
+                    TEST_RESULTS  = '<br> &emsp; <a href="${JOB_URL}/test_results_analyzer"> Test Results </a> <br>'
+                }
+                else {
+                    IMAGE_HTML    = '<img alt="Jenkins Fire" src="https://www.jenkins.io/images/logos/fire/256.png" width="214" height="250" style="float: left;" />'
+                    CODE_COVERAGE = ""
+                    TEST_RESULTS  = ""
+                }
+                BUILD_TIME = currentBuild.durationString.minus(" and counting")
+                PIPELINE_STATUS = currentBuild.currentResult.substring(0,1) + currentBuild.currentResult.substring(1).toLowerCase()
+            }
+            emailext mimeType: 'text/html',
+                body: "<!DOCTYPE html> \
+                        <html> \
+                        <body> \
+                        <p style='width: 500px;'> \
+                        ${IMAGE_HTML} \
+                        <br> <br> &emsp; <strong> <font size='+3'> Build ${PIPELINE_STATUS}! </font> </strong>\
+                        <br> &emsp; ${BUILD_TIMESTAMP} <br> \
+                        <br> &emsp; Build Duration: ${BUILD_TIME} <br> \
+                        <br> &emsp; <a href='${BUILD_URL}/console'> Build Log </a> <br> \
+                        ${CODE_COVERAGE} \
+                        ${TEST_RESULTS} \
+                        </body> \
+                        </html> \
+                        ",
+                attachLog: true,
+                to: 'jenkinshudson@yahoo.com',
+                recipientProviders: [[$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${PIPELINE_STATUS}: ${env.JOB_NAME}:${env.BUILD_NUMBER}"
+
+            cleanWs();
+        }
+    }
+}
