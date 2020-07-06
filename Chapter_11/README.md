@@ -21,3 +21,8 @@ State whether each of the following is *true* or *false*. If *false*, explain wh
 1. A direct base class is the one from which a derived class explicitly inherits. **True** <br><br>
 1. A base class's public members are accessible only within the base class or from its friends. <br><br>**False** private members are onlye accessible from within the base class and its friends.<br><br>
 1. When deriving a class with **protected** inheritance, public and protected members of the base class become protected members of the derived class.  **True** <br><br>
+
+### Exercise 11-3
+* Rewrites class BasePlusCommissionEmployee and CommissionEmployee without inheritence to stress the importance of inheritance
+* Inheritance offers much less code maintenance and is less error-prone than this "copy and paste" approach
+* Copy and past may be easier at first, but when making a change to one class, I eventually had to do the same with the other class
