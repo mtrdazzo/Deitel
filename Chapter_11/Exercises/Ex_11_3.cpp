@@ -39,7 +39,7 @@ CommissionEmployee::CommissionEmployee(const std::string& first,
  */
 void CommissionEmployee::setFirstName(const std::string& first) {
     if (!first.length())
-        throw std::invalid_argument("invalid first name");
+        throw std::invalid_argument("empty first name");
     else if (first.length() > MAX_INPUT_LENGTH)
         firstName = first.substr(0, MAX_INPUT_LENGTH);
     else
@@ -62,7 +62,7 @@ std::string CommissionEmployee::getFirstName() const {
  */
 void CommissionEmployee::setLastName(const std::string& last) {
     if (!last.length())
-        throw std::invalid_argument("invalid last name");
+        throw std::invalid_argument("empty last name");
     else if (last.length() > MAX_INPUT_LENGTH)
         lastName = last.substr(0, MAX_INPUT_LENGTH);
     else
@@ -85,7 +85,7 @@ std::string CommissionEmployee::getLastName() const {
  */
 void CommissionEmployee::setSocialSecurityNumber(const std::string &ssn) {
     if (ssn.length() != SSN_LENGTH)
-        throw std::invalid_argument("invalid ssn");
+        throw std::invalid_argument("invalid ssn, must be nine digits");
     socialSecurityNumber = ssn;
 }
 
@@ -189,7 +189,7 @@ BasePlusCommissionEmployee::BasePlusCommissionEmployee(const std::string& first,
  */
 void BasePlusCommissionEmployee::setFirstName(const std::string& first) {
     if (!first.length())
-        throw std::invalid_argument("invalid first name");
+        throw std::invalid_argument("empty first name");
     else if (first.length() > MAX_INPUT_LENGTH)
         firstName = first.substr(0, MAX_INPUT_LENGTH);
     else
@@ -212,7 +212,7 @@ std::string BasePlusCommissionEmployee::getFirstName() const {
  */
 void BasePlusCommissionEmployee::setLastName(const std::string& last) {
     if (!last.length())
-        throw std::invalid_argument("invalid last name");
+        throw std::invalid_argument("empty last name");
     else if (last.length() > MAX_INPUT_LENGTH)
         lastName = last.substr(0, MAX_INPUT_LENGTH);
     else
@@ -235,7 +235,12 @@ std::string BasePlusCommissionEmployee::getLastName() const {
  */
 void BasePlusCommissionEmployee::setSocialSecurityNumber(const std::string &ssn) {
     if (ssn.length() != SSN_LENGTH)
-        throw std::invalid_argument("invalid ssn");
+        throw std::invalid_argument("invalid ssn, must be nine digits");
+    else {
+        for (size_t index{0}; index < SSN_LENGTH; ++index)
+            if (!std::isalpha(ssn.at(index)))
+                throw std::invalid_argument("invalid ssn, must be nine digits");
+    }
     socialSecurityNumber = ssn;
 }
 
