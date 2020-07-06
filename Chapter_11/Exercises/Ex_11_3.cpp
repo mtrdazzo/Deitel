@@ -84,8 +84,15 @@ std::string CommissionEmployee::getLastName() const {
  * @param ssn 9 digit social security number
  */
 void CommissionEmployee::setSocialSecurityNumber(const std::string &ssn) {
-    if (ssn.length() != SSN_LENGTH)
+    if (ssn.length() != SSN_LENGTH) {
         throw std::invalid_argument("invalid ssn, must be nine digits");
+    }
+    else {
+        for (size_t index{0}; index < SSN_LENGTH; ++index)
+            if (!std::isdigit(ssn.at(index))) {
+                throw std::invalid_argument("invalid ssn, must be nine digits");
+            }
+    }
     socialSecurityNumber = ssn;
 }
 
@@ -234,14 +241,15 @@ std::string BasePlusCommissionEmployee::getLastName() const {
  * @param ssn 9 digit social security number
  */
 void BasePlusCommissionEmployee::setSocialSecurityNumber(const std::string &ssn) {
-    if (ssn.length() != SSN_LENGTH)
+    if (ssn.length() != SSN_LENGTH) {
         throw std::invalid_argument("invalid ssn, must be nine digits");
+    }
     else {
         for (size_t index{0}; index < SSN_LENGTH; ++index)
-            if (!std::isalpha(ssn.at(index)))
+            if (!std::isdigit(ssn.at(index))) {
                 throw std::invalid_argument("invalid ssn, must be nine digits");
+            }
     }
-    socialSecurityNumber = ssn;
 }
 
 /**
@@ -325,7 +333,7 @@ double BasePlusCommissionEmployee::earnings() const {
  */
 void BasePlusCommissionEmployee::setBaseSalary(double base) {
     if (base <= 0.0)
-        throw std::invalid_argument("base salaray must be >= 0.0");
+        throw std::invalid_argument("base salary must be >= 0.0");
     baseSalary = base;
 }
 

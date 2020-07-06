@@ -63,4 +63,88 @@ TEST(CommissionEmployee, Constructor) {
         EXPECT_STREQ(err.what(), "gross sales must be >= 0.0");
     }
 
+    /* Invalid rate */
+    try {
+        CommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 0.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "commission rate must be > 0.0 and < 1.0");
+    }
+
+    try {
+        CommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 1.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "commission rate must be > 0.0 and < 1.0");
+    }
+}
+
+TEST(BasePlusCommissionEmployee, Constructor) {
+
+    /* Sunny Day scenario */
+    BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 5000, 0.25, 1000};
+
+    /* empty first name */
+    try {
+        BasePlusCommissionEmployee ce{"", "Doe", "123456789", 1.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "empty first name");
+    }
+
+    /* empty last name */
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "", "123456789", 1.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "empty last name");
+    }
+
+    /* invalid ssn */
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "12345678", 1.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
+
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "1234567890", 1.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
+
+    // try {
+    //     BasePlusCommissionEmployee ce{"Jon", "Doe", "12-456789", 1.0, 0.25, 1000};
+    // } catch (std::invalid_argument & err) {
+    //     EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    // }
+
+    /* Invalid gross sales */
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 0.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "gross sales must be >= 0.0");
+    }
+
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", -0.1, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "gross sales must be >= 0.0");
+    }
+
+    /* Invalid rate */
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 0.0, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "commission rate must be > 0.0 and < 1.0");
+    }
+
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 1.0, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "commission rate must be > 0.0 and < 1.0");
+    }
+
+    /* Invalid base pay */
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 0.5, 0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "base salary must be >= 0.0");
+    }
 }
