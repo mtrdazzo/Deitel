@@ -3,8 +3,7 @@
         {
             "name": "Deitel",
             "includePath": [
-                "${workspaceFolder}/Chapter_9/Exercises",
-                "${workspaceFolder}/Chapter_10/Exercises",
+                "${workspaceFolder}/**",
                 "${workspaceFolder}/googletest/googletest/include"
             ],
             "defines": [
