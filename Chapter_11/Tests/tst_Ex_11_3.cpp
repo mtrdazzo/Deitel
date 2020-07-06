@@ -79,18 +79,21 @@ TEST(CommissionEmployee, Constructor) {
 
 TEST(CommissionEmployee, GettersSetters) {
 
-    /* First Name too long */
     std::string firstName{"JonNameThatsTooLong"};
+
     CommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 0.5};
     EXPECT_EQ(ce.getFirstName(), "Jon");
 
+    /* First Name too long */
     ce.setFirstName(firstName);
     EXPECT_EQ(ce.getFirstName(), firstName.substr(0, MAX_INPUT_LENGTH));
 
+    /* Last Name too long */
     EXPECT_EQ(ce.getLastName(), "Doe");
     ce.setLastName(firstName);
     EXPECT_EQ(ce.getLastName(), firstName.substr(0, MAX_INPUT_LENGTH));
 
+    /* Getters */
     EXPECT_EQ(ce.getSocialSecurityNumber(), "123456789");
     EXPECT_EQ(ce.getGrossSales(), 1000);
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
@@ -172,21 +175,23 @@ TEST(BasePlusCommissionEmployee, Constructor) {
 
 TEST(BasePlusCommissionEmployee, GettersSetters) {
 
-    /* First Name too long */
     std::string firstName{"JonNameThatsTooLong"};
     BasePlusCommissionEmployee ce{"Jon", "Doe", "123456789", 1000, 0.5, 1000};
     EXPECT_EQ(ce.getFirstName(), "Jon");
 
+    /* First Name too long */
     ce.setFirstName(firstName);
     EXPECT_EQ(ce.getFirstName(), firstName.substr(0, MAX_INPUT_LENGTH));
 
+    /* Last Name too long */
     EXPECT_EQ(ce.getLastName(), "Doe");
     ce.setLastName(firstName);
     EXPECT_EQ(ce.getLastName(), firstName.substr(0, MAX_INPUT_LENGTH));
 
+    /* Getters */
     EXPECT_EQ(ce.getSocialSecurityNumber(), "123456789");
     EXPECT_EQ(ce.getGrossSales(), 1000);
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
-
+    EXPECT_EQ(ce.getBaseSalary(), 1000);
     EXPECT_EQ(ce.earnings(), 1000 * 0.5 + 1000);
 }
