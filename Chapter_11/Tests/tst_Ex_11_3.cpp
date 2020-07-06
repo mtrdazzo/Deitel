@@ -99,6 +99,15 @@ TEST(CommissionEmployee, GettersSetters) {
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
 
     EXPECT_EQ(ce.earnings(), 1000 * 0.5);
+
+    std::ostringstream outputExepected;
+    outputExepected << std::fixed << std::setprecision(2);
+    outputExepected << "commission employee: " + ce.getFirstName() + " " + ce.getLastName() + '\n';
+    outputExepected << "social security number: " << ce.getSocialSecurityNumber() << '\n';
+    outputExepected << "gross sales: " << ce.getGrossSales() << '\n';
+    outputExepected << "commission rate: " << ce.getCommissionRate();
+
+    EXPECT_EQ(outputExepected.str(), ce.toString());
 }
 
 TEST(BasePlusCommissionEmployee, Constructor) {
@@ -194,4 +203,14 @@ TEST(BasePlusCommissionEmployee, GettersSetters) {
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
     EXPECT_EQ(ce.getBaseSalary(), 1000);
     EXPECT_EQ(ce.earnings(), 1000 * 0.5 + 1000);
+
+    std::ostringstream outputExepected;
+    outputExepected << std::fixed << std::setprecision(2);
+    outputExepected << "commission employee: " + ce.getFirstName() + " " + ce.getLastName() + '\n';
+    outputExepected << "social security number: " << ce.getSocialSecurityNumber() << '\n';
+    outputExepected << "gross sales: " << ce.getGrossSales() << '\n';
+    outputExepected << "commission rate: " << ce.getCommissionRate() << '\n';
+    outputExepected << "base salary: " << ce.getBaseSalary();
+
+    EXPECT_EQ(outputExepected.str(), ce.toString());
 }
