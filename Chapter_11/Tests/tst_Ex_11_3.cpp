@@ -94,6 +94,8 @@ TEST(CommissionEmployee, GettersSetters) {
     EXPECT_EQ(ce.getSocialSecurityNumber(), "123456789");
     EXPECT_EQ(ce.getGrossSales(), 1000);
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
+
+    EXPECT_EQ(ce.earnings(), 1000 * 0.5);
 }
 
 TEST(BasePlusCommissionEmployee, Constructor) {
@@ -128,11 +130,11 @@ TEST(BasePlusCommissionEmployee, Constructor) {
         EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
     }
 
-    // try {
-    //     BasePlusCommissionEmployee ce{"Jon", "Doe", "12-456789", 1.0, 0.25, 1000};
-    // } catch (std::invalid_argument & err) {
-    //     EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
-    // }
+    try {
+        BasePlusCommissionEmployee ce{"Jon", "Doe", "12-456789", 1.0, 0.25, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
 
     /* Invalid gross sales */
     try {
@@ -185,4 +187,6 @@ TEST(BasePlusCommissionEmployee, GettersSetters) {
     EXPECT_EQ(ce.getSocialSecurityNumber(), "123456789");
     EXPECT_EQ(ce.getGrossSales(), 1000);
     EXPECT_EQ(ce.getCommissionRate(), 0.5);
+
+    EXPECT_EQ(ce.earnings(), 1000 * 0.5 + 1000);
 }

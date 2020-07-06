@@ -166,7 +166,7 @@ std::string CommissionEmployee::toString() const {
  * @return double earnings in dollars
  */
 double CommissionEmployee::earnings() const {
-    return grossSales * (commissionRate / 100);
+    return grossSales * commissionRate;
 }
 
 /**
@@ -324,7 +324,7 @@ std::string BasePlusCommissionEmployee::toString() const {
  * @return double earnings in dollars
  */
 double BasePlusCommissionEmployee::earnings() const {
-    return baseSalary + grossSales * (commissionRate / 100);
+    return baseSalary + grossSales * commissionRate;
 }
 
 /**
