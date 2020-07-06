@@ -250,6 +250,7 @@ void BasePlusCommissionEmployee::setSocialSecurityNumber(const std::string &ssn)
                 throw std::invalid_argument("invalid ssn, must be nine digits");
             }
     }
+    socialSecurityNumber = ssn;
 }
 
 /**
