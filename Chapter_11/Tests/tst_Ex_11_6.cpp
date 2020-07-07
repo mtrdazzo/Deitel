@@ -14,6 +14,11 @@
 
 TEST(UndergraduateStudent, AllMethods) {
 
+    Student student_orig{"Jon", "Doe", 24, 8, 1988};
+    std::string expected = "Jon Doe";
+    expected += "\nAugust 24, 1988";
+    EXPECT_EQ(student_orig.toString(), expected);
+
     UndergraduateStudent student1{"Jon", "Doe", 24, 8, 1988};
     EXPECT_EQ(student1.getFirstName(), "Jon");
     EXPECT_EQ(student1.getLastName(), "Doe");
@@ -61,6 +66,10 @@ TEST(UndergraduateStudent, AllMethods) {
 
     /* valid day for leap year */
     UndergraduateStudent student{"Jon", "Doe", 29, 2, 2000};
+    expected = "Jon Doe";
+    expected += "\nFebruary 29, 2000";
+    expected += "\nUser ID: " + student.getID();
+    EXPECT_EQ(student.toString(), expected);
 
     /* Invalid day of leap year */
     try {

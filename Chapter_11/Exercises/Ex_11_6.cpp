@@ -137,6 +137,19 @@ void Student::setLastName(std::string _lastName) {
 }
 
 /**
+ * @brief Output the student information to a string
+ * 
+ * @return std::string 
+ */
+std::string Student::toString() const {
+    std::ostringstream output;
+    output << firstName + " " + lastName + '\n';
+    output << dateOfBirth.toString();
+
+    return output.str();
+}
+
+/**
  * @brief Construct a new Undergraduate Student:: Undergraduate Student object
  * 
  * @param firstName 
@@ -157,4 +170,16 @@ UndergraduateStudent::UndergraduateStudent(std::string firstName, std::string la
 void UndergraduateStudent::_createID() {
     srand(static_cast<unsigned int>(time(0)));
     id = "U" + std::to_string(10000 + rand() / 10000);
+}
+
+/**
+ * @brief Output the undergraduate student information to a string
+ * 
+ * @return std::string 
+ */
+std::string UndergraduateStudent::toString() const {
+    std::ostringstream output;
+    output << Student::toString();
+    output << "\nUser ID: " + id;
+    return output.str();
 }

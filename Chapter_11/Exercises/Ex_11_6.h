@@ -162,7 +162,7 @@ class Student {
          * 
          * @return std::string 
          */
-        std::string toString();
+        std::string toString() const;
 
     private:
         std::string firstName;
@@ -182,9 +182,21 @@ class UndergraduateStudent : public Student {
          */
         UndergraduateStudent(std::string, std::string, int, int, int);
 
+        /**
+         * @brief Get the student ID
+         * 
+         * @return std::string 
+         */
         std::string getID() {
             return id;
         }
+
+        /**
+         * @brief Output the undergraduate student information
+         * 
+         * @return std::string 
+         */
+        std::string toString() const;
 
     private:
         void _createID();
