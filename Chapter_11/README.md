@@ -26,3 +26,12 @@ State whether each of the following is *true* or *false*. If *false*, explain wh
 * Rewrites class BasePlusCommissionEmployee and CommissionEmployee without inheritence to stress the importance of inheritance
 * Inheritance offers much less code maintenance and is less error-prone than this "copy and paste" approach
 * Copy and past may be easier at first, but when making a change to one class, I eventually had to do the same with the other class
+
+### Exercise 11-4
+Distinguish between an *is-a* relationship and a *has-a* relationship.
+An *is-a* relationship represents inheritance where an object of a derived class is also an object of its base class. The *has-a* relationship represents composition where an object has certain characteristics.
+### Exercise 11-5
+Some programmers prefer not to use <code>protected</code> access because they believe it breaks the encapsulation of the base class. Discuss the relative merits of using <code>protected</code> access vs. using <code>private</code> access in base classes.
+* Using protected access would be more efficient code, since derived classes could access bbase class variables directly rather than using *getter* functions
+    * However these optimizations could also be accomplished through compiler optimizations without breaking encapsulation
+* Using private variables limits the amount the derived class depends on the base class implementation. With encapsulation, changing the base class would not result in needing to change subsequent derived classes.
