@@ -84,8 +84,8 @@ TEST(UndergraduateStudent, AllMethods) {
 
     /* Invalid year */
     try {
-        UndergraduateStudent student{"Jon", "Doe", 28, 0, 0};
+        UndergraduateStudent student{"Jon", "Doe", 28, 10, 0};
     } catch (std::invalid_argument & err) {
-        EXPECT_STREQ(err.what(), "invalid month");
+        EXPECT_STREQ(err.what(), "invalid year");
     }
 }
