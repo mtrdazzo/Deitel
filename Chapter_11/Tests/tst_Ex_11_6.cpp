@@ -61,4 +61,31 @@ TEST(UndergraduateStudent, AllMethods) {
 
     /* valid day for leap year */
     UndergraduateStudent student{"Jon", "Doe", 29, 2, 2000};
+
+    /* Invalid day of leap year */
+    try {
+        UndergraduateStudent student{"Jon", "Doe", 30, 2, 2000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid day of month");
+    }
+
+    /* Invalid month */
+    try {
+        UndergraduateStudent student{"Jon", "Doe", 28, 0, 2000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid month");
+    }
+    /* Invalid month */
+    try {
+        UndergraduateStudent student{"Jon", "Doe", 28, 13, 2000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid month");
+    }
+
+    /* Invalid year */
+    try {
+        UndergraduateStudent student{"Jon", "Doe", 28, 0, 0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid month");
+    }
 }
