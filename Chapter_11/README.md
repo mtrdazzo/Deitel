@@ -35,3 +35,7 @@ Some programmers prefer not to use <code>protected</code> access because they be
 * Using protected access would be more efficient code, since derived classes could access bbase class variables directly rather than using *getter* functions
     * However these optimizations could also be accomplished through compiler optimizations without breaking encapsulation
 * Using private variables limits the amount the derived class depends on the base class implementation. With encapsulation, changing the base class would not result in needing to change subsequent derived classes.
+### Exercise 11-6
+* Created an inheritance hierarchy to show the relationship between Undergraduate and Graduate students
+* <code>Student</code> is the base class for which all <code>UndergraduteStudent</code> and <code>GraduateStudent</code> derive from
+* <code>Freshman</code>, <code>Sophomore</code>, <code>Junior</code>, and <code>Senior</code> derive from <code>UndergraduateStudent</code> and <code>MastersStudent</code> and <code>DoctorateStudent</code> derive from <code>GraduateStudent</code>
