@@ -183,3 +183,62 @@ std::string UndergraduateStudent::toString() const {
     output << "\nUser ID: " + id;
     return output.str();
 }
+
+/**
+ * @brief Construct a new Graduate Student:: GraduateStudent Student object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+GraduateStudent::GraduateStudent(std::string firstName, std::string lastName, int day, int month, int year) :
+        Student(firstName, lastName, day, month, year) {
+            _createID();
+}
+
+/**
+ * @brief Create Undergraduate ID
+ * 
+ */
+void GraduateStudent::_createID() {
+    srand(static_cast<unsigned int>(time(0)));
+    id = "G" + std::to_string(10000 + rand() / 10000);
+}
+
+/**
+ * @brief Output the graduate student information to a string
+ * 
+ * @return std::string 
+ */
+std::string GraduateStudent::toString() const {
+    std::ostringstream output;
+    output << Student::toString();
+    output << "\nUser ID: " + id;
+    return output.str();
+}
+
+/**
+ * @brief Construct a new Masters Student:: Masters Student object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+MastersStudent::MastersStudent(std::string firstName, std::string lastName, int day, int month, int year) :
+        GraduateStudent(firstName, lastName, day, month, year) {}
+
+/**
+ * @brief Construct a new Doctoral Student:: Doctoral Student object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+DoctoralStudent::DoctoralStudent(std::string firstName, std::string lastName, int day, int month, int year) :
+        GraduateStudent(firstName, lastName, day, month, year) {}

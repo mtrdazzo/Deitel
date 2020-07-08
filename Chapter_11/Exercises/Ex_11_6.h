@@ -204,4 +204,57 @@ class UndergraduateStudent : public Student {
         std::string id;
 };
 
+class GraduateStudent : public Student {
+
+    public:
+        /**
+         * @brief Construct a new Undergraduate Student object
+         * 
+         */
+        GraduateStudent(std::string, std::string, int, int, int);
+
+        /**
+         * @brief Get the student ID
+         * 
+         * @return std::string 
+         */
+        std::string getID() {
+            return id;
+        }
+
+        /**
+         * @brief Output the undergraduate student information
+         * 
+         * @return std::string 
+         */
+        std::string toString() const;
+
+    private:
+        void _createID();
+
+        std::string id;
+};
+
+class DoctoralStudent : public GraduateStudent {
+
+    public:
+        /**
+         * @brief Construct a new Doctoral Student object
+         * 
+         */
+        DoctoralStudent(std::string, std::string, int, int, int);
+
+};
+
+class MastersStudent : public GraduateStudent {
+
+    public:
+        /**
+         * @brief Construct a new Masters Student object
+         * 
+         */
+        MastersStudent(std::string, std::string, int, int, int);
+
+};
+
 #endif
