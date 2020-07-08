@@ -157,10 +157,23 @@ std::string Student::toString() const {
  * @param day 
  * @param month 
  * @param year 
+ * @param studentYear
  */
-UndergraduateStudent::UndergraduateStudent(std::string firstName, std::string lastName, int day, int month, int year) :
+UndergraduateStudent::UndergraduateStudent(std::string firstName, std::string lastName, int day, int month, int year, int studentYear) :
         Student(firstName, lastName, day, month, year) {
+            setStudentYear(studentYear);
             _createID();
+}
+
+/**
+ * @brief Set the year of the student
+ * 
+ * @param year 
+ */
+void UndergraduateStudent::setStudentYear(int year) {
+    if (year <= 0)
+        throw std::invalid_argument("invalid student year");
+    studentYear = year;
 }
 
 /**
@@ -180,9 +193,58 @@ void UndergraduateStudent::_createID() {
 std::string UndergraduateStudent::toString() const {
     std::ostringstream output;
     output << Student::toString();
-    output << "\nUser ID: " + id;
+    output << "\nUser ID: " << id;
+    output << "\nYear: " << studentYear;
     return output.str();
 }
+
+/**
+ * @brief Construct a new Freshman:: Freshman object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+Freshman::Freshman(std::string firstName, std::string lastName, int day, int month, int year) :
+    UndergraduateStudent(firstName, lastName, day, month, year, FRESHMAN_YEAR) {}
+
+/**
+ * @brief Construct a new Sophomore:: Sophomore object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+Sophomore::Sophomore(std::string firstName, std::string lastName, int day, int month, int year) :
+    UndergraduateStudent(firstName, lastName, day, month, year, SOPHOMORE_YEAR) {}
+
+/**
+ * @brief Construct a new Junior:: Junior object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+Junior::Junior(std::string firstName, std::string lastName, int day, int month, int year) :
+    UndergraduateStudent(firstName, lastName, day, month, year, JUNIOR_YEAR) {}
+
+/**
+ * @brief Construct a new Senior:: Senior object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param day 
+ * @param month 
+ * @param year 
+ */
+Senior::Senior(std::string firstName, std::string lastName, int day, int month, int year) :
+    UndergraduateStudent(firstName, lastName, day, month, year, SENIOR_YEAR) {}
 
 /**
  * @brief Construct a new Graduate Student:: GraduateStudent Student object

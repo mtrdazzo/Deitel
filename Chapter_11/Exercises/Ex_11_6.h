@@ -20,6 +20,11 @@
 
 #include <string>
 
+#define FRESHMAN_YEAR 1
+#define SOPHOMORE_YEAR 2
+#define JUNIOR_YEAR 3
+#define SENIOR_YEAR 4
+
 class DOB {
 
     public:
@@ -180,7 +185,7 @@ class UndergraduateStudent : public Student {
          * @brief Construct a new Undergraduate Student object
          * 
          */
-        UndergraduateStudent(std::string, std::string, int, int, int);
+        UndergraduateStudent(std::string, std::string, int, int, int, int);
 
         /**
          * @brief Get the student ID
@@ -198,10 +203,46 @@ class UndergraduateStudent : public Student {
          */
         std::string toString() const;
 
+        /**
+         * @brief Get the Student Year
+         * 
+         * @return int 
+         */
+        int getStudentYear() const {
+            return studentYear;
+        }
+
+        /**
+         * @brief Set the Student Year
+         * 
+         */
+        void setStudentYear(int);
+
     private:
         void _createID();
 
+        int studentYear;
         std::string id;
+};
+
+class Freshman : public UndergraduateStudent {
+    public:
+        Freshman(std::string, std::string, int, int, int);
+};
+
+class Sophomore : public UndergraduateStudent {
+    public:
+        Sophomore(std::string, std::string, int, int, int);
+};
+
+class Junior : public UndergraduateStudent {
+    public:
+        Junior(std::string, std::string, int, int, int);
+};
+
+class Senior : public UndergraduateStudent {
+    public:
+        Senior(std::string, std::string, int, int, int);
 };
 
 class GraduateStudent : public Student {
