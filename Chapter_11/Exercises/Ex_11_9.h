@@ -20,8 +20,11 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 class Address {
+
+    friend std::ostream& operator<<(std::ostream&, const Address &);
 
     public:
         /**
@@ -168,6 +171,79 @@ class Address {
 
 class Package {
 
+    public:
+        /**
+         * @brief Construct a new Package object
+         * 
+         */
+        Package(Address &, Address &, int, float);
+
+        /**
+         * @brief Set the Weight in ounces
+         * 
+         */
+        void setWeight(int);
+
+        /**
+         * @brief Get the Weight in ounces
+         * 
+         * @return int 
+         */
+        int getWeight() const {
+            return weight;
+        }
+
+        /**
+         * @brief Set the cost per ounce
+         * 
+         * @param cost 
+         */
+        void setCost(double cost);
+
+        /**
+         * @brief Get the cost per ounce
+         * 
+         * @return double 
+         */
+        double getCost() const {
+            return costPerOunce;
+        }
+
+        /**
+         * @brief Get the recipient
+         * 
+         */
+        const Address & getRecipient() const {
+            return recipient;
+        }
+
+        /**
+         * @brief Get the sender
+         * 
+         */
+        const Address & getSender() const {
+            return sender;
+        }
+
+        /**
+         * @brief Calculate the cost of the package
+         * 
+         * @return double 
+         */
+        double calculateCost() const;
+
+        /**
+         * @brief Output the package information
+         * 
+         * @return std::string 
+         */
+        std::string toString() const;
+
+    private:
+        Address recipient;
+        Address sender;
+        int weight;        /* weight in ounces */
+        double costPerOunce;
 };
 
 class TwoDayPackage : public Package {

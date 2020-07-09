@@ -16,7 +16,7 @@
  * @brief Test functionality of the Address class
  * 
  */
-TEST(AddressClass, Constructor) {
+TEST(AddressClass, AllMethods) {
 
     Address sample{"Jon Doe", 1234, "Fake St.", "San Diego", "CA", 93456};
     EXPECT_EQ(sample.getPersonName(), "Jon Doe");
@@ -25,6 +25,12 @@ TEST(AddressClass, Constructor) {
     EXPECT_EQ(sample.getCityName(), "San Diego");
     EXPECT_EQ(sample.getStateName(), "CA");
     EXPECT_EQ(sample.getZipCode(), 93456);
+
+    std::string expected = sample.getPersonName();
+    expected += "\n" + std::to_string(sample.getStreetNumber()) + " " + sample.getStreetName();
+    expected += "\n" + sample.getCityName() + ", " + sample.getStateName();
+    expected += "\n" + std::to_string(sample.getZipCode());
+    EXPECT_EQ(sample.toString(), expected);
 
     try {
         Address sample_failure{"", 1234, "Fake St.", "San Diego", "CA", 93456};
@@ -61,4 +67,35 @@ TEST(AddressClass, Constructor) {
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid zip code");
     }
+}
+
+/**
+ * @brief Test functionality of the Package class
+ * 
+ */
+TEST(PackageClass, AllMethods) {
+
+    Address sender{"Jon Doe", 1234, "Fake St.", "San Diego", "CA", 93456};
+    Address recipient{"Jane Doe", 2222, "Real St.", "Tuscon", "AZ", 91111};
+
+    Package examplePackage{recipient, sender, 10, 3.0};
+
+    EXPECT_EQ(examplePackage.getCost(), 3.0);
+    EXPECT_EQ(examplePackage.getWeight(), 10);
+
+    /* get recipient information */
+    EXPECT_EQ(examplePackage.getRecipient().getPersonName(), "Jane Doe");
+    EXPECT_EQ(examplePackage.getRecipient().getStreetNumber(), 2222);
+    EXPECT_EQ(examplePackage.getRecipient().getStreetName(), "Real St.");
+    EXPECT_EQ(examplePackage.getRecipient().getCityName(), "Tuscon");
+    EXPECT_EQ(examplePackage.getRecipient().getStateName(), "AZ");
+    EXPECT_EQ(examplePackage.getRecipient().getZipCode(), 91111);
+
+    /* get sender information */
+    EXPECT_EQ(examplePackage.getSender().getPersonName(), "Jon Doe");
+    EXPECT_EQ(examplePackage.getSender().getStreetNumber(), 1234);
+    EXPECT_EQ(examplePackage.getSender().getStreetName(), "Fake St.");
+    EXPECT_EQ(examplePackage.getSender().getCityName(), "San Diego");
+    EXPECT_EQ(examplePackage.getSender().getStateName(), "CA");
+    EXPECT_EQ(examplePackage.getSender().getZipCode(), 93456);
 }
