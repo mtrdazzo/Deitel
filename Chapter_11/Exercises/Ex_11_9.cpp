@@ -100,6 +100,18 @@ double Package::calculateCost() const {
 }
 
 /**
+ * @brief Send package information to a stream
+ * 
+ * @param output output stream
+ * @param p Package
+ * @return std::ostream& 
+ */
+std::ostream& operator<<(std::ostream& output, const Package &p) {
+    output << p.toString();
+    return output;
+}
+
+/**
  * @brief Output the package information
  * 
  * @return std::string 
@@ -107,10 +119,10 @@ double Package::calculateCost() const {
 std::string Package::toString() const {
     std::ostringstream output;
     output << std::fixed << std::setprecision(2);
-    output << "TO:\n" << sender << "\n";
-    output << "FROM:\n" << recipient << "\n";
+    output << "To:\n" << recipient << "\n\n";
+    output << "From:\n" << sender << "\n\n";
     output << "Weight: " << weight << " oz\n";
-    output << "Cost: " << calculateCost();
+    output << "Cost: $" << calculateCost();
 
     return output.str();
 }

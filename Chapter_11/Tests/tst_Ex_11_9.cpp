@@ -9,6 +9,7 @@
  * 
  */
 
+#include <iomanip>
 #include <gtest/gtest.h>
 #include <Ex_11_9.h>
 
@@ -73,6 +74,7 @@ TEST(AddressClass, AllMethods) {
  * @brief Test functionality of the Package class
  * 
  */
+#include <iostream>
 TEST(PackageClass, AllMethods) {
 
     Address sender{"Jon Doe", 1234, "Fake St.", "San Diego", "CA", 93456};
@@ -82,6 +84,7 @@ TEST(PackageClass, AllMethods) {
 
     EXPECT_EQ(examplePackage.getCost(), 3.0);
     EXPECT_EQ(examplePackage.getWeight(), 10);
+    EXPECT_EQ(examplePackage.calculateCost(), 3.0 * 10);
 
     /* get recipient information */
     EXPECT_EQ(examplePackage.getRecipient().getPersonName(), "Jane Doe");
@@ -98,4 +101,21 @@ TEST(PackageClass, AllMethods) {
     EXPECT_EQ(examplePackage.getSender().getCityName(), "San Diego");
     EXPECT_EQ(examplePackage.getSender().getStateName(), "CA");
     EXPECT_EQ(examplePackage.getSender().getZipCode(), 93456);
+
+    std::ostringstream output;
+    output << "To:\n" << examplePackage.getRecipient().getPersonName() << "\n";
+    output << examplePackage.getRecipient().getStreetNumber() << " " << examplePackage.getRecipient().getStreetName() << "\n";
+    output << examplePackage.getRecipient().getCityName() << ", " << examplePackage.getRecipient().getStateName() << "\n";
+    output << examplePackage.getRecipient().getZipCode() << "\n\n";
+
+    output << "From:\n" << examplePackage.getSender().getPersonName() << "\n";
+    output << examplePackage.getSender().getStreetNumber() << " " << examplePackage.getSender().getStreetName() << "\n";
+    output << examplePackage.getSender().getCityName() << ", " << examplePackage.getSender().getStateName() << "\n";
+    output << examplePackage.getSender().getZipCode() << "\n\n";
+
+    output << "Weight: " << examplePackage.getWeight() << " oz\n";
+    output << std::fixed << std::setprecision(2);
+    output << "Cost: $" << examplePackage.calculateCost();
+
+    EXPECT_EQ(output.str(), examplePackage.toString());
 }
