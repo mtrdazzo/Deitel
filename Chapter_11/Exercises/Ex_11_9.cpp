@@ -126,3 +126,57 @@ std::string Package::toString() const {
 
     return output.str();
 }
+
+/**
+ * @brief Construct a new Two Day Package
+ * 
+ * @param _recipient 
+ * @param _sender 
+ * @param _weight 
+ * @param _costPerOunce 
+ * @param _flatFee 
+ */
+TwoDayPackage::TwoDayPackage(Address & _recipient, Address & _sender, int _weight, float _costPerOunce, float _flatFee) :
+    Package(_recipient, _sender, _weight, _costPerOunce) {
+        setFlatFee(_flatFee);
+}
+
+/**
+ * @brief Set the flat fee
+ * 
+ * @param _flatFee 
+ */
+void TwoDayPackage::setFlatFee(double _flatFee) {
+    if (_flatFee <= 0)
+        throw std::invalid_argument("invalid flat fee");
+    flatFee = _flatFee;
+}
+
+/**
+ * @brief Output TwoDayPackage information to a stream
+ * 
+ * @param output 
+ * @param package 
+ * @return std::ostream& 
+ */
+std::ostream& operator<<(std::ostream &output, const TwoDayPackage & package) {
+    output << package.toString();
+    return output;
+}
+
+/**
+ * @brief Output TwoDayPackage information to a string
+ * 
+ * @return std::string 
+ */
+std::string TwoDayPackage::toString() const {
+    std::ostringstream output;
+    output << std::fixed << std::setprecision(2);
+    output << "To:\n" << getRecipient() << "\n\n";
+    output << "From:\n" << getSender() << "\n\n";
+    output << "Weight: " << getWeight() << " oz\n";
+    output << "Cost: $" << calculateCost() << "\n";
+    output << "Flat fee: $" << getFlatFee();
+
+    return output.str();
+}

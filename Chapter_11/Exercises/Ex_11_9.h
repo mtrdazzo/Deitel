@@ -270,6 +270,50 @@ class Package {
 
 class TwoDayPackage : public Package {
 
+    friend std::ostream& operator<<(std::ostream&, const Package &);
+
+    public:
+
+        /**
+         * @brief Construct a new Two Day Package object
+         * 
+         */
+        TwoDayPackage(Address &, Address &, int, float, float);
+
+        /**
+         * @brief Set the Flat Fee
+         * 
+         */
+        void setFlatFee(double);
+
+        /**
+         * @brief Get the Flat Fee
+         * 
+         * @return double 
+         */
+        double getFlatFee() const {
+            return flatFee;
+        }
+
+        /**
+         * @brief Output the package information
+         * 
+         * @return std::string 
+         */
+        std::string toString() const;
+
+        /**
+         * @brief Calculate the cost of the package
+         * 
+         * @return double 
+         */
+        double calculateCost() const {
+            return Package::calculateCost() + flatFee;
+        }
+
+    private:
+        double flatFee;
+
 };
 
 class OvernightPackage : public Package {
