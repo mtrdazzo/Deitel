@@ -56,3 +56,11 @@ Package Inheritance Hierarchy
 * Class <code>TwoDayPackage</code> derives from <code>Package</code> and adds a flat-fee member that is incorporated into calculating cost
 * Class <code>OvernightPackage</code> derives from <code>Package</code> and adds an overnight fee per ounce incorporated into calculating cost
 * All classes contain a <code>toString()</code> member function, and friend function so the string representation can be output to a stream
+
+### Exercise 11-10
+Account Inheritance Hierarchy
+* Account base class represents a bank account with private member balance
+    * Contains public methods for <code>credit</code> (deposit), <code>debit</code> (withdraw), and <code>getBalance</code>
+    * If an amount is attempted to be debited that is larger than the amount "Debit amount exceeded account balance" is printed, and no amount is removed from the balance.
+    * Cannot credit values less than or equal to 0.0
+    * Cannot debit values less than or equal to 0.0
