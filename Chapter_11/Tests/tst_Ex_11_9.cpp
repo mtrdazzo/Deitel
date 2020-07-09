@@ -81,6 +81,20 @@ TEST(PackageClass, AllMethods) {
 
     Package examplePackage{recipient, sender, 10, 3.0};
 
+    /* invalid weight */
+    try {
+        Package failPackage{recipient, sender, 0, 3.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid weight");
+    }
+
+    /* invalid cost per ounce */
+    try {
+        Package failPackage{recipient, sender, 10, 0.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid cost per ounce");
+    }
+
     EXPECT_EQ(examplePackage.getCost(), 3.0);
     EXPECT_EQ(examplePackage.getWeight(), 10);
     EXPECT_EQ(examplePackage.calculateCost(), 3.0 * 10);
@@ -102,6 +116,9 @@ TEST(PackageClass, AllMethods) {
     EXPECT_EQ(examplePackage.getSender().getZipCode(), 93456);
 
     std::ostringstream output;
+    std::ostringstream actual;
+    actual << examplePackage;
+
     output << "To:\n" << examplePackage.getRecipient().getPersonName() << "\n";
     output << examplePackage.getRecipient().getStreetNumber() << " " << examplePackage.getRecipient().getStreetName() << "\n";
     output << examplePackage.getRecipient().getCityName() << ", " << examplePackage.getRecipient().getStateName() << "\n";
@@ -116,7 +133,7 @@ TEST(PackageClass, AllMethods) {
     output << std::fixed << std::setprecision(2);
     output << "Cost: $" << examplePackage.calculateCost();
 
-    EXPECT_EQ(output.str(), examplePackage.toString());
+    EXPECT_EQ(output.str(), actual.str());
 }
 
 /**
@@ -135,6 +152,21 @@ TEST(TwoDayPackageClass, AllMethods) {
     EXPECT_EQ(examplePackage.calculateCost(), 3.0 * 10 + 5.0);
     EXPECT_EQ(examplePackage.getFlatFee(), 5.0);
 
+    /* invalid weight */
+    try {
+        TwoDayPackage failPackage{recipient, sender, 0, 3.0, 5.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid weight");
+    }
+
+    /* invalid cost per ounce */
+    try {
+        TwoDayPackage failPackage{recipient, sender, 10, 0.0, 5.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid cost per ounce");
+    }
+
+    /* inavlid flat fee */
     try {
         TwoDayPackage failPackage{recipient, sender, 10, 3.0, 0.0};
     } catch (std::invalid_argument & err) {
@@ -173,6 +205,8 @@ TEST(TwoDayPackageClass, AllMethods) {
     output << "Cost: $" << examplePackage.calculateCost();
     output << "\nFlat fee: $" << examplePackage.getFlatFee();
 
-    EXPECT_EQ(output.str(), examplePackage.toString());
+    std::ostringstream actual;
+    actual << examplePackage;
+    EXPECT_EQ(output.str(), actual.str());
 }
 

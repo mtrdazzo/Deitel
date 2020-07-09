@@ -270,7 +270,7 @@ class Package {
 
 class TwoDayPackage : public Package {
 
-    friend std::ostream& operator<<(std::ostream&, const Package &);
+    friend std::ostream& operator<<(std::ostream&, const TwoDayPackage &);
 
     public:
 
