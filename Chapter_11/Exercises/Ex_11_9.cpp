@@ -180,3 +180,57 @@ std::string TwoDayPackage::toString() const {
 
     return output.str();
 }
+
+/**
+ * @brief Construct a new Overnight Package
+ * 
+ * @param _recipient 
+ * @param _sender 
+ * @param _weight 
+ * @param _costPerOunce 
+ * @param _overnightFee 
+ */
+OvernightPackage::OvernightPackage(Address & _recipient, Address & _sender, int _weight, float _costPerOunce, float _overnightFee) :
+    Package(_recipient, _sender, _weight, _costPerOunce) {
+        setOvernightFee(_overnightFee);
+}
+
+/**
+ * @brief Set the Overnight fee
+ * 
+ * @param _overnightFee 
+ */
+void OvernightPackage::setOvernightFee(double _overnightFee) {
+    if (_overnightFee <= 0)
+        throw std::invalid_argument("invalid flat fee");
+    overnightFee = _overnightFee;
+}
+
+/**
+ * @brief Output OvernightPackage information to a stream
+ * 
+ * @param output 
+ * @param package 
+ * @return std::ostream& 
+ */
+std::ostream& operator<<(std::ostream &output, const OvernightPackage & package) {
+    output << package.toString();
+    return output;
+}
+
+/**
+ * @brief Output OvernightPackage information to a string
+ * 
+ * @return std::string 
+ */
+std::string OvernightPackage::toString() const {
+    std::ostringstream output;
+    output << std::fixed << std::setprecision(2);
+    output << "To:\n" << getRecipient() << "\n\n";
+    output << "From:\n" << getSender() << "\n\n";
+    output << "Weight: " << getWeight() << " oz\n";
+    output << "Cost: $" << calculateCost() << "\n";
+    output << "Overnight fee: $" << getOvernightFee();
+
+    return output.str();
+}

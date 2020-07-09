@@ -210,3 +210,76 @@ TEST(TwoDayPackageClass, AllMethods) {
     EXPECT_EQ(output.str(), actual.str());
 }
 
+/**
+ * @brief Test functionality of the OvernightPackage class
+ * 
+ */
+TEST(OvernightPackageClass, AllMethods) {
+
+    Address sender{"Jon Doe", 1234, "Fake St.", "San Diego", "CA", 93456};
+    Address recipient{"Jane Doe", 2222, "Real St.", "Tuscon", "AZ", 91111};
+
+    OvernightPackage examplePackage{recipient, sender, 10, 3.0, 5.0};
+
+    EXPECT_EQ(examplePackage.getCost(), 3.0);
+    EXPECT_EQ(examplePackage.getWeight(), 10);
+    EXPECT_EQ(examplePackage.calculateCost(), 3.0 * 10 + 10 * 5.0);
+    EXPECT_EQ(examplePackage.getOvernightFee(), 5.0);
+
+    /* invalid weight */
+    try {
+        OvernightPackage failPackage{recipient, sender, 0, 3.0, 5.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid weight");
+    }
+
+    /* invalid cost per ounce */
+    try {
+        OvernightPackage failPackage{recipient, sender, 10, 0.0, 5.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid cost per ounce");
+    }
+
+    /* inavlid flat fee */
+    try {
+        OvernightPackage failPackage{recipient, sender, 10, 3.0, 0.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid flat fee");
+    }
+
+    /* get recipient information */
+    EXPECT_EQ(examplePackage.getRecipient().getPersonName(), "Jane Doe");
+    EXPECT_EQ(examplePackage.getRecipient().getStreetNumber(), 2222);
+    EXPECT_EQ(examplePackage.getRecipient().getStreetName(), "Real St.");
+    EXPECT_EQ(examplePackage.getRecipient().getCityName(), "Tuscon");
+    EXPECT_EQ(examplePackage.getRecipient().getStateName(), "AZ");
+    EXPECT_EQ(examplePackage.getRecipient().getZipCode(), 91111);
+
+    /* get sender information */
+    EXPECT_EQ(examplePackage.getSender().getPersonName(), "Jon Doe");
+    EXPECT_EQ(examplePackage.getSender().getStreetNumber(), 1234);
+    EXPECT_EQ(examplePackage.getSender().getStreetName(), "Fake St.");
+    EXPECT_EQ(examplePackage.getSender().getCityName(), "San Diego");
+    EXPECT_EQ(examplePackage.getSender().getStateName(), "CA");
+    EXPECT_EQ(examplePackage.getSender().getZipCode(), 93456);
+
+    std::ostringstream output;
+    output << "To:\n" << examplePackage.getRecipient().getPersonName() << "\n";
+    output << examplePackage.getRecipient().getStreetNumber() << " " << examplePackage.getRecipient().getStreetName() << "\n";
+    output << examplePackage.getRecipient().getCityName() << ", " << examplePackage.getRecipient().getStateName() << "\n";
+    output << examplePackage.getRecipient().getZipCode() << "\n\n";
+
+    output << "From:\n" << examplePackage.getSender().getPersonName() << "\n";
+    output << examplePackage.getSender().getStreetNumber() << " " << examplePackage.getSender().getStreetName() << "\n";
+    output << examplePackage.getSender().getCityName() << ", " << examplePackage.getSender().getStateName() << "\n";
+    output << examplePackage.getSender().getZipCode() << "\n\n";
+
+    output << "Weight: " << examplePackage.getWeight() << " oz\n";
+    output << std::fixed << std::setprecision(2);
+    output << "Cost: $" << examplePackage.calculateCost();
+    output << "\nOvernight fee: $" << examplePackage.getOvernightFee();
+
+    std::ostringstream actual;
+    actual << examplePackage;
+    EXPECT_EQ(output.str(), actual.str());
+}
