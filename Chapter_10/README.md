@@ -8,13 +8,11 @@
   * The increment/decrement operators can be used on a pointer, but an array identifier is const and cannot be used
   * The sizeof operator which shows the true size of an array, whereas it only shows the size of the pointer itself
 
-
 ### Exercise 10-7
 #### DoubleScriptedArray class
 * Represents a 2D array
 * Contains equality (=) and inequality (!=) binary operators to compare with other DoubleScriptedArray objects
 * Contains set/get accessor operators (*m*, *n*) complete with bounds checking
-
 
 ### Exercise 10-8
 #### MotorVehicle class
@@ -23,7 +21,6 @@
 * Contains setters and getters for vehicle attributes
 * Contains a binary greather than operator to compare two MotorVehicle object's years
 * Contains an output stream operator to output vehicle information
-
 
 ### Exercise 10-9 
 #### HugeInteger Class
@@ -36,14 +33,12 @@
   * Can only be used with **positive** integers
   * Integer overflow or underflow is not represented
 
-
 ### Exercise 10-10
 #### Enhanced Quadratic Class
 * Represents a quadratic equation in the form *ax<sup>2</sup> + bx + c*
 * Contains overloaded addition (+) and subtraction (-) binary operators for <code>Quadratic</code> operands.
 * an be output to a stream using the <code><<</code> in the form of its quadratic equation.
 * Includes a <code>str()</code> method to output the representative quadratic function as a string.
-
 
 ### Exercise 10-11
 #### Polynomial Class

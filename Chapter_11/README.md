@@ -23,19 +23,28 @@ State whether each of the following is *true* or *false*. If *false*, explain wh
 1. When deriving a class with **protected** inheritance, public and protected members of the base class become protected members of the derived class.  **True** <br><br>
 
 ### Exercise 11-3
+Composition as an Alternative to Inheritance
 * Rewrites class BasePlusCommissionEmployee and CommissionEmployee without inheritence to stress the importance of inheritance
 * Inheritance offers much less code maintenance and is less error-prone than this "copy and paste" approach
 * Copy and past may be easier at first, but when making a change to one class, I eventually had to do the same with the other class
 
 ### Exercise 11-4
+is-a Relationship vs. has-a Relationship
 Distinguish between an *is-a* relationship and a *has-a* relationship.
 An *is-a* relationship represents inheritance where an object of a derived class is also an object of its base class. The *has-a* relationship represents composition where an object has certain characteristics.
+
 ### Exercise 11-5
+Protected vs Private Base Classes
 Some programmers prefer not to use <code>protected</code> access because they believe it breaks the encapsulation of the base class. Discuss the relative merits of using <code>protected</code> access vs. using <code>private</code> access in base classes.
 * Using protected access would be more efficient code, since derived classes could access bbase class variables directly rather than using *getter* functions
     * However these optimizations could also be accomplished through compiler optimizations without breaking encapsulation
 * Using private variables limits the amount the derived class depends on the base class implementation. With encapsulation, changing the base class would not result in needing to change subsequent derived classes.
+
 ### Exercise 11-6
+Student Inheritance Hierarchy
 * Created an inheritance hierarchy to show the relationship between Undergraduate and Graduate students
 * <code>Student</code> is the base class for which all <code>UndergraduteStudent</code> and <code>GraduateStudent</code> derive from
 * <code>Freshman</code>, <code>Sophomore</code>, <code>Junior</code>, and <code>Senior</code> derive from <code>UndergraduateStudent</code> and <code>MastersStudent</code> and <code>DoctorateStudent</code> derive from <code>GraduateStudent</code>
+
+### Exercise 11-7
+Richer Shape Hierarchy
