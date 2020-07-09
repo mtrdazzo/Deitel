@@ -48,3 +48,11 @@ Student Inheritance Hierarchy
 
 ### Exercise 11-7
 Richer Shape Hierarchy
+
+### Exercise 11-9
+Package Inheritance Hierarchy
+* Added an <code>Address</code> class that contains members for name, street, city, state, and zip
+* Base class <code>Package</code> that represents package information that contains sender address, recipient address, weight, and cost per ounce, and calculate cost
+* Class <code>TwoDayPackage</code> derives from <code>Package</code> and adds a flat-fee member that is incorporated into calculating cost
+* Class <code>OvernightPackage</code> derives from <code>Package</code> and adds an overnight fee per ounce incorporated into calculating cost
+* All classes contain a <code>toString()</code> member function, and friend function so the string representation can be output to a stream
