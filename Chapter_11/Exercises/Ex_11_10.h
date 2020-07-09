@@ -20,6 +20,13 @@
  * should print the message "Debit amount exceeded account balance." Member function getBalance should return
  * the current balance.
  * 
+ * Derived-class SavingsAccount should inherit the functionality of an Account, but also include a data member of
+ * type double indicating the interest rate (percentage) assigned to the Account. SavingsAcccount's
+ * constructor should receive the initial balance, as well as an initial value for the SavingsAccount's interest
+ * rate. SavingsAccount should provide a public member function calculateInterest that returns a double indicating
+ * the amount of interest earned by an account. Member function calculateInterest should determine this amount by
+ * multiplying the interest rate by the account balance.
+ * 
  * @copyright Copyright (c) 2020
  * 
  */
@@ -60,6 +67,45 @@ class Account {
 
     private:
         double balance;
+};
+
+class SavingsAccount : public Account {
+
+    public:
+
+        /**
+         * @brief Construct a new Savings Account object
+         * 
+         */
+        SavingsAccount(double, double);
+
+        /**
+         * @brief Set the Interest Rate
+         * 
+         */
+        void setInterestRate(double);
+
+        /**
+         * @brief Get the Interest Rate
+         * 
+         * @return double 
+         */
+        double getInterestRate() const {
+            return interestRate;
+        }
+
+        /**
+         * @brief Calculate the interest
+         * 
+         * @return double 
+         */
+        double calculateInterest() const {
+            return getBalance() * (1 + interestRate / 100.0);
+        }
+
+    private:
+        double interestRate;
+
 };
 
 #endif

@@ -51,3 +51,25 @@ void Account::credit(double credit) {
         throw std::invalid_argument("invalid amount being credited");
     balance += credit;
 }
+
+/**
+ * @brief Construct a new Savings Account:: Savings Account object
+ * 
+ * @param balance 
+ * @param interestRate 
+ */
+SavingsAccount::SavingsAccount(double balance, double interestRate) :
+    Account(balance) {
+        setInterestRate(interestRate);
+}
+
+/**
+ * @brief Set the interest rate
+ * 
+ * @param _interestRate 
+ */
+void SavingsAccount::setInterestRate(double _interestRate) {
+    if (_interestRate <= 0.0)
+        throw std::invalid_argument("invalid interest rate");
+    interestRate = _interestRate;
+}
