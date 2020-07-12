@@ -112,7 +112,7 @@ class SavingsAccount : public Account {
         }
 
     private:
-        double interestRate;
+        double interestRate; /* interest rate in percent */
 
 };
 
