@@ -27,6 +27,14 @@
  * the amount of interest earned by an account. Member function calculateInterest should determine this amount by
  * multiplying the interest rate by the account balance.
  * 
+ * Derived-class CheckingAccount should inherit from base-class Account and include an additional data member of
+ * type double that represents the fee charged per transaction. CheckingAccount's constructor should receive the
+ * initial balance, as well as a parameter indicating a fee amount. Class CheckingAccount should redefine member
+ * functions credit and debit so that they subtract the fee from the account balance whenever either transaction
+ * is performed successfully. CheckingAccount's versions of these functions should invoke the base-class Account
+ * version to perform the updates to an account balance. CheckingAccount's debit funtion should charge a fee
+ * only if the money is withdrawn.
+ * 
  * @copyright Copyright (c) 2020
  * 
  */
@@ -105,6 +113,43 @@ class SavingsAccount : public Account {
 
     private:
         double interestRate;
+
+};
+
+class CheckingAccount : public Account {
+
+    public:
+
+        /**
+         * @brief Construct a new Checking Account object
+         * 
+         */
+        CheckingAccount(double, double);
+
+        /**
+         * @brief Debit money from the account
+         * 
+         * @return double 
+         */
+        double debit(double);
+
+        /**
+         * @brief Set the Fee object
+         * 
+         */
+        void setFee(double);
+
+        /**
+         * @brief Get the Fee object
+         * 
+         * @return double 
+         */
+        double getFee() const {
+            return fee;
+        }
+
+    private:
+        double fee;
 
 };
 

@@ -73,3 +73,37 @@ void SavingsAccount::setInterestRate(double _interestRate) {
         throw std::invalid_argument("invalid interest rate");
     interestRate = _interestRate;
 }
+
+/**
+ * @brief Construct a new Checking Account:: Checking Account object
+ * 
+ * @param balance 
+ * @param fee 
+ */
+CheckingAccount::CheckingAccount(double balance, double fee) :
+    Account::Account(balance) {
+        setFee(fee);
+}
+
+/**
+ * @brief Debit amount and fee from account
+ * 
+ * @param amount 
+ * @return double 
+ */
+double CheckingAccount::debit(double amount) {
+    if (amount <= 0)
+        throw std::invalid_argument("invalid debit amount");
+    return Account::debit(amount + fee);
+}
+
+/**
+ * @brief Set the fee for the account
+ * 
+ * @param _fee 
+ */
+void CheckingAccount::setFee(double _fee) {
+    if (_fee < 0)
+        throw std::invalid_argument("invalid fee");
+    fee = _fee;
+}

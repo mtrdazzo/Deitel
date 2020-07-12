@@ -177,3 +177,90 @@ TEST(SavingsAccountClass, CreditDebit) {
     example.debit(creditAmount2);
     EXPECT_EQ(example.getBalance(), initialBalance + creditAmount - creditAmount2);
 }
+
+/**
+ * @brief Test the Constructor of CheckingAccount class
+ * 
+ */
+TEST(CheckingAccountClass, Constructor) {
+
+    /* invalid initial account balance */
+    try {
+        CheckingAccount(-0.1, 5.5);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid balance");
+    }
+
+    /* invalid initial fee */
+    try {
+        CheckingAccount(0.0, -0.1);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid fee");
+    }
+
+    double intialBalance{0.0};
+    double fee{0.0};
+    CheckingAccount example{intialBalance, fee};
+    EXPECT_EQ(example.getBalance(), intialBalance);
+    EXPECT_EQ(example.getFee(), fee);
+}
+
+/**
+ * @brief Test the credit and debit methods of the CheckingAccount class
+ * 
+ */
+TEST(CheckingAccountClass, CreditDebit) {
+
+    double initialBalance{5.0};
+    double initialFee{2.5};
+    CheckingAccount example{initialBalance, initialFee};
+
+    /* invalid fee */
+    try {
+        example.setFee(-0.1);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid fee");
+    }
+
+    /* invalid credit amount */
+    try {
+        example.credit(0.0);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid amount being credited");
+    }
+
+    try {
+        example.credit(-0.1);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid amount being credited");
+    }
+
+    /* valid credit amount */
+    double creditAmount{3.3};
+    example.credit(creditAmount);
+    EXPECT_EQ(example.getBalance(), initialBalance + creditAmount);
+
+    /* invalid debit amount */
+    try {
+        example.debit(0.0);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid debit amount");
+    }
+
+    try {
+        example.debit(-0.1);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid debit amount");
+    }
+
+    try {
+        example.debit(example.getBalance() + 0.1);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "Debit amount exceeded account balance");
+    }
+
+    /* valid debit amount */
+    double creditAmount2{3.3};
+    example.debit(creditAmount2);
+    EXPECT_EQ(example.getBalance(), initialBalance + creditAmount - creditAmount2 - initialFee);
+}
