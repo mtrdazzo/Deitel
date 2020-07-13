@@ -19,7 +19,7 @@ This journey has been a learning experience, and it's quite evident my code and 
 * From compiler warnings, I learned about concept of [The Rule of Three](https://en.cppreference.com/w/cpp/language/rule_of_three) when implementing user-defined constructors, destructors, and copy assignment operators.
 * From these concepts, I am beginning to understand how both user-defined and built-in data types interact with one another.
 
-## Chapter 11
+## Chapter 11 Object-Oriented Programming: Inheritance
 * This chapter introduces the *has-a* OOP concept of inheritance where a base class is the one from which a derived class inherits
 * Derived classes represent more specialized groups of objects
 * Focuses on public inheritance which stresses encapsulation
