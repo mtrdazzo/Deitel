@@ -59,8 +59,14 @@ Package Inheritance Hierarchy
 
 ### Exercise 11-10
 Account Inheritance Hierarchy
-* Account base class represents a bank account with private member balance
+* <code>Account</code> class represents a bank account with private member balance
     * Contains public methods for <code>credit</code> (deposit), <code>debit</code> (withdraw), and <code>getBalance</code>
     * If an amount is attempted to be debited that is larger than the amount "Debit amount exceeded account balance" is printed, and no amount is removed from the balance.
     * Cannot credit values less than or equal to 0.0
     * Cannot debit values less than or equal to 0.0
+* <code>SavingsAccount</code> class represents a Savings account at a bank
+    * Derives from <code>Account</code> class
+    * Contains an interest rate member variable (in percent) to calculate interest based on the account balance
+* <code>CheckingAccount</code> class represents a Checking account at a bank
+    * Derives from <code>Account</code> class
+    * Contains a fee member variable that is subtracted from the balance for each withdraw

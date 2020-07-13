@@ -18,7 +18,12 @@ This journey has been a learning experience, and it's quite evident my code and 
 * This chapter introduces the concept of overloading both unary and binary operators for user defined classes.
 * From compiler warnings, I learned about concept of [The Rule of Three](https://en.cppreference.com/w/cpp/language/rule_of_three) when implementing user-defined constructors, destructors, and copy assignment operators.
 * From these concepts, I am beginning to understand how both user-defined and built-in data types interact with one another.
+
 ## Chapter 11
+* This chapter introduces the *has-a* OOP concept of inheritance where a base class is the one from which a derived class inherits
+* Derived classes represent more specialized groups of objects
+* Focuses on public inheritance which stresses encapsulation
+
 ## Chapter 12
 ## Chapter 13
 ## Chapter 14
