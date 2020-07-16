@@ -364,7 +364,7 @@ PieceWorker::PieceWorker(const std::string & firstName, const std::string & last
  */
 void PieceWorker::setWage(double wage) {
     if (wage <= 0.0)
-        throw std::invalid_argument("inavlid wage, must be >= 0.0");
+        throw std::invalid_argument("invalid wage, must be > 0.0");
     this->wage = wage;
 }
 
@@ -375,7 +375,7 @@ void PieceWorker::setWage(double wage) {
  */
 void PieceWorker::setPieces(int pieces) {
     if (pieces < 0)
-        throw std::invalid_argument("invalid number of pieces");
+        throw std::invalid_argument("invalid number of pieces, must be >= 0");
     this->pieces = pieces;
 }
 
@@ -389,7 +389,7 @@ std::string PieceWorker::toString() const {
     
     output << std::fixed << std::setprecision(2);
     output << "piece-salaried: " << Employee::toString()
-        << "piece wage: " << getWage()
+        << "\npiece wage: " << getWage()
         << "\nnumber of pieces: " << getPieces();
     return output.str();
 }

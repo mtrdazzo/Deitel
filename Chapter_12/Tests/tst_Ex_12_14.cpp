@@ -214,3 +214,99 @@ TEST(BasePlusCommissionEmployee, GettersSetters) {
 
     EXPECT_EQ(outputExepected.str(), ce.toString());
 }
+
+TEST(PieceWorker, Constructor) {
+
+    /* Sunny Day scenario */
+    PieceWorker ce{"Jon", "Doe", "123456789", 4, 8, 1989, 5000, 10};
+
+    /* empty first name */
+    try {
+        PieceWorker ce{"", "Doe", "123456789", 4, 8, 1989, 1.0, 20};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid first name");
+    }
+
+    /* empty last name */
+    try {
+        PieceWorker ce{"Jon", "", "123456789", 4, 8, 1989, 1.0, 10};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid last name");
+    }
+
+    /* invalid ssn */
+    try {
+        PieceWorker ce{"Jon", "Doe", "12345678", 4, 8, 1989, 1.0, 10};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
+
+    try {
+        PieceWorker ce{"Jon", "Doe", "1234567890", 4, 8, 1989, 1.0, 20};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
+
+    try {
+        PieceWorker ce{"Jon", "Doe", "12-456789", 4, 8, 1989, 1.0, 25};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid ssn, must be nine digits");
+    }
+
+    /* Invalid piece rate */
+    try {
+        PieceWorker ce{"Jon", "Doe", "123456789", 4, 8, 1989, 0.0, 10};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid wage, must be > 0.0");
+    }
+
+    try {
+        PieceWorker ce{"Jon", "Doe", "123456789", 4, 8, 1989, -0.1, 1000};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid wage, must be > 0.0");
+    }
+
+    /* Invalid pieces */
+    try {
+        PieceWorker ce{"Jon", "Doe", "123456789", 4, 8, 1989, 10.0, 0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid number of pieces, must be >= 0");
+    }
+
+    try {
+        PieceWorker ce{"Jon", "Doe", "123456789", 4, 8, 1989, 10.0, -1};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid number of pieces, must be >= 0");
+    }
+}
+
+TEST(PieceWorker, GettersSetters) {
+
+    const std::string firstName{"Matt"};
+    PieceWorker example{"Jon", "Doe", "123456789", 4, 8, 1989, 98.0, 100};
+    EXPECT_EQ(example.getFirstName(), "Jon");
+
+    /* First Name too long */
+    example.setFirstName(firstName);
+    EXPECT_EQ(example.getFirstName(), firstName);
+
+    /* Last Name too long */
+    EXPECT_EQ(example.getLastName(), "Doe");
+    example.setLastName(firstName);
+    EXPECT_EQ(example.getLastName(), firstName);
+
+    /* Getters */
+    EXPECT_EQ(example.getSocialSecurityNumber(), "123456789");
+    EXPECT_EQ(example.getPieces(), 100);
+    EXPECT_EQ(example.getWage(), 98.0);
+    EXPECT_EQ(example.earnings(), 98.0 * 100);
+
+    std::ostringstream outputExepected;
+    outputExepected << std::fixed << std::setprecision(2);
+    outputExepected << "piece-salaried: " + example.getFirstName() + " " + example.getLastName() + '\n';
+    outputExepected << "social security number: " << example.getSocialSecurityNumber() << '\n';
+    outputExepected << "piece wage: " << example.getWage() << '\n';
+    outputExepected << "number of pieces: " << example.getPieces();
+
+    EXPECT_EQ(outputExepected.str(), example.toString());
+}
