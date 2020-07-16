@@ -402,3 +402,73 @@ std::string PieceWorker::toString() const {
 double PieceWorker::earnings() const {
     return getWage() * getPieces();
 }
+
+/**
+ * @brief Construct a new Hourly Worker:: Hourly Worker object
+ * 
+ * @param firstName 
+ * @param lastName 
+ * @param ssn 
+ * @param month 
+ * @param day 
+ * @param year 
+ * @param hours 
+ * @param rate 
+ */
+HourlyWorker::HourlyWorker(const std::string & firstName, const std::string & lastName, const std::string & ssn,
+                        int month, int day, int year, double hours, double rate)
+    : Employee(firstName, lastName, ssn, month, day, year) {
+        setHours(hours);
+        setHourlyRate(rate);
+}
+
+/**
+ * @brief Set the number of hours for the employee
+ * 
+ * @param hours 
+ */
+void HourlyWorker::setHours(double hours) {
+    if (hours < 0.0)
+        throw std::invalid_argument("invalid number of hours, must be >= 0.0");
+    this->hours = hours;
+}
+
+/**
+ * @brief Set the hourly rate for the hourly employee
+ * 
+ * @param hourlyRate 
+ */
+void HourlyWorker::setHourlyRate(double hourlyRate) {
+    if (hourlyRate <= 0.0)
+        throw std::invalid_argument("invalid hourly rate, must be > 0.0");
+    this->hourlyRate = hourlyRate;
+}
+
+/**
+ * @brief Calculate the earnings of the hourly employee
+ * 
+ * @return double 
+ */
+double HourlyWorker::earnings() const {
+    double totalEarnings{hourlyRate * hours};
+
+    if (hours > regularWorkWeek)
+        totalEarnings += overtimeMultiply * hourlyRate * (hours - regularWorkWeek);
+
+    return totalEarnings;
+}
+
+/**
+ * @brief Output the hourly worker information to a stream
+ * 
+ * @return std::string 
+ */
+std::string HourlyWorker::toString() const {
+    std::ostringstream output;
+
+    output << std::fixed << std::setprecision(2);
+    output << "hourly: " << Employee::toString()
+        << "\nhourly rate: " << getHourlyRate()
+        << "\nnumber of hours: " << getHours();
+    return output.str();
+}

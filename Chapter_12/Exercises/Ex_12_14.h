@@ -408,4 +408,69 @@ class PieceWorker : public Employee {
 
 };
 
+class HourlyWorker : public Employee {
+
+    public:
+
+        /**
+         * @brief Construct a new Hourly Worker object
+         * 
+         */
+        HourlyWorker(const std::string &, const std::string &, const std::string &,
+        int, int, int, double, double);
+
+        /**
+         * @brief Destroy the Hourly Worker object
+         * 
+         */
+        virtual ~HourlyWorker() = default;
+
+        /**
+         * @brief Set the Hours object
+         * 
+         */
+        void setHours(double);
+
+        /**
+         * @brief Get the Hours object
+         * 
+         * @return double 
+         */
+        double getHours() const { return hours; }
+
+        /**
+         * @brief Set the Hourly Rate object
+         * 
+         */
+        void setHourlyRate(double);
+
+        /**
+         * @brief Get the Hourly Rate object
+         * 
+         * @return double 
+         */
+        double getHourlyRate() const { return hourlyRate; }
+
+
+        /**
+         * @brief Calculate the earnings for the hourly worker
+         * 
+         * @return double 
+         */
+        virtual double earnings() const override;
+
+        /**
+         * @brief Output the hourly worker information to a stream
+         * 
+         * @return std::string 
+         */
+        virtual std::string toString() const override;
+
+    private:
+        static const int regularWorkWeek{40};
+        static constexpr float overtimeMultiply{1.5};
+        double hours;
+        double hourlyRate;
+};
+
 #endif /* EX_12_14_H */
