@@ -12,6 +12,77 @@
 #include <gtest/gtest.h>
 #include <Ex_12_14.h>
 
+/**
+ * @brief Test the Date class
+ * 
+ */
+TEST(Date, SettersGetters) {
+
+    /* invalid month */
+    try{
+        Date example{0, 22, 1989};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid month");
+    }
+    try{
+        Date example{13, 22, 1989};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid month");
+    }
+
+    /* invalid day, 31 day month */
+    try{
+        Date example{1, 0, 1989};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "day must be a positive integer");
+    }
+    try{
+        Date example{1, 32, 1989};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid day of month");
+    }
+
+    /* invalid day, 30 day month */
+    try{
+        Date example{4, 31, 1989};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid day of month");
+    }
+
+    /* invalid year */
+    try{
+        Date example{4, 30, 0};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid year");
+    }
+
+    /* invalid day non-leap year */
+    try{
+        Date example{2, 29, 2001};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid day of month");
+    }
+
+    /* invalid day leap year */
+    try{
+        Date example{2, 30, 200};
+    }
+    catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid day of month");
+    }
+
+    /* valid day 29th of leap year */
+    Date example{2, 29, 2000};
+    EXPECT_EQ(example.toString(), "February 29, 2000");
+}
+
 TEST(CommissionEmployee, Constructor) {
 
     /* Sunny Day scenario */
