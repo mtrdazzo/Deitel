@@ -48,10 +48,14 @@ TEST(PackageHierarchy, Polymorphism) {
 
     for (auto & package : packages) {
 
-        if (dynamic_cast<OvernightPackage*>(package) != nullptr)
+        if (dynamic_cast<OvernightPackage*>(package) != nullptr) {
             EXPECT_EQ(package->toString(), expectedOvernight.toString());
-        else if (dynamic_cast<TwoDayPackage*>(package) != nullptr)
+            EXPECT_EQ(package->calculateCost(), expectedOvernight.calculateCost());
+        }
+        else if (dynamic_cast<TwoDayPackage*>(package) != nullptr) {
             EXPECT_EQ(package->toString(), expectedTwoDay.toString());
+            EXPECT_EQ(package->calculateCost(), expectedTwoDay.calculateCost());
+        }
         else
             throw std::invalid_argument("invalid class pointer type");
 

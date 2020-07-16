@@ -24,7 +24,8 @@ This journey has been a learning experience, and it's quite evident my code and 
 * Derived classes represent more specialized groups of objects
 * Focuses on public inheritance which stresses encapsulation
 
-## Chapter 12
+## Chapter 12 Object-Oriented Programming: Polymorphism
+
 ## Chapter 13
 ## Chapter 14
 ## Chapter 15
