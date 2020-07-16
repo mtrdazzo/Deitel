@@ -56,14 +56,15 @@ TEST(PackageHierarchy, Polymorphism) {
             EXPECT_EQ(package->toString(), expectedTwoDay.toString());
             EXPECT_EQ(package->calculateCost(), expectedTwoDay.calculateCost());
         }
-        else
+        else {
+            delete package;
             throw std::invalid_argument("invalid class pointer type");
+        }
 
         /* clean up */
         delete package;
     }
 }
-
 
 /**
  * @brief Test functionality of the Address class
