@@ -78,3 +78,8 @@ Exercise 12-12
 *Package Inheritance Hierarchy*
 * Added virtual <code>toString</code> and <code>calculateCost</code> methods to add polymorphic behavior to the <code>Package</code> hierarchy
 * Tested polymorphic behavior by verifying virtual functions in vector of <code>Package *</code> objects with expected outputs
+
+Exercise 12-13
+*Polymorphic Banking Program Using Account Hierarchy*
+* Added virtual <code>getBalance</code> to add polymorphic behavior to the <code>Account</code> hierarchy
+* Tested polymorphic behavior by verifying virtual functions in vector of <code>Account *</code> objects with expected outputs
