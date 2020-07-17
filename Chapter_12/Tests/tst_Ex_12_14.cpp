@@ -72,7 +72,7 @@ TEST(Date, SettersGetters) {
 
     /* invalid day leap year */
     try{
-        Date example{2, 30, 200};
+        Date example{2, 30, 2000};
     }
     catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid day of month");
