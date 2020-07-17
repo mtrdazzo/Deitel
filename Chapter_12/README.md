@@ -83,9 +83,20 @@ An abstract class is one that is not meant to be instantiated, but only derived 
 *Polymorphic Banking Program Using Account Hierarchy*
 * Added virtual <code>getBalance</code> to add polymorphic behavior to the <code>Account</code> hierarchy
 * Tested polymorphic behavior by verifying virtual functions in vector of <code>Account *</code> objects with expected outputs
+* Added polymorphice behavior for debit to extract fee for CheckingAccount class
 
 ### Exercise 12-14
 *Payroll-System Modification*
+* Added class for <code>PieceWorker</code> to represent an employee who gets paid a rate of pieces completed
+* Added class for <code>HourlyWorker</code> to represent an employee that gets paid per hour
+    * The hourly rate is 1.5 times the wage when the <code>HourlyWorker</code> works more than 40 hours in a week
+
+### Exercise 12-15
+*CarbonFootprint Abstract Class: Polymorphism*
+* Created unrelated classes <code>Bicycle</code>, <code>Building</code>, and <code>Car</code> that derive from CarbonFootprint where each can calculate its carbon footprint
+* The <code>Bicycle</code> class calculates its carbon footprint as a function of its production cost
+* The <code>Building</code> class calculates its carbon footprint as a function of its square footage
+* The <code>Car</code> class calculates its carbon footprint as a function of its mpg and miles driven
 
 ### Chapter Notes
 * Be sure to use the base class name along with the scope resolution operator (::) when referencing base class methods that are overriden in the derived

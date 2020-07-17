@@ -65,7 +65,7 @@ TEST(ClassCar, Constructor) {
         EXPECT_STREQ(err.what(), "invalid miles per gallon, must be > 0.0");
     }
 
-    /* attempt to intantiate acar  with negative miles per gallon */
+    /* attempt to intantiate a car with negative miles per gallon */
     try {
         Car{-10.0, 35.0};
     } catch (std::invalid_argument & err) {
@@ -105,6 +105,47 @@ TEST(ClassCar, CalculateCarbonFootprint) {
     Car example{sampleMPG, sampleMilesDriven};
 
     double expectedFootprint = Car::getGasolineEmissionsFactor() / (sampleMilesDriven / sampleMPG) * constants::kgToLbs;
+
+    EXPECT_EQ(example.getCarbonFootprint(), expectedFootprint);
+
+}
+
+/**
+ * @brief Test instantiating a Building object
+ * 
+ */
+TEST(ClassBuilding, Constructor) {
+
+    /* attempt to intantiate a building with no square footage */
+    try {
+        Building{0.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid square footage, must be > 0.0");
+    }
+
+    /* attempt to intantiate a building with negative footage */
+    try {
+        Building{-10.0};
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid square footage, must be > 0.0");
+    }
+
+    double sampleSquareFootage{32};
+    Building home{sampleSquareFootage};
+
+    EXPECT_EQ(home.getSquareFeet(), sampleSquareFootage);
+}
+
+/**
+ * @brief Calculate the carbon footprint of the building
+ * 
+ */
+TEST(ClassBuilding, CalculateCarbonFootprint) {
+
+    double sampleSquareFootage{32};
+    Building example{sampleSquareFootage};
+
+    double expectedFootprint = Building::getCarbonPerSquareFoot() * sampleSquareFootage;
 
     EXPECT_EQ(example.getCarbonFootprint(), expectedFootprint);
 

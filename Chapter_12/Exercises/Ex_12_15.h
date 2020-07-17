@@ -80,9 +80,17 @@ class Building : public CarbonFootprint {
          * @return double carbon footprint in lbs of greenhouse gases
          */
         virtual double getCarbonFootprint() const override;
+
+        /**
+         * @brief Get the Carbon Per Square Foot ratio
+         * 
+         * @return double 
+         */
+        static double getCarbonPerSquareFoot() { return carbonPerSquareFoot; }
     
     private:
         uint16_t squareFeet;
+        static double carbonPerSquareFoot;
 };
 
 class Car : public CarbonFootprint {

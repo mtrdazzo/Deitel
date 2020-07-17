@@ -99,3 +99,35 @@ void Car::setMilesPerGallon(double milesPerGallon) {
 double Car::getCarbonFootprint() const {
     return gasolineEmissionsFactor / (milesDriven / milesPerGallon) * constants::kgToLbs;
 }
+
+/* buildings produce approximated 20 lb of C02 emissions per square foot of space */
+double Building::carbonPerSquareFoot{20};
+
+/**
+ * @brief Construct a new Building:: Building object
+ * 
+ * @param squareFeet 
+ */
+Building::Building(double squareFeet) {
+    setSquareFeet(squareFeet);
+}
+
+/**
+ * @brief Set the square footage of the building (ft^2)
+ * 
+ * @param squareFeet 
+ */
+void Building::setSquareFeet(double squareFeet) {
+    if (squareFeet <= 0.0)
+        throw std::invalid_argument("invalid square footage, must be > 0.0");
+    this->squareFeet = squareFeet;
+}
+
+/**
+ * @brief Calculate the carbon footprint for the building
+ * 
+ * @return double 
+ */
+double Building::getCarbonFootprint() const {
+    return squareFeet * carbonPerSquareFoot;
+}
