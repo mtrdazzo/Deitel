@@ -25,6 +25,8 @@ This journey has been a learning experience, and it's quite evident my code and 
 * Focuses on public inheritance which stresses encapsulation
 
 ## Chapter 12 Object-Oriented Programming: Polymorphism
+* This chapter introduces Polymorphism, the OOP concept where derived classes can be referred to from base class pointers
+* Virtual functions and dynamic binding are responsible for polymorphism through use of a vtable
 
 ## Chapter 13
 ## Chapter 14
