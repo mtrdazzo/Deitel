@@ -10,8 +10,48 @@
  */
 
 #include <stdexcept>
+#include <typeinfo>
+#include <vector>
 #include <gtest/gtest.h>
 #include <Ex_12_15.h>
+
+/**
+ * @brief Test instantiating a Carbon Footprint object
+ * 
+ */
+TEST(CarbonFootprintHierarchy, Polymorphism) {
+
+    std::vector<CarbonFootprint*> footprintObjs;
+
+    double bicycleCost{400.0};
+    double squareFootage{1000};
+    double mpg{32};
+    double milesDriven{100};
+
+    footprintObjs.push_back(new Bicycle(bicycleCost));
+    footprintObjs.push_back(new Building(squareFootage));
+    footprintObjs.push_back(new Car(mpg, milesDriven));
+
+    Bicycle expectedBicycle{bicycleCost};
+    Car expectedCar{mpg, milesDriven};
+    Building expectedBuilding{squareFootage};
+
+    for (auto & footprint : footprintObjs) {
+
+        if (dynamic_cast<Car*>(footprint) != nullptr)
+            EXPECT_EQ(footprint->getCarbonFootprint(), expectedCar.getCarbonFootprint());
+        else if (dynamic_cast<Bicycle*>(footprint) != nullptr)
+            EXPECT_EQ(footprint->getCarbonFootprint(), expectedBicycle.getCarbonFootprint());
+        else if (dynamic_cast<Building*>(footprint) != nullptr)
+            EXPECT_EQ(footprint->getCarbonFootprint(), expectedBuilding.getCarbonFootprint());
+        else {
+            /* should not be here */;
+        }
+
+        delete footprint;
+    }
+
+}
 
 /**
  * @brief Test instantiating a Bicycle object
