@@ -43,7 +43,7 @@ TEST(AccountHierarchy, Polymorphism) {
         SavingsAccount * savingsPtr = dynamic_cast<SavingsAccount*>(account);
         CheckingAccount * checkingPtr = dynamic_cast<CheckingAccount*>(account);
         if ( savingsPtr != nullptr) {
-            EXPECT_EQ(savingsPtr->getBalance(), expectedSavings.getInterestRate());
+            EXPECT_EQ(savingsPtr->getInterestRate(), expectedSavings.getInterestRate());
             EXPECT_EQ(savingsPtr->getBalance(), expectedSavings.getBalance());
             savingsPtr->credit(savingsPtr->calculateInterest());
             EXPECT_NE(savingsPtr->getBalance(), expectedSavings.getBalance());
@@ -54,6 +54,8 @@ TEST(AccountHierarchy, Polymorphism) {
             checkingPtr->debit(checkingPtr->getFee());
             EXPECT_NE(checkingPtr->getBalance(), expectedChecking.getBalance());
         }
+
+        delete account;
     }
 
 }
@@ -197,7 +199,7 @@ TEST(SavingsAccountClass, CreditDebit) {
     /* valid credit amount */
     double creditAmount{3.3};
     example.credit(creditAmount);
-    EXPECT_EQ(example.getBalance(), initialBalance + creditAmount);
+    EXPECT_EQ(example.getBalance(),  (1 + initialInterestRate/100.0) * (initialBalance + creditAmount));
 
     /* invalid debit amount */
     try {
@@ -221,7 +223,7 @@ TEST(SavingsAccountClass, CreditDebit) {
     /* valid debit amount */
     double creditAmount2{3.3};
     example.debit(creditAmount2);
-    EXPECT_EQ(example.getBalance(), initialBalance + creditAmount - creditAmount2);
+    EXPECT_EQ(example.getBalance(), (initialBalance + creditAmount - creditAmount2) * ( 1 + initialInterestRate/ 100.0));
 }
 
 /**
@@ -306,7 +308,7 @@ TEST(CheckingAccountClass, CreditDebit) {
     }
 
     /* valid debit amount */
-    double creditAmount2{3.3};
+    double creditAmount2{1.0};
     example.debit(creditAmount2);
     EXPECT_EQ(example.getBalance(), initialBalance + creditAmount - creditAmount2 - initialFee);
 }

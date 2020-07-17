@@ -83,7 +83,7 @@ void Date::setDay(int _day) {
  * @param _month 
  */
 void Date::setMonth(int _month) {
-    if (_month <= 0 || static_cast<unsigned int>(_month) >= sizeof(daysOfMonths))
+    if (_month <= 0 || static_cast<unsigned int>(_month) >= 12)
         throw std::invalid_argument("invalid month");
     month = _month;
 }

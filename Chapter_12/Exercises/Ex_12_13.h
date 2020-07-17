@@ -48,7 +48,7 @@ class Account {
          * @brief Withdraw money from the account
          * 
          */
-        double debit(double);
+        virtual double debit(double);
 
         /**
          * @brief Get the Balance of the account
@@ -100,7 +100,7 @@ class SavingsAccount : public Account {
          * @return double 
          */
         double calculateInterest() const {
-            return getBalance() * (1 + interestRate / 100.0);
+            return Account::getBalance() * (1 + interestRate / 100.0);
         }
 
         /**
@@ -138,7 +138,7 @@ class CheckingAccount : public Account {
          * 
          * @return double 
          */
-        double debit(double);
+        virtual double debit(double) override;
 
         /**
          * @brief Set the Fee object
@@ -161,7 +161,7 @@ class CheckingAccount : public Account {
          * @return double 
          */
         virtual double getBalance() const override {
-            return Account::getBalance() - getFee();
+            return Account::getBalance();
         }
 
     private:

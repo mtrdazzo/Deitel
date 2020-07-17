@@ -68,18 +68,25 @@ What is an abstract class? What condition should be met for a class to be abstra
 
 An abstract class is one that is not meant to be instantiated, but only derived by more specialized classes. In order for a class to be abstract, a class method must be pure virtual.
 
-Exercise 12-11
+### Exercise 12-11
 *Payroll-System Modification*
 * Added a <code>dateOfBirth</code> member to the <code>Employee</code> class to include a birthday for each employee
 * Tested adding $100 bonus to each salaried and base plus commission employee if the current month matches their respective birth month
     * Stored each employee in a vector of type <code>Employee *</code> and refernced each polymorphically
 
-Exercise 12-12
+### Exercise 12-12
 *Package Inheritance Hierarchy*
 * Added virtual <code>toString</code> and <code>calculateCost</code> methods to add polymorphic behavior to the <code>Package</code> hierarchy
 * Tested polymorphic behavior by verifying virtual functions in vector of <code>Package *</code> objects with expected outputs
 
-Exercise 12-13
+### Exercise 12-13
 *Polymorphic Banking Program Using Account Hierarchy*
 * Added virtual <code>getBalance</code> to add polymorphic behavior to the <code>Account</code> hierarchy
 * Tested polymorphic behavior by verifying virtual functions in vector of <code>Account *</code> objects with expected outputs
+
+### Exercise 12-14
+*Payroll-System Modification*
+
+### Chapter Notes
+* Be sure to use the base class name along with the scope resolution operator (::) when referencing base class methods that are overriden in the derived
+class. Failure to do so will result in infinte recursion and was seen as a *Segmentation Fault* error.
