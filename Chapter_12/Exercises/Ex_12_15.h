@@ -37,6 +37,12 @@ class CarbonFootprint {
     public:
 
         /**
+         * @brief Destroy the Carbon Footprint object
+         * 
+         */
+        virtual ~CarbonFootprint() = default;
+
+        /**
          * @brief Get the Carbon Footprint in pounds of greenhouse gases
          * 
          * @return double 
@@ -59,7 +65,7 @@ class Building : public CarbonFootprint {
          * @brief Destroy the Building
          * 
          */
-        ~Building() = default;
+        virtual ~Building() = default;
 
         /**
          * @brief Set the square footage of the building
@@ -107,7 +113,7 @@ class Car : public CarbonFootprint {
          * @brief Destroy the Car object
          * 
          */
-        ~Car() = default;
+        virtual ~Car() = default;
 
         /**
          * @brief Get the mpg of the vehicle
@@ -169,7 +175,7 @@ class Bicycle : public CarbonFootprint {
          * @brief Destroy the Bicycle object
          * 
          */
-        ~Bicycle() = default;
+        virtual ~Bicycle() = default;
 
         /**
          * @brief Get the Cost of the bicycle
