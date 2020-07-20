@@ -100,7 +100,7 @@ TEST_F(StreamFormatting, 80Octal) {
  * 
  */
 TEST_F(StreamFormatting, readUntilP) {
-    // /*  */
+
     // const int charArraySize{10};
     // char charArray[charArraySize];
     // std::cin.getline(charArray, charArraySize, 'p');
