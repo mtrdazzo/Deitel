@@ -168,6 +168,34 @@ Corrected: <code> cout << static_cast\<int>('A'); </code>
 1. Incorrect: <code>cout << 'A string in quotes';</code><br>
 Corrected: <code>cout << "\\'A string in quotes\\'"; </code>
 
+### Exercise 13-5
+*(Show Outputs) For each of the following, show the output.*
+
+1. <code> cout << "123456789" << endl; <br>
+cout.width(5); <br>
+cout.fill('$'); <br>
+cout << 12 << endl << 12; </code><br><br>
+123456789<br>
+$$$12<br>
+12
+
+1. <code> cout << setw(8) << setfill('#') << 999; </code> <br>
+#####999
+
+1. <code> cout << setw(6) << setprecision(2) << 657.347280; </code><br>
+657.34
+
+1. <code> cout << showbase << oct << 100 << endl << hex << 100; </code> <br>
+0144
+0x64
+
+1. <code> cout << 10000 << endl << showpos << 10000; </code> <br>
+10000
++10000
+
+1. <code> cout <<  setw(10) << setprecision(2) << scientific << 244.93739; </code> <br>
+2.45e+002
+
 ### Exercise 13-6
 *Write C++ Statements*
 * Practice extracting input and formatting output streams
