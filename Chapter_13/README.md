@@ -155,6 +155,19 @@ std::cin.get(line, 20, 'z'); </code>
 <br><br><code>
 std::cout << std::setw(x) << std::setprecision(y) << 87.4573; </code>
 
+### Exercise 13-4
+*(Find and Correct Code Errors) Identify the error in each of the following statements and explain how to correct it.*
+
+1. Incorrect: <code>cout << "Value of x < y is: " << x < y. </code><br>
+Corrected: <code>cout << "Value of x < y is: " << boolalpha << x < y. </code>
+
+1. The following statement should print the integer value of 'A':
+<br><br>Incorrect: <code>cout << 'A'; </code> <br>
+Corrected: <code> cout << static_cast\<int>('A'); </code>
+
+1. Incorrect: <code>cout << 'A string in quotes';</code><br>
+Corrected: <code>cout << "\\'A string in quotes\\'"; </code>
+
 ### Exercise 13-6
 *Write C++ Statements*
 * Practice extracting input and formatting output streams
