@@ -11,6 +11,7 @@
 
 #include "Ex_13_7.h"
 #include <stdexcept>
+#include <string.h>
 
 /**
  * @brief Input value from input  stream
@@ -21,7 +22,7 @@
  */
 std::istream& operator>>(std::istream& input, Number & num) {
 
-    char buffer[INPUT_MAX_LEN];
+    char buffer[INPUT_MAX_LEN] = {0};
     input.get(buffer, INPUT_MAX_LEN);
 
     if (buffer[0] == '0') {
@@ -61,14 +62,18 @@ std::ostream& operator<<(std::ostream& output, const Number &num) {
  * @param inputStr Character string
  */
 void Number::hexToDec(const char *inputStr) {
+
+    if (strlen(inputStr) > INPUT_HEX_MAX_LEN)
+        throw std::invalid_argument("hex string too long, max value is 0xFFFFFFFF");
+
     value = 0;
     for (const char *hexPtr{inputStr+2}; *hexPtr != '\0'; ++hexPtr) {
         value *= 16;
         if (isdigit(*hexPtr))
             value += *hexPtr - '0';
-        else if (isalpha(*hexPtr) && *hexPtr >= 'a')
+        else if (isalpha(*hexPtr) && *hexPtr >= 'a' && *hexPtr <= 'f')
             value += *hexPtr - 'a' + 10;
-        else if (isalpha(*hexPtr) && *hexPtr >= 'A')
+        else if (isalpha(*hexPtr) && *hexPtr >= 'A' && *hexPtr <= 'F')
             value += *hexPtr - 'A' + 10;
         else
             throw std::invalid_argument("invalid hex character");
@@ -81,14 +86,24 @@ void Number::hexToDec(const char *inputStr) {
  * @param inputStr Character string
  */
 void Number::octToDec(const char *inputStr) {
+
+    if (strlen(inputStr) > INPUT_DEC_MAX_LEN)
+        throw std::invalid_argument("decimal string too long, max value is 0377777777");
+
+    uint32_t tempValue{0};
     value = 0;
 
     for (const char *octalPtr{inputStr+1}; *octalPtr != '\0'; ++octalPtr) {
         value *= 8;
-        if (isdigit(*octalPtr))
+        if (isdigit(*octalPtr) && *octalPtr - '0' < 8)
             value += *octalPtr - '0';
         else
             throw std::invalid_argument("invalid octal character");
+        
+        if (value >= tempValue)
+            tempValue = value;
+        else
+            throw std::invalid_argument("integer overflow, max value is 0377777777");
     }
 }
 
@@ -98,6 +113,11 @@ void Number::octToDec(const char *inputStr) {
  * @param inputStr Character string
  */
 void Number::stringToDec(const char *inputStr) {
+
+    if (strlen(inputStr) > INPUT_OCT_MAX_LEN)
+        throw std::invalid_argument("decimal string too long, max value is 4294967295");
+
+    uint32_t tempValue{0};
     value = 0;
 
     for (const char *decPtr{inputStr}; *decPtr != '\0'; ++decPtr) {
@@ -106,6 +126,11 @@ void Number::stringToDec(const char *inputStr) {
             value += *decPtr - '0';
         else
             throw std::invalid_argument("invalid decimal character");
+
+        if (value >= tempValue)
+            tempValue = value;
+        else
+            throw std::invalid_argument("decimal too large, max value is 4294967295");
     }
 }
 

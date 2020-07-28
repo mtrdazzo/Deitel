@@ -17,7 +17,10 @@
 #include <iostream>
 #include <string>
 
-#define INPUT_MAX_LEN 11
+#define INPUT_MAX_LEN 12
+#define INPUT_HEX_MAX_LEN 10
+#define INPUT_OCT_MAX_LEN INPUT_MAX_LEN
+#define INPUT_DEC_MAX_LEN 10
 
 class Number {
 

@@ -88,31 +88,34 @@ TEST_F(NumberClass, HexValues) {
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid input for number representation");
     }
+    inFile.close();
 
     try {
         SetUp("0x0g");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid hex character");
     }
+    inFile.close();
 
     try {
         SetUp("0xg0");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid hex character");
     }
+    inFile.close();
 
     try {
         SetUp("0x01234567g");
     } catch (std::invalid_argument & err) {
-        EXPECT_STREQ(err.what(), "invalid hex character");
+        EXPECT_STREQ(err.what(), "hex string too long, max value is 0xFFFFFFFF");
     }
 }
 
 /**
- * @brief Test octal representations
+ * @brief Test decimal representations
  * 
  */
-TEST_F(NumberClass, OctalValues) {
+TEST_F(NumberClass, DecimalValues) {
 
     try {
         SetUp("-100");
@@ -141,25 +144,39 @@ TEST_F(NumberClass, OctalValues) {
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid decimal character");
     }
+    inFile.close();
 
     try {
         SetUp("4e94967295");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid decimal character");
     }
+    inFile.close();
 
     try {
         SetUp("4294g67295");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid decimal character");
     }
+
+    try {
+        SetUp("42941672951");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "decimal string too long, max value is 4294967295");
+    }
+
+    try {
+        SetUp("4294167296");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "decimal too large, max value is 4294967295");
+    }
 }
 
 /**
- * @brief Test decimal representations
+ * @brief Test octal representations
  * 
  */
-TEST_F(NumberClass, DecimalValues) {
+TEST_F(NumberClass, OctalValues) {
 
     SetUp("01");
     EXPECT_EQ(testNum.getValue(), 1);
@@ -186,26 +203,59 @@ TEST_F(NumberClass, DecimalValues) {
     inFile.close();
 
     try {
+        SetUp("018");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid octal character");
+    }
+    inFile.close();
+
+    try {
+        SetUp("0377787777");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid octal character");
+    }
+    inFile.close();
+
+    try {
         SetUp("0200F00001");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid octal character");
     }
+    inFile.close();
 
     try {
-        SetUp("000000000FF");
+        SetUp("037777777F");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid octal character");
     }
+    inFile.close();
 
     try {
         SetUp("0b377");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid input for number representation");
     }
+    inFile.close();
 
     try {
         SetUp("000000000h");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid octal character");
+    }
+    inFile.close();
+
+    /* too long of a string */
+    try {
+        SetUp("03777777771");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "decimal string too long, max value is 0377777777");
+    }
+    inFile.close();
+
+    /* too big a value for 32-bit integer */
+    try {
+        SetUp("0477777777");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "integer overflow, max value is 0377777777");
     }
 }
