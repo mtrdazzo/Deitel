@@ -59,7 +59,7 @@ TEST_F(NumberClass, HexValues) {
     EXPECT_EQ(testNum.getValue(), 253);
     inFile.close();
 
-    SetUp("0x00");
+    SetUp("0X00");
     EXPECT_EQ(testNum.getValue(), 0);
     inFile.close();
 
@@ -67,7 +67,7 @@ TEST_F(NumberClass, HexValues) {
     EXPECT_EQ(testNum.getValue(), 1);
     inFile.close();
 
-    SetUp("0x1");
+    SetUp("0X1");
     EXPECT_EQ(testNum.getValue(), 1);
     inFile.close();
 
@@ -75,13 +75,19 @@ TEST_F(NumberClass, HexValues) {
     EXPECT_EQ(testNum.getValue(), 11259375);
     inFile.close();
 
-    SetUp("0x00000001");
+    SetUp("0X00000001");
     EXPECT_EQ(testNum.getValue(), 1);
     inFile.close();
 
     SetUp("0xffffffff");
     EXPECT_EQ(static_cast<uint32_t>(testNum.getValue()), 4294967295u);
     inFile.close();
+
+    try {
+        SetUp("0g0g");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid input for number representation");
+    }
 
     try {
         SetUp("0x0g");
@@ -108,6 +114,53 @@ TEST_F(NumberClass, HexValues) {
  */
 TEST_F(NumberClass, OctalValues) {
 
+    try {
+        SetUp("-100");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid decimal character");
+    }
+
+    SetUp("0");
+    EXPECT_EQ(testNum.getValue(), 0);
+    inFile.close();
+
+    SetUp("10");
+    EXPECT_EQ(testNum.getValue(), 10);
+    inFile.close();
+
+    SetUp("100");
+    EXPECT_EQ(testNum.getValue(), 100);
+    inFile.close();
+
+    SetUp("4294967295");
+    EXPECT_EQ(static_cast<uint32_t>(testNum.getValue()), 4294967295u);
+    inFile.close();
+
+    try {
+        SetUp("429496729e");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid decimal character");
+    }
+
+    try {
+        SetUp("4e94967295");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid decimal character");
+    }
+
+    try {
+        SetUp("4294g67295");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid decimal character");
+    }
+}
+
+/**
+ * @brief Test decimal representations
+ * 
+ */
+TEST_F(NumberClass, DecimalValues) {
+
     SetUp("01");
     EXPECT_EQ(testNum.getValue(), 1);
     inFile.close();
@@ -119,7 +172,6 @@ TEST_F(NumberClass, OctalValues) {
     SetUp("0000000000");
     EXPECT_EQ(testNum.getValue(), 0);
     inFile.close();
-
 
     SetUp("0000000001");
     EXPECT_EQ(testNum.getValue(), 1);
@@ -146,9 +198,14 @@ TEST_F(NumberClass, OctalValues) {
     }
 
     try {
+        SetUp("0b377");
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid input for number representation");
+    }
+
+    try {
         SetUp("000000000h");
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "invalid octal character");
     }
 }
-

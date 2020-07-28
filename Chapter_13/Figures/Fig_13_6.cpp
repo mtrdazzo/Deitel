@@ -18,15 +18,18 @@ int main() {
 
     std::cout << "Enter a decimal number: ";
     std::cin >> number; // input number
+    std::cout << std::showbase;
 
     // use hex stream manipulator to show hexadecimal number
-    std::cout << number << " in hexadecimal is: " << std::hex << number << "\n";
+    std::cout << number << " in hexadecimal is: " << std::uppercase << std::hex << number << "\n";
 
     // use oct stream manipulator to show octal number
     std::cout << std::dec << " in octal is: " << std::oct << number << "\n";
 
     // use setbase stream manipulator to show decimal number
     std::cout << std::setbase(10) << number << " in decimal is: " << number << std::endl;
+
+    std::cout << std::noshowbase;
 
     return EXIT_SUCCESS;
 }
