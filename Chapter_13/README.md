@@ -200,6 +200,40 @@ $$$12<br>
 *Write C++ Statements*
 * Practice extracting input and formatting output streams
 * Remember to account for the <code>null</code> character when extracting from input
+* Added an empty Ex_13_6.cpp source file for Makefile process
+
+### Exercise 13-7
+*Input Decimal, Octal, and Hexadecimal Values*<br>
+* Developed <code>Number</code> class where the value of the object can be changed using an input stream
+* Input stream can be in octal, decimal, or hexadecimal format for a positive 32-bit integer
+* Can represent positive integers from 0 to 4294967295
+
+### Exercise 13-8
+*Type safety of C++ I/O operations* <br>
+What do we mean when we say C++ uses type-safe I/O? What is the advantage of this feature?
+
+Type-safe I/O means the each I/O Operation is executed in a manner sensitive to the data type. If there is no match for the data and the function
+for handling the data type, the compiler generates an error. The advantage this offers is data cannot "sneak" through the system (can occur in C).
+
+### Exercise 13-9
+*Unformatted I/O* <br>
+Which member functions are used to perform unformatted I/O: What is the use of <code>gcount</code> member function?
+
+The <code>get</code> and <code>put</code> functions are used to perform unformatted I/O. The member function <code>gcount</code> returns the number of bytes read from the standard input.
+
+### Exercise 13-10
+*The advantage of high level I/O* <br>
+What is the main advantage and disadvantage of using high-level (formatted) I/O?
+
+Formatted I/O is slower, but more human readable.
+
+### Exercise 13-11
+*Length of a String*
+* Developed simple function <code>printStringFromKeyboard</code> method which takes in a string of characters into a buffer, and prints the input in a field twice the width.
+
+### Exercise 13-12
+*Displaying numbers in different bases*<br>
+*
 
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many
