@@ -233,7 +233,8 @@ Formatted I/O is slower, but more human readable.
 
 ### Exercise 13-12
 *Displaying numbers in different bases*<br>
-*
+* Developed <code>dec2octal</code> and <code>dec2hex</code> functions to convert decimal to hex and octal strings, respectively.
+* Only functions for positive 32-bit integers from 0 to 4294967295.
 
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many
