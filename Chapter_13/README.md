@@ -236,6 +236,16 @@ Formatted I/O is slower, but more human readable.
 * Developed <code>dec2octal</code> and <code>dec2hex</code> functions to convert decimal to hex and octal strings, respectively.
 * Only functions for positive 32-bit integers from 0 to 4294967295.
 
+### Exercise 13-13
+*Dealing with extra input characters*
+* Developed <code>uncorrectedInput</code> to not be abe to account for extra characters in steram and <code>correctedInput</code> to account for extra characters in the input stream
+* The <code>std::cin.ignore()</code> ignores all input characters until the next <code>\n</code> is found
+* The test methods were disabled since user input is not able to be automated with Jenkins
+
+### Exercise 13-14
+*Reading Phone Numbers with an Overloaded stream Extraction Operator*
+
+
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many
 digits in the decimal part as specified by the *precision field*
