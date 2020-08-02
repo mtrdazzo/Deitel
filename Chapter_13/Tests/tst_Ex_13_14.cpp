@@ -76,6 +76,14 @@ TEST_F(TestPhoneNumber, NumberFormat) {
         EXPECT_STREQ(err.what(), "Invalid symbol, must enter phone number in the format: (###) ###-####");
     }
 
+    samplePhoneNumber = "(21e) 436-7890";
+    EXPECT_THROW(InputPhoneNumber(samplePhoneNumber), std::invalid_argument);
+    try {
+        InputPhoneNumber(samplePhoneNumber);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "Invalid symbol, must enter phone number in the format: (###) ###-####");
+    }
+
     samplePhoneNumber = "(213) 4e6-7890";
     EXPECT_THROW(InputPhoneNumber(samplePhoneNumber), std::invalid_argument);
     try {
