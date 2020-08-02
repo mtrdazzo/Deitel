@@ -16,6 +16,9 @@
  * 
  */
 
+#ifndef EX_13_13_H
+#define EX_13_13_H
+
 #include <string>
 
 /**
@@ -31,3 +34,5 @@ std::string uncorrectedInput(void);
  * @return std::string ${firstName} ${lastName} ${birthYear}
  */
 std::string correctedInput(void);
+
+#endif /* EX_13_13_H */
