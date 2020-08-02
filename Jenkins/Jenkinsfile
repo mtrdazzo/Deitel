@@ -28,7 +28,7 @@ pipeline {
                 success {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
                     xunit (
-                            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                            thresholds: [ skipped(failureThreshold: '10'), failed(failureThreshold: '0') ],
                             tools: [ GoogleTest(pattern: '**/out/**/bin/*.xml') ])
                 }
             }
