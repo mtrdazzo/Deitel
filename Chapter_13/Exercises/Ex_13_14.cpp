@@ -14,13 +14,18 @@
 #include <stdexcept>
 #include "Ex_13_14.h"
 
+/**
+ * @brief Stream insertion operator for PhoneNumber class
+ * 
+ * @param output Output Stream
+ * @param number PhoneNumber object
+ * @return std::ostream& Output stream for cascading calls
+ */
 std::ostream& operator<<(std::ostream& output, const PhoneNumber& number) {
     output << "(" << number.areaCode << ") " << number.exchange << "-"
     << number.line << "\n";
     return output;
 }
-
-
 
 /**
  * @brief Input 14-character stream to phone number class
