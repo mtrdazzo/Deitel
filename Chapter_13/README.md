@@ -244,7 +244,10 @@ Formatted I/O is slower, but more human readable.
 
 ### Exercise 13-14
 *Reading Phone Numbers with an Overloaded stream Extraction Operator*
+* Developed steam extraction operator which checks input for correct <code>PhoneNumber</code> class
 
+### Exercise 13-15
+*Point Class*
 
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many
