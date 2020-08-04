@@ -188,4 +188,20 @@ TEST_F(TestPointClass, invalidPoints) {
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "value too large");
     }
+
+    inputString = "0";
+    EXPECT_THROW(StreamToPoint(inputString), std::invalid_argument);
+    try {
+        StreamToPoint(inputString);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "invalid character");
+    }
+
+    inputString = "0 ";
+    EXPECT_THROW(StreamToPoint(inputString), std::invalid_argument);
+    try {
+        StreamToPoint(inputString);
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "no second value");
+    }
 }

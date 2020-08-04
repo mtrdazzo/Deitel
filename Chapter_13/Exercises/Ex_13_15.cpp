@@ -81,15 +81,16 @@ std::istream& operator>>(std::istream& input, Point & point) {
     if (input.gcount() > index)
         while (inputArray[index] == ' ')
             ++index;
-    else {
-        throw std::invalid_argument("no second value");
-    }
 
     if (inputArray[index] == '-') {
         isNegative = true;
         ++index;
     } else {
         isNegative = false;
+    }
+
+    if (inputArray[index] == '\0') {
+        throw std::invalid_argument("no second value");
     }
 
     tempValue = 0;
