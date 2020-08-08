@@ -248,6 +248,7 @@ Formatted I/O is slower, but more human readable.
 
 ### Exercise 13-15
 *Point Class*
+* Developed point class that is read in through the command extraction operator
 
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many

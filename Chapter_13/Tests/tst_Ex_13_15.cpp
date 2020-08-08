@@ -44,6 +44,10 @@ class TestPointClass : public testing::Test {
 
 };
 
+/**
+ * @brief Test valid points
+ * 
+ */
 TEST_F(TestPointClass, validPoints) {
 
     StreamToPoint("34 34");
@@ -99,6 +103,10 @@ TEST_F(TestPointClass, validPoints) {
     EXPECT_EQ(examplePoint.toString(), "xCoordinate: 2147483647\nyCoordinate: -2147483648");
 }
 
+/**
+ * @brief Test invalid points
+ * 
+ */
 TEST_F(TestPointClass, invalidPoints) {
 
     std::string inputString;

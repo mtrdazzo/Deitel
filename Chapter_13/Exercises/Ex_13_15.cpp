@@ -69,7 +69,7 @@ std::istream& operator>>(std::istream& input, Point & point) {
         tempValue *= -1;
 
     if (inputArray[index] != ' ')
-        throw std::invalid_argument("invalid character");
+        throw std::invalid_argument("no second value");
     else if (tempValue < std::numeric_limits<int>::min())
         throw std::invalid_argument("value too small");
     else if (tempValue > std::numeric_limits<int>::max())
