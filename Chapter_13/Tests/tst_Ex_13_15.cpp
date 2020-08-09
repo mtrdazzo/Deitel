@@ -114,7 +114,7 @@ TEST_F(TestPointClass, invalidPoints) {
     try {
         StreamToPoint(inputString);
     } catch (std::invalid_argument & err) {
-        EXPECT_STREQ(err.what(), "invalid character");
+        EXPECT_STREQ(err.what(), "empty point");
     }
 
     inputString = "a 0";
