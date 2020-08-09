@@ -56,6 +56,10 @@ std::istream& operator>>(std::istream& input, Point & point) {
 
     input.get(inputArray, MAX_INPUT_LEN, '\n');
 
+    if (input.gcount() == 0) {
+        throw std::invalid_argument("empty point");
+    }
+
     if (inputArray[0] == '-') {
         isNegative = true;
         ++index;
@@ -68,15 +72,16 @@ std::istream& operator>>(std::istream& input, Point & point) {
     if (isNegative)
         tempValue *= -1;
 
-    if (inputArray[index] != ' ')
-        throw std::invalid_argument("no second value");
-    else if (tempValue < std::numeric_limits<int>::min())
+    if (tempValue < std::numeric_limits<int>::min())
         throw std::invalid_argument("value too small");
     else if (tempValue > std::numeric_limits<int>::max())
         throw std::invalid_argument("value too large");
     else {
         point.setXCoordinate(static_cast<int>(tempValue));
     }
+
+    if (inputArray[index] != ' ')
+        throw std::invalid_argument("invalid character");
 
     if (input.gcount() > index)
         while (inputArray[index] == ' ')
