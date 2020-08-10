@@ -9,9 +9,10 @@
  * 
  */
 
-#include "Ex_13_17.h"
 #include <limits>
 #include <stdexcept>
+#include <cmath>
+#include "Ex_13_17.h"
 
 /**
  * @brief Stream extraction operator to input values to integer vector
@@ -168,4 +169,27 @@ void Statistics::_bubbleSort() {
             }
         }
     }
+}
+
+/**
+ * @brief Calculate the standard deviation of the set of numbers
+ * 
+ * @return double 
+ */
+double Statistics::standardDeviation() const {
+
+    if (_isEmpty())
+        throw std::invalid_argument("empty vector");
+    else if (numbers.size() == 1)
+        return 0.0;
+
+    double mean = this->mean();
+    double differences{0};
+
+    for (auto number : numbers)
+        differences += (number - mean) * (number - mean);
+    
+    differences /= numbers.size() - 1;
+
+    return std::sqrt(differences);
 }

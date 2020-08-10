@@ -52,7 +52,7 @@ class Statistics {
          * 
          * @return double 
          */
-        double standardDeviation();
+        double standardDeviation() const;
 
         /**
          * @brief Return the minimum of the numbers

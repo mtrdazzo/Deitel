@@ -58,7 +58,7 @@ TEST_F(TestStatisticsClass, validEntries) {
     EXPECT_EQ(exampleStatistics.min(), 3);
     EXPECT_EQ(exampleStatistics.mean(), 3);
     EXPECT_EQ(exampleStatistics.median(), 3);
-
+    EXPECT_NEAR(exampleStatistics.standardDeviation(), 0, 0.01);
     /* two digits */
     inputString = "8 3";
     StreamToStats(inputString);
@@ -66,6 +66,7 @@ TEST_F(TestStatisticsClass, validEntries) {
     EXPECT_EQ(exampleStatistics.min(), 3);
     EXPECT_EQ(exampleStatistics.mean(), 5.5);
     EXPECT_EQ(exampleStatistics.median(), 5.5);
+    EXPECT_NEAR(exampleStatistics.standardDeviation(), 3.53553, 0.01);
 
     /* multiple digits */
     inputString = "8 3 1";
@@ -74,6 +75,7 @@ TEST_F(TestStatisticsClass, validEntries) {
     EXPECT_EQ(exampleStatistics.min(), 1);
     EXPECT_EQ(exampleStatistics.mean(), 4);
     EXPECT_EQ(exampleStatistics.median(), 3);
+    EXPECT_NEAR(exampleStatistics.standardDeviation(), 3.60555, 0.01);
 
     /* multiple digits */
     inputString = "8 3 -10 0 5";
@@ -82,6 +84,7 @@ TEST_F(TestStatisticsClass, validEntries) {
     EXPECT_EQ(exampleStatistics.min(), -10);
     EXPECT_EQ(exampleStatistics.mean(), 1.2);
     EXPECT_EQ(exampleStatistics.median(), 3);
+    EXPECT_NEAR(exampleStatistics.standardDeviation(), 6.90652, 0.01);
 
     /* multiple digits */
     inputString = "    2147483647 3    -2147483648 0 -5";
@@ -90,6 +93,8 @@ TEST_F(TestStatisticsClass, validEntries) {
     EXPECT_EQ(exampleStatistics.min(), -2147483648);
     EXPECT_EQ(exampleStatistics.mean(), -0.6);
     EXPECT_EQ(exampleStatistics.median(), 0);
+    EXPECT_NEAR(exampleStatistics.standardDeviation(), 1518500249.63, 0.01);
+
 }
 
 
@@ -123,6 +128,13 @@ TEST_F(TestStatisticsClass, emptyVector) {
     EXPECT_THROW(exampleStatistics.max(), std::invalid_argument);
     try {
         exampleStatistics.max();
+    } catch (std::invalid_argument & err) {
+        EXPECT_STREQ(err.what(), "empty vector");
+    }
+
+    EXPECT_THROW(exampleStatistics.standardDeviation(), std::invalid_argument);
+    try {
+        exampleStatistics.standardDeviation();
     } catch (std::invalid_argument & err) {
         EXPECT_STREQ(err.what(), "empty vector");
     }
