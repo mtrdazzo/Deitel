@@ -248,7 +248,17 @@ Formatted I/O is slower, but more human readable.
 
 ### Exercise 13-15
 *Point Class*
-* Developed point class that is read in through the command extraction operator
+* Developed *Point* class that is read in through the stream extraction operator
+
+### Exercise 13-16
+*Complex Class*
+* Developed *Complex* class where a complex number can be read in through the stream extraction operator
+* Known limitation is only being able to read in the following format: 8 + 3i, 3 + 8i is an invalid complex number
+
+### Exercise 13-17
+*Statistics Class*
+* Developed *Statistics* class where a set of numbers can be input through the stream extraction operator
+* Statistics on a set of numbers including min, max, mean, median, and standard deviation are calculated
 
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many

@@ -69,18 +69,8 @@ std::istream& operator>>(std::istream& input, Statistics &stats) {
         }
     }
 
-    if (numberStarted) {
-        if (!isNegative) {
-            if ( tempValue > std::numeric_limits<int>::max())
-                throw std::invalid_argument("value too large");
-        }
-        else {
-            tempValue *= -1;
-            if (tempValue < std::numeric_limits<int>::min())
-                throw std::invalid_argument("value too small");
-        }
-        stats.numbers.push_back(tempValue);
-    }
+    if (numberStarted)
+        stats.numbers.push_back(tempValue * (-1 ? isNegative : 1));
 
     stats._bubbleSort();
 
