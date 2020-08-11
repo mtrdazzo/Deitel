@@ -70,7 +70,7 @@ std::istream& operator>>(std::istream& input, Statistics &stats) {
     }
 
     if (numberStarted)
-        stats.numbers.push_back(tempValue * (-1 ? isNegative : 1));
+        stats.numbers.push_back(tempValue * (isNegative ? -1 : 1));
 
     stats._bubbleSort();
 
