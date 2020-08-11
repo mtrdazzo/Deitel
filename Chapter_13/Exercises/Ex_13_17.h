@@ -21,6 +21,7 @@
 #include <iostream>
 #include <vector>
 
+constexpr size_t MAX_INPUT_SIZE{100};
 class Statistics {
 
     friend std::istream& operator>>(std::istream&, Statistics &);

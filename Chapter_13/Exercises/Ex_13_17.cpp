@@ -23,12 +23,12 @@
  */
 std::istream& operator>>(std::istream& input, Statistics &stats) {
 
-    char inputArray[100];
+    char inputArray[MAX_INPUT_SIZE];
     long tempValue{0};
     bool numberStarted{false};
     bool isNegative{false};
 
-    input.get(inputArray, 100, '\n');
+    input.getline(inputArray, MAX_INPUT_SIZE);
 
     while (!stats._isEmpty())
         stats.numbers.pop_back();

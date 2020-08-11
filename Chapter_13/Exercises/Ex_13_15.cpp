@@ -54,7 +54,7 @@ std::istream& operator>>(std::istream& input, Point & point) {
     int index{0};
     long tempValue{0};
 
-    input.get(inputArray, MAX_INPUT_LEN, '\n');
+    input.getline(inputArray, MAX_INPUT_LEN);
 
     if (input.gcount() == 0) {
         throw std::invalid_argument("empty point");

@@ -40,7 +40,7 @@ std::istream& operator>>(std::istream& input, Complex & complexNumber) {
     int index{0};
     long tempValue{0};
 
-    input.get(inputArray, MAX_INPUT_SIZE, '\n');
+    input.getline(inputArray, MAX_INPUT_SIZE);
 
     if (inputArray[0] == '-') {
         isNegative = true;
