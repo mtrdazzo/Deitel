@@ -260,6 +260,12 @@ Formatted I/O is slower, but more human readable.
 * Developed *Statistics* class where a set of numbers can be input through the stream extraction operator
 * Statistics on a set of numbers including min, max, mean, median, and standard deviation are calculated
 
+### Exercise 13-18
+*String-Terminating Null Character*
+* Created two classes <code>GetCharactersFromGet</code> and <code>GetCharactersFromGetline</code> which extract characters from a stream using get and getline respectively
+* Created a test file that shows get leaves the delimiter on the stream, while getline removes it from the stream
+* The remaining characters after the delimiter remain on the stream
+
 ## Chapter Notes:
 * When using <code>std::fixed</code> to represent a <code>float</code> in fixed-number notation, the value is represented with as many
 digits in the decimal part as specified by the *precision field*
