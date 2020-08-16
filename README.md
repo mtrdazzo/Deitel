@@ -29,6 +29,9 @@ This journey has been a learning experience, and it's quite evident my code and 
 * Virtual functions and dynamic binding are responsible for polymorphism through use of a vtable
 
 ## Chapter 13
+* This chapter goes in-depth about file streams and their properties
+* Type-safe I/O is one of the ways C++ distinguishes itself from C for I/O
+
 ## Chapter 14
 ## Chapter 15
 ## Chapter 17
