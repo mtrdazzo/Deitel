@@ -28,11 +28,12 @@ This journey has been a learning experience, and it's quite evident my code and 
 * This chapter introduces Polymorphism, the OOP concept where derived classes can be referred to from base class pointers
 * Virtual functions and dynamic binding are responsible for polymorphism through use of a vtable
 
-## Chapter 13
+## Chapter 13 Stream Input/Output: A Deeper Look
 * This chapter goes in-depth about file streams and their properties
 * Type-safe I/O is one of the ways C++ distinguishes itself from C for I/O
 
-## Chapter 14
+## Chapter 14 File Processing
+
 ## Chapter 15
 ## Chapter 17
 ## Chapter 18
