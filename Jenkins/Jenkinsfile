@@ -17,19 +17,19 @@ pipeline {
         }
         stage('Build Source') {
             steps {
-                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release"
+                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make debug"
             }
         }
         stage('Run Tests') {
             steps {
-                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make release gcov-xml"
+                sh "docker run --rm --volumes-from=jenkins-server -w ${env.SOURCE_DIR} ${env.DOCKER_IMAGE_TAG} make debug gcov-xml"
             }
             post {
                 success {
                     step([$class: 'CoberturaPublisher', coberturaReportFile: "${BRANCH_FOLDER}/coverage.xml"])
                     xunit (
-                            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                            tools: [ GoogleTest(pattern: '**/out/release/bin/*.xml') ])
+                            thresholds: [ skipped(failureThreshold: '10'), failed(failureThreshold: '0') ],
+                            tools: [ GoogleTest(pattern: '**/out/**/bin/*.xml') ])
                 }
             }
         }
