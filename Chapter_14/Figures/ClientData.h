@@ -14,26 +14,56 @@
 
 #include <string>
 
+constexpr int8_t NUM_RECORDS{100};
+constexpr size_t MAX_FIRST_NAME_LENGTH{10};
+constexpr size_t MAX_LAST_NAME_LENGTH{15};
 class ClientData {
 
     public:
-        ClientData(int = 0, const std::string& = "", const std::string& = "", double = 0.0);
 
-        // accessor functions for accountNumber
-        void setAccountNumber(int);
-        int getAccountNumber() const;
+        // default ClientData constructor
+        ClientData(int accountNumberValue=0, const std::string& lastName="",
+            const std::string& firstName="", double balanceValue=0.0) 
+            : accountNumber(accountNumberValue), balance(balanceValue) {
+                setLastName(lastName);
+                setFirstName(firstName);
+        }
 
-        // accessor functions for lastName
-        void setLastName(const std::string &);
-        std::string getLastName() const;
+        // get account-number value
+        int getAccountNumber() const { return accountNumber; }
 
-        // accessor functions for firstName
-        void setFirstName(const std::string &);
-        std::string getFirstName() const;
+        // set account-number value
+        void setAccountNumber(int accountNumberValue) {
+            accountNumber = accountNumberValue;
+        }
 
-        // accessor functions for balance
-        void setBalance(double);
-        double getBalance() const;
+        // get last-name value
+        std::string getLastName() const { return lastName; }
+
+        // set last-name value
+        void setLastName(const std::string& lastNameString) {
+            size_t length{lastNameString.size()};
+            length = (length < MAX_LAST_NAME_LENGTH ? length : MAX_LAST_NAME_LENGTH - 1);
+            lastNameString.copy(lastName, length);
+            lastName[length] = '\0';
+        }
+
+        // get first-name value
+        std::string getFirstName() const { return firstName; }
+
+        // set first-name value
+        void setFirstName(const std::string& firstNameString) {
+            size_t length{firstNameString.length()};
+            length = (length < MAX_FIRST_NAME_LENGTH ? length : MAX_FIRST_NAME_LENGTH - 1);
+            firstNameString.copy(firstName, length);
+            firstName[length] = '\0';
+        }
+
+        // get balance value
+        double getBalance() const { return balance; }
+
+        // set balance value
+        void setBalance(double balanceValue) { balance = balanceValue; }
     
     private:
         int accountNumber;
