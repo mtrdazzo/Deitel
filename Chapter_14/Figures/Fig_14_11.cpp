@@ -1,7 +1,7 @@
 /**
- * @file Fig_14_11.cpp
+ * @file Fig_14_12.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief Writing to random-access file
+ * @brief Reading from random-access file
  * @version 0.1
  * @date 2020-09-07
  * 
@@ -34,7 +34,7 @@ int main() {
     std::cin >> accountNumber;
 
     // user enters information, which is copied into file
-    while (accountNumber > 0 && accountNumber <= 100) {
+    while (accountNumber > 0 && accountNumber <= NUM_RECORDS) {
         // user enters last name, first name and balance
         std::cout << "Enter lastname, firstname and balance\n? ";
         std::cin >> lastName >> firstName >> balance;

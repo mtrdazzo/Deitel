@@ -1,7 +1,7 @@
 /**
- * @file Fig_14_9.cpp
+ * @file Fig_14_10.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief ClientData member definitions
+ * @brief Creating a randomly accessed file
  * @version 0.1
  * @date 2020-09-07
  * 
@@ -9,49 +9,23 @@
  * 
  */
 
-#include <string>
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
 #include "ClientData.h"
 
-// default ClientData constructor
-ClientData::ClientData(int accountNumberValue, const std::string& lastName,
-    const std::string& firstName, double balanceValue) 
-    : accountNumber(accountNumberValue), balance(balanceValue) {
-        setLastName(lastName);
-        setFirstName(firstName);
+int main() {
+
+    std::ofstream outCredit{"credit.dat", std::ios::out | std::ios::binary};
+
+    if (!outCredit) {
+        std::cerr << "File could not be opened" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    ClientData blankClient; // constructor zeroes out each member
+
+    for (int i{0}; i < 100; ++i) {
+        outCredit.write(reinterpret_cast<const char *>(&blankClient), sizeof(blankClient));
+    }
 }
-
-// get account-number value
-int ClientData::getAccountNumber() const { return accountNumber; }
-
-// set account-number value
-void ClientData::setAccountNumber(int accountNumberValue) {
-    accountNumber = accountNumberValue;
-}
-
-// get last-name value
-std::string ClientData::getLastName() const { return lastName; }
-
-// set last-name value
-void ClientData::setLastName(const std::string& lastNameString) {
-    size_t length{lastNameString.size()};
-    length = (length < 15 ? length : 14);
-    lastNameString.copy(lastName, length);
-    lastName[length] = '\0';
-}
-
-// get first-name value
-std::string ClientData::getFirstName() const { return firstName; }
-
-// set first-name value
-void ClientData::setFirstName(const std::string& firstNameString) {
-    int length{firstNameString.length()};
-    length = (length < 10 ? length : 9);
-    firstNameString.copy(firstName, length);
-    firstName[length] = '\0';
-}
-
-// get balance value
-double ClientData::getBalance() const { return balance; }
-
-// set balance value
-void ClientData::setBalance(double balanceValue) { balance = balanceValue; }
