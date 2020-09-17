@@ -1,56 +1,61 @@
 /**
  * @file Fig_14_12.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief Reading from random-access file
+ * @brief Reading a random-access file
  * @version 0.1
- * @date 2020-09-07
+ * @date 2020-09-16
  * 
  * @copyright Copyright (c) 2020
  * 
  */
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <cstdlib>
 #include "ClientData.h"
 
-int main() {
+void outputLine(std::ostream&, const ClientData&);
 
-    std::fstream outCredit{"credit.dat", std::ios::in | std::ios::out | std::ios::binary};
+int main(int argc, char **argv) {
 
-    // exit program if fstream cannot open file
-    if (!outCredit) {
-        std::cerr << "File could not be opened" << std::endl;
+    if (argc == 1)
+        return EXIT_FAILURE;
+
+    std::fstream inCredit{*++argv, std::ios::in | std::ios::binary};
+
+    if (!inCredit) {
+        std::cerr << "File could not be opened." << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Enter account number (1 to 100, 0 to end input)\n? ";
+    // output column heads
+    std::cout << std::left << std::setw(10) << "Account" << std::setw(16) << "Last Name"
+        << std::setw(11) << "First Name" << std::setw(10) << std::right << "Balance\n";
+    
+    ClientData client; // create record
 
-    int accountNumber;
-    std::string lastName;
-    std::string firstName;
-    double balance;
+    // read first record from file
+    inCredit.read(reinterpret_cast<char*>(&client), sizeof(ClientData));
 
-    std::cin >> accountNumber;
+    // read all records from file
+    while (inCredit) {
+        // display record
+        if (client.getAccountNumber() != 0) {
+            outputLine(std::cout, client);
+        }
 
-    // user enters information, which is copied into file
-    while (accountNumber > 0 && accountNumber <= NUM_RECORDS) {
-        // user enters last name, first name and balance
-        std::cout << "Enter lastname, firstname and balance\n? ";
-        std::cin >> lastName >> firstName >> balance;
-
-        // create ClientData object
-        ClientData client{accountNumber, lastName, firstName, balance};
-
-        outCredit.seekp(client.getAccountNumber() - 1 * sizeof(ClientData));
-
-        // write user-specified information in file
-        outCredit.write(reinterpret_cast<const char *>(&client), sizeof(client));
-
-        // enable user to enter another account
-        std::cout << "Enter account number\n? ";
-        std::cin >> accountNumber;
+        // read next from file
+        inCredit.read(reinterpret_cast<char*>(&client), sizeof(ClientData));
     }
 
     return EXIT_SUCCESS;
+}
+
+void outputLine(std::ostream& output, const ClientData& record) {
+    output << std::left << std::setw(10) << record.getAccountNumber()
+        << std::setw(MAX_LAST_NAME_LENGTH) << record.getLastName()
+        << std::setw(MAX_FIRST_NAME_LENGTH) << record.getFirstName()
+        << std::setw(10) << std::setprecision(2) << std::right << std::fixed
+        << std::showpoint << record.getBalance() << std::endl;
 }

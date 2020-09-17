@@ -1,7 +1,7 @@
 /**
- * @file Fig_14_11.cpp
+ * @file Fig_14_9.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief Writing to random-access file
+ * @brief Creating a randomly accessed file
  * @version 0.1
  * @date 2020-09-07
  * 
@@ -14,43 +14,21 @@
 #include <cstdlib>
 #include "ClientData.h"
 
-int main() {
+int main(int argc, char **argv) {
 
-    std::fstream outCredit{"credit.dat", std::ios::in | std::ios::out | std::ios::binary};
+    if (argc == 1)
+        return EXIT_FAILURE;
 
-    // exit program if fstream cannot open file
+    std::ofstream outCredit{*++argv, std::ios::out | std::ios::binary};
+
     if (!outCredit) {
         std::cerr << "File could not be opened" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Enter account number (1 to 100, 0 to end input)\n? ";
+    ClientData blankClient; // constructor zeroes out each member
 
-    int accountNumber;
-    std::string lastName;
-    std::string firstName;
-    double balance;
-
-    std::cin >> accountNumber;
-
-    // user enters information, which is copied into file
-    while (accountNumber > 0 && accountNumber <= 100) {
-        // user enters last name, first name and balance
-        std::cout << "Enter lastname, firstname and balance\n? ";
-        std::cin >> lastName >> firstName >> balance;
-
-        // create ClientData object
-        ClientData client{accountNumber, lastName, firstName, balance};
-
-        outCredit.seekp(client.getAccountNumber() - 1 * sizeof(ClientData));
-
-        // write user-specified information in file
-        outCredit.write(reinterpret_cast<const char *>(&client), sizeof(client));
-
-        // enable user to enter another account
-        std::cout << "Enter account number\n? ";
-        std::cin >> accountNumber;
+    for (int i{0}; i < NUM_RECORDS; ++i) {
+        outCredit.write(reinterpret_cast<const char *>(&blankClient), sizeof(blankClient));
     }
-
-    return EXIT_SUCCESS;
 }

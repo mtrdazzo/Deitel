@@ -1,7 +1,7 @@
 /**
- * @file Fig_14_12.cpp
+ * @file Fig_14_11.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
- * @brief Reading from random-access file
+ * @brief Writing to random-access file
  * @version 0.1
  * @date 2020-09-07
  * 
@@ -14,9 +14,14 @@
 #include <cstdlib>
 #include "ClientData.h"
 
-int main() {
+void outputLine(std::ostream&, const ClientData&);
 
-    std::fstream outCredit{"credit.dat", std::ios::in | std::ios::out | std::ios::binary};
+int main(int argc, char **argv) {
+
+    if (argc == 1)
+        return EXIT_FAILURE;
+
+    std::fstream outCredit{*++argv, std::ios::in | std::ios::out | std::ios::binary};
 
     // exit program if fstream cannot open file
     if (!outCredit) {
@@ -42,7 +47,7 @@ int main() {
         // create ClientData object
         ClientData client{accountNumber, lastName, firstName, balance};
 
-        outCredit.seekp(client.getAccountNumber() - 1 * sizeof(ClientData));
+        // outCredit.seekp(client.getAccountNumber() - 1 * sizeof(ClientData));
 
         // write user-specified information in file
         outCredit.write(reinterpret_cast<const char *>(&client), sizeof(client));
