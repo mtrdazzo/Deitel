@@ -4,3 +4,4 @@ src/*/bin
 **/out/*/*.log
 **/*.html
 **/coverage.xml
+**/*.dat
