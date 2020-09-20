@@ -54,8 +54,8 @@ int main(int argc, char **argv) {
 
 void outputLine(std::ostream& output, const ClientData& record) {
     output << std::left << std::setw(10) << record.getAccountNumber()
-        << std::setw(MAX_LAST_NAME_LENGTH) << record.getLastName()
-        << std::setw(MAX_FIRST_NAME_LENGTH) << record.getFirstName()
+        << std::setw(MAX_LAST_NAME_LENGTH+1) << record.getLastName()
+        << std::setw(MAX_FIRST_NAME_LENGTH-1) << record.getFirstName()
         << std::setw(10) << std::setprecision(2) << std::right << std::fixed
         << std::showpoint << record.getBalance() << std::endl;
 }

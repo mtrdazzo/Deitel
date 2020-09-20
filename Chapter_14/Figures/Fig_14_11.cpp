@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
         // create ClientData object
         ClientData client{accountNumber, lastName, firstName, balance};
 
-        // outCredit.seekp(client.getAccountNumber() - 1 * sizeof(ClientData));
+        outCredit.seekp((client.getAccountNumber() - 1) * sizeof(ClientData));
 
         // write user-specified information in file
         outCredit.write(reinterpret_cast<const char *>(&client), sizeof(client));

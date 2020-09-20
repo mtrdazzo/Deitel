@@ -14,7 +14,7 @@
 
 #include <string>
 
-constexpr int8_t NUM_RECORDS{100};
+constexpr int8_t NUM_RECORDS{10};
 constexpr size_t MAX_FIRST_NAME_LENGTH{10};
 constexpr size_t MAX_LAST_NAME_LENGTH{15};
 class ClientData {
