@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
         if (client.getAccountNumber() != 0) {
             outputLine(std::cout, client);
         }
-
         // read next from file
         inCredit.read(reinterpret_cast<char*>(&client), sizeof(ClientData));
     }
