@@ -217,7 +217,12 @@ __gcovr_html:
 __see_build_log:
 	@echo -e "\n  See $(BUILD_LOG) for details\n"
 
+# Specific Figures rules
 deckOfCards: $(addprefix $(OBJ_DIR)/, DeckOfCards.o Fig22_04.o)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_INCL_FLAGS) -o $(BIN_DIR)/$@
+
+displayBits: $(addprefix $(OBJ_DIR)/, Fig_22_6.o)
 	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
 	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_INCL_FLAGS) -o $(BIN_DIR)/$@
 
