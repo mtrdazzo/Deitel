@@ -226,6 +226,14 @@ displayBits: $(addprefix $(OBJ_DIR)/, Fig_22_6.o)
 	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
 	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_INCL_FLAGS) -o $(BIN_DIR)/$@
 
+bitwiseOps: $(addprefix $(OBJ_DIR)/, Fig_22_8.o)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_INCL_FLAGS) -o $(BIN_DIR)/$@
+
+bitShift: $(addprefix $(OBJ_DIR)/, Fig_22_11.o)
+	@echo $(call SMALL_BANNER, Linking $(notdir $@)...)
+	@$(CXX) $(CXXFLAGS) $^ $(GOOGLE_TEST_INCL_FLAGS) -o $(BIN_DIR)/$@
+
 $(CLEAN_FLAG):
 	@echo
 	@echo $(call BIG_BANNER, Cleaning up $(CHAPTER)...)
