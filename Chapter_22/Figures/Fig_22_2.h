@@ -1,5 +1,5 @@
 /**
- * @file DeckOfCards.h
+ * @file Fig_22_2.h
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
  * @brief Definition of class DeckOfCards that represents a deck of playing cards
  * @version 0.1

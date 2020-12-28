@@ -1,5 +1,5 @@
 /**
- * @file DeckOfCards.cpp
+ * @file Fig_22_2.cpp
  * @author Matthew J Randazzo (mtrdazzo@gmail.com)
  * @brief Member-function definitions of DeckOfCards class
  * @version 0.1
@@ -14,7 +14,14 @@
 #include <cstdlib> // prototypes for rand and srand
 #include <ctime> // prototype for time
 
-#include "DeckOfCards.h"
+#include "Fig_22_2.h"
+
+int main() {
+    DeckOfCards deckOfCards;
+    deckOfCards.Deal();
+    deckOfCards.Shuffle();
+    deckOfCards.Deal();
+}
 
 /**
  * @brief Construct a new Deck Of Cards:: Deck Of Cards object
