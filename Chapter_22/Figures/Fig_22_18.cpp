@@ -38,4 +38,5 @@ int main() {
         << (isxdigit('$') ? "$ is a" : "$ is not a ") << " hexadecimal digit\n"
         << (isxdigit('f') ? "f is a" : "f is not a ") << " hexadecimal digit\n";
 
+    return EXIT_SUCCESS;
 }
