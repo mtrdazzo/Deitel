@@ -124,3 +124,16 @@
 ```cpp
     std::cout << atoi("-21") << std::endl;
 ```
+
+### Exercise 22-4
+*(Structures)* How is C++ structure different from C structure?
+* C++ structures behave just like classes, with inheritance, methods, constructors, destructors, whereas in C they are just simply a collection of data types.
+* In C, you cannot directly initialize structure data members, but is allowed in C++.
+* In C, we need to use <code>struct</code> to declare a struct (e.g., <code>struct Point</code> variable. In C++, <code>struct</code> is not necessary, you can declare a <code>Point</code> variable directly with the <code>struct</code> keyword.
+* C structures cannot have static members
+* C++ structures can have user-defined access types (encapsulation)
+
+### Exercise 22-6
+*(Type aliases)* What are the different ways of creating type aliases?
+1. Using keyword <code>typedef</code>
+1. Using preprocessor <code>#define</code>
