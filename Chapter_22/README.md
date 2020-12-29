@@ -52,3 +52,75 @@
         << "\nItem Name: " << (ptr + 2)->itemName
         << "\nItem Price: " << (ptr + 2)->itemPrice << std::endl;
 ```
+
+### Exercise 22-3
+*Write a single statement to accomplish each of the following. Assume that variables <code>c</code> (which stores a character), <code>x</code>, <code>y</code>, and <code>z</code> are of type <code>int</code>; variables <code>d</code>, <code>e</code>, and <code>f</code> are of type <code>double</code>; variable <code>ptr</code> is of type <code>char\*</code> and arrays <code>s1[100]</code> and <code>s2[100]</code> are of type <code>char</code>.*
+
+1. Convert the character stored in <code>c</code> to an uppercase letter. Assign the result to variable <code>c</code>
+```cpp
+    c = toupper(c);
+```
+2. Determine if the value of variable <code>c</code> is a digit. Use the conditional operator as shown in Figs. 22.18-22.20 to print " is a " or " is not a " when the result is displayed.
+```cpp
+    std::cout << "c " << (isdigit(c) ? " is a " : " is not a ") << "digit" << std::endl;
+```
+
+3. Convert the string "1234567" to <code>long</code>, and print the value.
+
+```cpp
+    std::cout << atol("1234567") << std::endl;
+```
+
+4. Determine whether the value of variable <code>c</code> is a control character. Use the conditional operator to print  " is a " or " is not a " when the result is displayed.
+
+```cpp
+    std::cout << "c " << (iscntrl(c) ? " is a " : " is not a " ) << "control character" << std::endl;
+```
+
+5. Assign to <code>ptr</code> the location of the last occurence of <code>c</code> in <code>s1</code>.
+
+```cpp
+    ptr = strrchr(s1, c);
+```
+
+6. Convert the string "8.63582" to <code>double</code>, and print the value.
+
+```cpp
+    std::cout << atof("8.63582") << std::endl;
+```
+
+7. Determine whether the value of variable <code>c</code> is a letter. Use the conditional operator to print " is a " or " is not a " when the result is displayed.
+
+```cpp
+    std::cout << "c" << (isalpha(c) ? " is a " : " is not a ") << "letter" << std::endl;
+```
+
+8. Assign to <code>ptr</code> the location of the first occurrence of <code>s2</code> in <code>s1</code>.
+
+```cpp
+    ptr = strstr(s1, s2);
+```
+
+9. Determine whether the value of variable <code>c</code> is a printing character. Use the conditional operator to print " is a " or " is not a " when the result is displayed.
+
+```cpp
+    std::cout << "c" << (isprint(c) ? " is a " : " is not a ") << "printing character" << std::endl;
+```
+
+10. Assign to <code>ptr</code> the location of the first occurrence in <code>s1</code> of any character from <code>s2</code>.
+
+```cpp
+    ptr = strpbrk(s1, s2);
+```
+
+11. Assign to <code>ptr</code> the location of the first occurence of <code>c</code> in <code>s1</code>.
+
+```cpp
+    ptr = strchr(s1, c);
+```
+
+12. Convert the string "-21" to <code>int</code>, and print the value.
+
+```cpp
+    std::cout << atoi("-21") << std::endl;
+```
