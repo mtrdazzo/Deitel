@@ -135,5 +135,34 @@
 
 ### Exercise 22-6
 *(Type aliases)* What are the different ways of creating type aliases?
-1. Using keyword <code>typedef</code>
-1. Using preprocessor <code>#define</code>
+1. Using keyword <code>typedef</code> <br>
+Ex:
+```cpp
+    typedef char * charPtr;
+```
+2. Using preprocessor <code>#define</code><br>
+Ex:
+```cpp
+    #define uint16_t UINT
+```
+3. Using keyword <code>using</code> <br>
+Ex:
+```cpp
+    using intArray100 = int[100];
+```
+
+### Exercise 22-7
+*(C++ bitwise operator)* Explain bitwise AND (&), bitwise inclusive (|), and bitwise exclusive OR (^) operators. Apply all these bitwise operators on bit patterns <code>10101010</code> and <code>11110000</code>.
+
+The bitwise AND operator results in a one if both bits in each of the operands are one; otherwise, it results in a zero.
+```cpp
+    (0b10101010) & (0b11110000) = 0b10100000;
+```
+The bitwise inclusive OR operator results in a one if one or both bits in each of the operands are one; otherwise, it results in a zero.
+```cpp
+    (0b10101010) | (0b11110000) = 0b11111010;
+```
+The bitwise exclusive operator results in a one if only one (but not both) of the bits of the operands is one; otherwise, it results in a zero.
+```cpp
+    (0b10101010) ^ (0b11110000) = 0b010011010;
+```
