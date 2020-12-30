@@ -43,7 +43,4 @@ This journey has been a learning experience, and it's quite evident my code and 
 * Includes details how to use the keyword <code>struct</code> to create user-defined structus and how these differ from user-defined classes.
 * Bitwise operators to interact directly with bits of integral operands
 * Create bit fields to reduce storage by storing data in the minimum number of bits required
-* C-string manipulation functions (strcpy, strcat, strlen, strtok, etc.)
-* Character-Handling library functions (islower, isdigit, isalpha, toupper, etc.)
-* C-String memory functions (memcpy, memmove, memset, etc.)
-* C-String Conversion functions (atof, atoi, atol, strtol, etc.)
+* Big-endian computers store high order byte is stored at the lowest address, while little endian computers store the low order byte in the lowest address.
