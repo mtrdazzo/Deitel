@@ -29,21 +29,18 @@ int CommandLineArgsToInt(void) {
 
     const size_t bufferSize{100};
     char buffer[bufferSize]{0};
-    char *bufferPtr;
+    char *buffPtr;
     int sum{0};
 
     std::cin.getline(buffer, bufferSize);
 
-    bufferPtr = strtok(buffer, " ");
+    buffPtr = strtok(buffer, " ");
 
-    if (bufferPtr != nullptr) {
-        sum += atoi(bufferPtr);
-
-        while (bufferPtr != nullptr) {
-            bufferPtr = strtok(nullptr, " ");
-            if (bufferPtr != nullptr)
-                sum += atoi(bufferPtr);
-        }
+    if (buffPtr != nullptr) {
+        do  {
+            sum += atoi(buffPtr);
+            buffPtr = strtok(nullptr, " ");
+        } while (buffPtr != nullptr);
     }
 
     return sum;
