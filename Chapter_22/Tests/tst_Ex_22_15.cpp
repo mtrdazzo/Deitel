@@ -68,7 +68,7 @@ class TestCommandLineArgsToInt : public testing::Test {
         }
 
         int randInt;
-        size_t numIterations{100};
+        size_t numIterations{1};
         std::ofstream out; // output stream
         std::ifstream in;  // input stream
         const char * fileName{"file.tmp"}; // temporary file name
@@ -124,3 +124,56 @@ TEST_F(TestCommandLineArgsToInt, MultipleIntegers) {
     }
 }
 
+/**
+ * @brief Write an invalid command-line entry
+ * 
+ */
+TEST_F(TestCommandLineArgsToInt, InvalidEntries) {
+    WriteCommandLineArgs(std::string{"some random strings"});
+    EXPECT_EQ(CommandLineArgsToInt(), 0);
+}
+
+/**
+ * @brief Write integer too large
+ * 
+ */
+TEST_F(TestCommandLineArgsToInt, IntegerTooLarge) {
+    std::string intTooLarge{std::to_string(INTMAX_MAX)};
+    intTooLarge += '0';
+    WriteCommandLineArgs(intTooLarge);
+    // undefined behavior
+    EXPECT_NO_FATAL_FAILURE(CommandLineArgsToInt());}
+
+/**
+ * @brief Write integer too large
+ * 
+ */
+TEST_F(TestCommandLineArgsToInt, IntegerTooSmall) {
+    std::string intTooSmall{std::to_string(INTMAX_MIN)};
+    intTooSmall += '0';
+    WriteCommandLineArgs(intTooSmall);
+    // undefined behavior
+    EXPECT_NO_FATAL_FAILURE(CommandLineArgsToInt());
+}
+
+/**
+ * @brief Write some invalid command-line entries
+ * 
+ */
+TEST_F(TestCommandLineArgsToInt, InvalidEntriesMixed) {
+    std::string randomStr;
+    int otherRandInt;
+    for (size_t i{0}; i < numIterations; ++i) {
+        randInt = GetRandomInteger();
+        randomStr += std::to_string(randInt);
+        randomStr += " ";
+        randomStr += std::string{"invalid strings"};
+        randomStr += " ";
+        otherRandInt = GetRandomInteger();
+        randomStr += std::to_string(otherRandInt);
+        WriteCommandLineArgs(randomStr);
+        EXPECT_EQ(CommandLineArgsToInt(), randInt + otherRandInt);
+
+        randomStr.erase();
+    }
+}
